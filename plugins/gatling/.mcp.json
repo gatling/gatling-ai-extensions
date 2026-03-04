@@ -1,0 +1,17 @@
+{
+  "mcpServers": {
+    "gatling": {
+      "type": "stdio",
+      "command": "npm",
+      "args": [
+        "run",
+        "--prefix",
+        "<path to gatling-ai-extensions>/mcp-servers/gatling",
+        "start"
+      ],
+      "env": {
+        "GATLING_ENTERPRISE_API_TOKEN": "${GATLING_ENTERPRISE_API_TOKEN}"
+      }
+    }
+  }
+}
