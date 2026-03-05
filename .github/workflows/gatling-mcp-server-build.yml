@@ -1,0 +1,44 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+
+      - name: Update npm
+        run: npm install -g npm@latest
+
+      - name: Npm build
+        working-directory: ./mcp-servers/gatling
+        run: |
+          npm ci
+          npm run format-check
+          npm run build
+
+      - name: Docker build
+        working-directory: ./mcp-servers/gatling
+        run: |
+          docker build \
+            --tag "gatlingcorp/gatling-mcp-server:latest" \
+            .

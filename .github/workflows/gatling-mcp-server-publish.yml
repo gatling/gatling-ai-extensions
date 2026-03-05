@@ -1,0 +1,69 @@
+name: Publish
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      # Extract version from tag by removing leading "v"
+      - name: Version number
+        run: |
+          TAG=${{ github.ref_name }}
+          echo "VERSION=${TAG//v/}" >> $GITHUB_ENV
+
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          package-manager-cache: false
+          registry-url: https://registry.npmjs.org
+
+      - name: Update npm
+        run: npm install -g npm@latest
+
+      # Build and publish to npmjs
+      - name: Npm build
+        working-directory: ./mcp-servers/gatling
+        run: |
+          npm version "$VERSION"
+          npm ci
+          npm run format-check
+          npm run build
+          npm publish --access=public
+
+      # Build and publish Docker image
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+        with:
+          platforms: arm64
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+        with:
+          platforms: linux/amd64,linux/arm64
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          push: true
+          sbom: true
+          provenance: mode=max
+          platforms: linux/amd64,linux/arm64
+          tags: gatlingcorp/gatling-mcp-server:${{ env.VERSION }}

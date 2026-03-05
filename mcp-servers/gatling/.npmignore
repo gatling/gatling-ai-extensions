@@ -1,0 +1,5 @@
+*
+!/target/**
+!/package.json
+!/LICENSE
+!/README.md
