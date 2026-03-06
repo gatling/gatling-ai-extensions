@@ -2,8 +2,5 @@
   "name": "gatling",
   "description": "Gatling projects helper to deploy and run tests on Gatling Enterprise",
   "version": "0.1.0",
-  "license": "Apache-2.0",
-  "owner": {
-    "name": "Gatling Corp"
-  }
+  "license": "Apache-2.0"
 }

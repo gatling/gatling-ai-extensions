@@ -11,10 +11,7 @@
       "name": "gatling",
       "license": "Apache-2.0",
       "source": "./plugins/gatling",
-      "description": "Gatling projects helper to deploy and run tests on Gatling Enterprise",
-      "owner": {
-        "name": "Gatling Corp"
-      }
+      "description": "Gatling projects helper to deploy and run tests on Gatling Enterprise"
     }
   ]
 }

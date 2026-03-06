@@ -8,12 +8,6 @@ import { Config } from "./config.js";
 const apiKeyDev = "c6150be222fed5925bee6210287aa12e";
 const apiKeyProd = "68fa0276592045ff2bcd0d17425ca0ec";
 
-const userProperties = {
-  device_id: uuidv4(),
-  system_os: os.type(),
-  system_arch: os.arch()
-};
-
 const device_id = uuidv4();
 
 export const analyticsInit = (conf: Config): void => {
