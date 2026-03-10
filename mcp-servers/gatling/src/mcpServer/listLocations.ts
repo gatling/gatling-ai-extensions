@@ -3,10 +3,10 @@ import * as z from "zod";
 
 import { analyticsOnToolCall } from "../analytics.js";
 import { ApiClient } from "../apiClient/index.js";
-import { publicLocations } from "../constants.js";
+import { managedLocations } from "../constants.js";
 
 const OutputSchema = z.object({
-  publicLocations: z.array(z.string()),
+  managedLocations: z.array(z.string()),
   privateLocations: z.array(
     z.object({
       id: z.string(),
@@ -25,7 +25,7 @@ export const registerListLocations = (server: McpServer, apiClient: ApiClient): 
     {
       title: "List Gatling Enterprise Locations",
       description:
-        "List all public and private locations where tests can be run on Gatling Enterprise. Group public location IDs by region, private location IDs by type.",
+        "List all managed and private locations where tests can be run on Gatling Enterprise. Group managed location IDs by region, private location IDs by type.",
       outputSchema: OutputSchema
     },
     async () => {
@@ -38,7 +38,7 @@ export const registerListLocations = (server: McpServer, apiClient: ApiClient): 
         description: pl.description
       }));
       const structuredContent: OutputSchema = {
-        publicLocations,
+        managedLocations,
         privateLocations
       };
       return {
