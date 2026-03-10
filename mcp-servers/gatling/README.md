@@ -1,6 +1,6 @@
 # Gatling MCP Server
 
-The Gatling MCP Server bridges AI applications with [Gatling Enterprise](https://gatling.io), enabling AI agents to
+The Gatling MCP Server bridges AI applications with [Gatling Enterprise](https://gatling.io/platform), enabling AI agents to
 interact with your load testing infrastructure through natural language.
 Query teams, packages, simulations, and load generator locations directly from your AI assistant.
 
