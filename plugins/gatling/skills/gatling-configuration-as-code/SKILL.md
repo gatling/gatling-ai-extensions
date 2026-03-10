@@ -14,7 +14,8 @@ This skill provides guidance on how to generate or update the `.gatling/package.
 1. Discover simulations based on the project language and build tool used: Java with Maven, JavaScript/TypeScript with the JavaScript CLI, Kotlin with Gradle, and Scala with sbt. 
    Collect their fully qualified class names (FQCN).
 
-2. Read existing config: check if `.gatling/package.conf` already exists. Also check `assets/package.conf` for reference.
+2. Read existing config: check if `.gatling/package.conf` already exists.
+   For reference check `assets/package.conf` from this skill using the Read tool.
 
 3. Before asking any questions, call all the proper MCP tools to get real data from the user's account:
 
