@@ -32,10 +32,10 @@
   "main": "target/index.js",
   "scripts": {
     "clean": "rimraf /target",
-    "build": "tsc",
+    "build": "tsc && chmod +x target/index.js",
     "format": "prettier --write '**/*.ts'",
     "format-check": "prettier --check '**/*.ts'",
-    "start": "npm run build && node ."
+    "start": "npm run build && ./target/index.js"
   },
   "dependencies": {
     "@actions/http-client": "4.0.0",
