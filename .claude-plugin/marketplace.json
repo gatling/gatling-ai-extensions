@@ -1,7 +1,7 @@
 {
-  "name": "gatling-plugins",
+  "name": "gatling-ai-extensions",
   "metadata": {
-    "description": "Gatling Claude plugins"
+    "description": "Gatling AI Extensions"
   },
   "owner": {
     "name": "Gatling Corp"
