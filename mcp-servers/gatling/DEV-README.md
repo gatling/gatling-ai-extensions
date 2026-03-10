@@ -32,7 +32,7 @@ In non-production environment, also export `GATLING_ENTERPRISE_API_URL`.
   "args": [
     "run",
     "--prefix",
-    "<path to gatling-ai-extensions>/mcp-servers/gatling",
+    "<path-to-gatling-ai-extensions>/mcp-servers/gatling",
     "start"
   ],
   "env": {
@@ -46,34 +46,7 @@ Install with Claude CLI:
 ```shell
 claude mcp add "gatling-mcp-server" \
   --env 'GATLING_ENTERPRISE_API_TOKEN=${GATLING_ENTERPRISE_API_TOKEN}' \
-  -- npm run --prefix <path to gatling-ai-extensions>/mcp-servers/gatling start
-```
-
-### With `npm` (from published project)
-
-**TODO: project not yet published to npm.**
-
-`mcpServers` configuration:
-
-```json
-{
-  "type": "stdio",
-  "command": "npx",
-  "args": [
-    "@gatling.io/<TODO package name>"
-  ],
-  "env": {
-    "GATLING_ENTERPRISE_API_TOKEN": "${GATLING_ENTERPRISE_API_TOKEN}"
-  }
-}
-```
-
-Install with Claude CLI:
-
-```shell
-claude mcp add "gatling-mcp-server" \
-  --env 'GATLING_ENTERPRISE_API_TOKEN=${GATLING_ENTERPRISE_API_TOKEN}' \
-  -- npx @gatling.io/<TODO package name>
+  -- npm run --prefix <path-to-gatling-ai-extensions>/mcp-servers/gatling start
 ```
 
 ### With Docker
@@ -97,7 +70,7 @@ docker build --tag <image-tag> .
     "-i",
     "-e",
     "GATLING_ENTERPRISE_API_TOKEN=${GATLING_ENTERPRISE_API_TOKEN}",
-    "<image-tag>"
+    "<local-image-tag>"
   ],
   "env": {
     "GATLING_ENTERPRISE_API_TOKEN": "${GATLING_ENTERPRISE_API_TOKEN}"
@@ -110,5 +83,5 @@ Install with Claude CLI:
 ```shell
 claude mcp add "gatling-mcp-server" \
   --env 'GATLING_ENTERPRISE_API_TOKEN=${GATLING_ENTERPRISE_API_TOKEN}' \
-  -- docker run --rm -i -e GATLING_ENTERPRISE_API_TOKEN=${GATLING_ENTERPRISE_API_TOKEN} <image-tag>"
+  -- docker run --rm -i -e GATLING_ENTERPRISE_API_TOKEN <local-image-tag>
 ```
