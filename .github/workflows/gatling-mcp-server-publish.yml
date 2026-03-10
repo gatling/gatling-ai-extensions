@@ -63,7 +63,7 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build and push
+      - name: Docker build and push
         uses: docker/build-push-action@v6
         with:
           context: ./mcp-servers/gatling
@@ -72,3 +72,12 @@ jobs:
           provenance: mode=max
           platforms: linux/amd64,linux/arm64
           tags: gatlingcorp/gatling-mcp-server:${{ env.VERSION }}
+
+      - name: Docker Hub Description
+        uses: peter-evans/dockerhub-description@v5
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          repository: gatlingcorp/gatling-mcp-server
+          short-description: MCP server to bridge AI applications with Gatling Enterprise
+          readme-filepath: ./mcp-servers/gatling/README.md
