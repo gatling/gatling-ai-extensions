@@ -23,6 +23,9 @@
     "performance testing"
   ],
   "type": "module",
+  "bin": {
+    "gatling-mcp-server": "target/index.js"
+  },
   "files": [
     "target"
   ],
