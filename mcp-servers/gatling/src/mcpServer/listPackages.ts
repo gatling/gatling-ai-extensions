@@ -13,7 +13,7 @@ const PackageSchema = z.object({
 });
 type PackageSchema = z.infer<typeof PackageSchema>;
 const OutputSchema = z.object({
-  publicPackages: z.array(PackageSchema),
+  managedPackages: z.array(PackageSchema),
   privatePackages: z.array(PackageSchema)
 });
 type OutputSchema = z.infer<typeof OutputSchema>;
@@ -25,7 +25,7 @@ export const registerListPackages = (server: McpServer, apiClient: ApiClient): v
     {
       title: "List Packages",
       description:
-        "List all packages deployed in Gatling Enterprise. Public packages are stored on Gatling Enterprise, private packages are stored on the infrastructure of the user's organization.",
+        "List all packages deployed in Gatling Enterprise. Managed packages are stored on Gatling Enterprise, private packages are stored on the infrastructure of the user's organization.",
       outputSchema: OutputSchema
     },
     async () => {
@@ -38,7 +38,9 @@ export const registerListPackages = (server: McpServer, apiClient: ApiClient): v
         format: p.format
       });
       const structuredContent: OutputSchema = {
-        publicPackages: packagesResponse.data.filter((p) => p.storageType === "public").map(mapPkg),
+        managedPackages: packagesResponse.data
+          .filter((p) => p.storageType === "public")
+          .map(mapPkg),
         privatePackages: packagesResponse.data.filter((p) => p.storageType !== "public").map(mapPkg)
       };
       return {

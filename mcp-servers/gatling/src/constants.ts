@@ -1,4 +1,4 @@
-export const publicLocations: string[] = [
+export const managedLocations: string[] = [
   "AP - Hong Kong",
   "AP - Tokyo",
   "AP Pacific - Mumbai",
