@@ -1,10 +1,17 @@
-name: Build
+name: Build gatling-mcp-server
 
 on:
   push:
     branches:
       - main
+      - dev
+    paths:
+      - 'mcp-servers/gatling/**'
+      - '.github/workflows/gatling-mcp-server-build.yml'
   pull_request:
+
+permissions:
+  contents: read
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -15,7 +22,26 @@ defaults:
     shell: bash
 
 jobs:
+  check-changes:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
+    outputs:
+      gatling-mcp-server: ${{ steps.filter.outputs.gatling-mcp-server }}
+    steps:
+      - uses: actions/checkout@v6
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            gatling-mcp-server:
+              - 'mcp-servers/gatling/**'
+              - '.github/workflows/gatling-mcp-server-build.yml'
+
   build:
+    needs: check-changes
+    if: ${{ needs.check-changes.outputs.gatling-mcp-server == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
