@@ -81,7 +81,9 @@ jobs:
           sbom: true
           provenance: mode=max
           platforms: linux/amd64,linux/arm64
-          tags: gatlingcorp/gatling-mcp-server:${{ env.VERSION }}
+          tags: |
+            gatlingcorp/gatling-mcp-server:${{ env.VERSION }}
+            gatlingcorp/gatling-mcp-server:latest
 
       - name: Docker Hub Description
         uses: peter-evans/dockerhub-description@v5
