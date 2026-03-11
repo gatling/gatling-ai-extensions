@@ -102,7 +102,7 @@ jobs:
           GIT_USER_EMAIL: ${{ secrets.GATLING_CI_EMAIL }}
         run: |
           contents=$(jq ".version = \"$VERSION\"" plugins/gatling/.claude-plugin/plugin.json) && \
-          echo -E $contents > plugins/gatling/.claude-plugin/plugin.json
+          echo -E "$contents" > plugins/gatling/.claude-plugin/plugin.json
           git config user.name "$GIT_USER_NAME"
           git config user.email "$GIT_USER_EMAIL"
           git commit --all --message "chore: set plugin version to $VERSION"
