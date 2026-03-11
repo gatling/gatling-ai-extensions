@@ -1,30 +1,40 @@
-name: Publish
+name: Release
 
 on:
+  workflow_dispatch:
+    inputs:
+      version:
+        required: true
+        type: string
+        description: "version number (e.g. '1.2.3')"
+
   push:
     tags:
       - 'v*'
 
 permissions:
   id-token: write
-  contents: read
+  contents: write
 
 defaults:
   run:
     shell: bash
 
+env:
+  VERSION: ${{ inputs.version }}
+
 jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
-      # Extract version from tag by removing leading "v"
-      - name: Version number
+      - name: Validate version number
         run: |
-          TAG=${{ github.ref_name }}
-          echo "VERSION=${TAG//v/}" >> $GITHUB_ENV
+          echo "${VERSION}" | grep -P '^[0-9]+\.[0-9]+\.[0-9]+$'
 
       - name: Checkout
         uses: actions/checkout@v6
+
+      # Build and publish to npmjs
 
       - name: Setup Node
         uses: actions/setup-node@v6
@@ -36,7 +46,6 @@ jobs:
       - name: Update npm
         run: npm install -g npm@latest
 
-      # Build and publish to npmjs
       - name: Npm build
         working-directory: ./mcp-servers/gatling
         run: |
@@ -47,6 +56,7 @@ jobs:
           npm publish --access=public
 
       # Build and publish Docker image
+
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v4
         with:
@@ -81,3 +91,19 @@ jobs:
           repository: gatlingcorp/gatling-mcp-server
           short-description: MCP server to bridge AI applications with Gatling Enterprise
           readme-filepath: ./mcp-servers/gatling/README.md
+
+      # Update marketplace files and tag
+
+      - name: Edit marketplace plugin version
+        env:
+          GIT_USER_NAME: ${{ secrets.GATLING_CI_NAME }}
+          GIT_USER_EMAIL: ${{ secrets.GATLING_CI_EMAIL }}
+        run: |
+          contents=$(jq ".version = \"$VERSION\"" plugins/gatling/.claude-plugin/plugin.json) && \
+          echo -E $contents > plugins/gatling/.claude-plugin/plugin.json
+          git config user.name "$GIT_USER_NAME"
+          git config user.email "$GIT_USER_EMAIL"
+          git commit --all --message "chore: set plugin version to $VERSION"
+          git tag "v$VERSION" --message "Version v$VERSION"
+          git push origin
+          git push origin "v$VERSION"
