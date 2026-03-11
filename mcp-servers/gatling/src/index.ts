@@ -16,7 +16,6 @@ const main = async (): Promise<void> => {
   const transport = new StdioServerTransport();
 
   await server.connect(transport);
-  console.log(`Gatling MCP Server v${config.version} running on stdio`);
   analyticsOnServerReady();
 };
 
