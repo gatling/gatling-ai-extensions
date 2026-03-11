@@ -23,7 +23,7 @@ export const registerListPackages = (server: McpServer, apiClient: ApiClient): v
   server.registerTool(
     name,
     {
-      title: "List Packages",
+      title: "List Gatling Enterprise Packages",
       description:
         "List all packages deployed in Gatling Enterprise. Managed packages are stored on Gatling Enterprise, private packages are stored on the infrastructure of the user's organization.",
       outputSchema: OutputSchema

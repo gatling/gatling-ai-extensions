@@ -21,7 +21,7 @@ export const registerListTests = (server: McpServer, apiClient: ApiClient): void
   server.registerTool(
     name,
     {
-      title: "List tests in Gatling Enterprise",
+      title: "List Gatling Enterprise Tests",
       description: "List all tests (aka simulations) deployed in Gatling Enterprise",
       outputSchema: OutputSchema
     },
