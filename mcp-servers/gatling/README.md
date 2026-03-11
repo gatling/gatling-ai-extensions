@@ -6,7 +6,7 @@ Query teams, packages, simulations, and load generator locations directly from y
 
 ## Documentation
 
-For more information on the Gatling MCP Server, see the [official documentation](https://docs.gatling.io/ai/extensions/mcp-server/).
+For more information on the Gatling MCP Server, see the [official documentation](https://docs.gatling.io/integrations/ai/extensions/mcp-server/).
 
 ## Questions, help?
 
