@@ -35,7 +35,7 @@ A valid `GATLING_ENTERPRISE_API_TOKEN` with at least the **Configure** role.
 
 ## Documentation
 
-For more information on Gatling AI extensions, see the [official documentation](https://docs.gatling.io/ai/extensions/overview/).
+For more information on Gatling AI extensions, see the [official documentation](https://docs.gatling.io/integrations/ai/extensions/overview/).
 
 ## Questions, help?
 
