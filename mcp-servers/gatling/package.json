@@ -3,7 +3,10 @@
   "version": "0.0.0-SNAPSHOT",
   "license": "Apache-2.0",
   "homepage": "https://gatling.io",
-  "repository": "github:gatling/gatling-ai-extensions",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gatling/gatling-ai-extensions.git"
+  },
   "bugs": "https://github.com/gatling/gatling/issues",
   "keywords": [
     "gatling",
