@@ -1,4 +1,4 @@
-# MCP server - Typescript/Node.js with official MCP SDK - STDIO communication
+# MCP server - TypeScript/Node.js with official MCP SDK - STDIO communication
 
 ## Setup
 
@@ -83,5 +83,5 @@ Install with Claude CLI:
 ```shell
 claude mcp add "gatling-mcp-server" \
   --env 'GATLING_ENTERPRISE_API_TOKEN=${GATLING_ENTERPRISE_API_TOKEN}' \
-  -- docker run --rm -i -e GATLING_ENTERPRISE_API_TOKEN <local-image-tag>
+  -- docker run --rm --interactive --env GATLING_ENTERPRISE_API_TOKEN <local-image-tag>
 ```
