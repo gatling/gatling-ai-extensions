@@ -1,8 +1,7 @@
-FROM node:24-alpine
+FROM gcr.io/distroless/nodejs24-debian13:nonroot
 
-COPY [ ".", "/app/" ]
+COPY --chown=nonroot:nonroot [ ".", "/app/" ]
 
 WORKDIR /app
-ENV NODE_ENV=production
 
-CMD [ "node", "." ]
+CMD [ "." ]
