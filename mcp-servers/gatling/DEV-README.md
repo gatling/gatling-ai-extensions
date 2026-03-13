@@ -55,7 +55,7 @@ Build the Docker image:
 
 ```shell
 npm run build
-docker build --tag <image-tag> .  
+docker build --tag gatlingcorp/gatling-mcp-server:<tag> .  
 ```
 
 `mcpServers` configuration:

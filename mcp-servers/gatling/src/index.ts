@@ -13,6 +13,12 @@ const main = async (): Promise<void> => {
 
   const client = apiClient(config.apiClient);
   const server = mcpServer(config, client);
+  process.on("SIGINT", () => {
+    server
+      .close()
+      .then(() => process.exit(0))
+      .catch(() => process.exit(1));
+  });
   const transport = new StdioServerTransport();
 
   await server.connect(transport);
