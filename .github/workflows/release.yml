@@ -29,6 +29,8 @@ jobs:
 
       - name: Checkout
         uses: actions/checkout@v6
+        with:
+          persist-credentials: false
 
       # Build and publish to npmjs
 
@@ -90,10 +92,18 @@ jobs:
           short-description: MCP server to bridge AI applications with Gatling Enterprise
           readme-filepath: ./mcp-servers/gatling/README.md
 
+      - name: Install release deploy key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.GATLING_MCP_SERVER_RELEASE_DEPLOY_KEY }}" > ~/.ssh/id_release_deploy_key
+          chmod 600 ~/.ssh/id_release_deploy_key
+          ssh-keyscan -H github.com >> ~/.ssh/known_hosts
+
       # Update marketplace files and tag
 
       - name: Edit marketplace plugin version
         env:
+          GIT_SSH_COMMAND: "ssh -i ~/.ssh/id_release_deploy_key -o IdentitiesOnly=yes"
           GIT_USER_NAME: ${{ secrets.GATLING_CI_NAME }}
           GIT_USER_EMAIL: ${{ secrets.GATLING_CI_EMAIL }}
         run: |
