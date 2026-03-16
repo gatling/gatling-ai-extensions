@@ -32,22 +32,6 @@ jobs:
         with:
           token: ${{ secrets.GATLING_CI_TOKEN }} # To create release commit and tag
 
-      # Update marketplace files and tag
-
-      - name: Edit marketplace plugin version
-        env:
-          GIT_USER_NAME: ${{ secrets.GATLING_CI_NAME }}
-          GIT_USER_EMAIL: ${{ secrets.GATLING_CI_EMAIL }}
-        run: |
-          contents=$(jq ".version = \"$VERSION\"" plugins/gatling/.claude-plugin/plugin.json) && \
-          echo -E "$contents" > plugins/gatling/.claude-plugin/plugin.json
-          git config user.name "$GIT_USER_NAME"
-          git config user.email "$GIT_USER_EMAIL"
-          git commit --all --message "chore: set plugin version to $VERSION"
-          git tag "v$VERSION" --message "Version v$VERSION"
-          git push origin
-          git push origin "v$VERSION"
-
       # Build and publish to npmjs
 
       - name: Setup Node
@@ -107,3 +91,19 @@ jobs:
           repository: gatlingcorp/gatling-mcp-server
           short-description: MCP server to bridge AI applications with Gatling Enterprise
           readme-filepath: ./mcp-servers/gatling/README.md
+
+      # Update marketplace files and tag
+
+      - name: Edit marketplace plugin version
+        env:
+          GIT_USER_NAME: ${{ secrets.GATLING_CI_NAME }}
+          GIT_USER_EMAIL: ${{ secrets.GATLING_CI_EMAIL }}
+        run: |
+          contents=$(jq ".version = \"$VERSION\"" plugins/gatling/.claude-plugin/plugin.json) && \
+          echo -E "$contents" > plugins/gatling/.claude-plugin/plugin.json
+          git config user.name "$GIT_USER_NAME"
+          git config user.email "$GIT_USER_EMAIL"
+          git commit --all --message "chore: set plugin version to $VERSION"
+          git tag "v$VERSION" --message "Version v$VERSION"
+          git push origin
+          git push origin "v$VERSION"
