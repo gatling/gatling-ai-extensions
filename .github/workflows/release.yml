@@ -8,10 +8,6 @@ on:
         type: string
         description: "version number (e.g. '1.2.3')"
 
-  push:
-    tags:
-      - 'v*'
-
 permissions:
   id-token: write
   contents: write
