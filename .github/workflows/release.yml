@@ -10,7 +10,7 @@ on:
 
 permissions:
   id-token: write
-  contents: write
+  contents: none # As we'll use another token anyway
 
 defaults:
   run:
@@ -30,20 +30,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
         with:
-          persist-credentials: false
-
-      - name: Install release deploy key
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.GATLING_MCP_SERVER_RELEASE_DEPLOY_KEY }}" > ~/.ssh/id_release_deploy_key
-          chmod 600 ~/.ssh/id_release_deploy_key
-          ssh-keyscan -H github.com >> ~/.ssh/known_hosts
+          token: ${{ secrets.GATLING_CI_TOKEN }} # To create release commit and tag
 
       # Update marketplace files and tag
 
       - name: Edit marketplace plugin version
         env:
-          GIT_SSH_COMMAND: "ssh -i ~/.ssh/id_release_deploy_key -o IdentitiesOnly=yes"
           GIT_USER_NAME: ${{ secrets.GATLING_CI_NAME }}
           GIT_USER_EMAIL: ${{ secrets.GATLING_CI_EMAIL }}
         run: |
