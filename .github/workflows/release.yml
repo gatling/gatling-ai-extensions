@@ -32,6 +32,30 @@ jobs:
         with:
           persist-credentials: false
 
+      - name: Install release deploy key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.GATLING_MCP_SERVER_RELEASE_DEPLOY_KEY }}" > ~/.ssh/id_release_deploy_key
+          chmod 600 ~/.ssh/id_release_deploy_key
+          ssh-keyscan -H github.com >> ~/.ssh/known_hosts
+
+      # Update marketplace files and tag
+
+      - name: Edit marketplace plugin version
+        env:
+          GIT_SSH_COMMAND: "ssh -i ~/.ssh/id_release_deploy_key -o IdentitiesOnly=yes"
+          GIT_USER_NAME: ${{ secrets.GATLING_CI_NAME }}
+          GIT_USER_EMAIL: ${{ secrets.GATLING_CI_EMAIL }}
+        run: |
+          contents=$(jq ".version = \"$VERSION\"" plugins/gatling/.claude-plugin/plugin.json) && \
+          echo -E "$contents" > plugins/gatling/.claude-plugin/plugin.json
+          git config user.name "$GIT_USER_NAME"
+          git config user.email "$GIT_USER_EMAIL"
+          git commit --all --message "chore: set plugin version to $VERSION"
+          git tag "v$VERSION" --message "Version v$VERSION"
+          git push origin
+          git push origin "v$VERSION"
+
       # Build and publish to npmjs
 
       - name: Setup Node
@@ -44,7 +68,7 @@ jobs:
       - name: Update npm
         run: npm install -g npm@latest
 
-      - name: Npm build
+      - name: Npm build and release
         working-directory: ./mcp-servers/gatling
         run: |
           npm version "$VERSION"
@@ -91,27 +115,3 @@ jobs:
           repository: gatlingcorp/gatling-mcp-server
           short-description: MCP server to bridge AI applications with Gatling Enterprise
           readme-filepath: ./mcp-servers/gatling/README.md
-
-      - name: Install release deploy key
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.GATLING_MCP_SERVER_RELEASE_DEPLOY_KEY }}" > ~/.ssh/id_release_deploy_key
-          chmod 600 ~/.ssh/id_release_deploy_key
-          ssh-keyscan -H github.com >> ~/.ssh/known_hosts
-
-      # Update marketplace files and tag
-
-      - name: Edit marketplace plugin version
-        env:
-          GIT_SSH_COMMAND: "ssh -i ~/.ssh/id_release_deploy_key -o IdentitiesOnly=yes"
-          GIT_USER_NAME: ${{ secrets.GATLING_CI_NAME }}
-          GIT_USER_EMAIL: ${{ secrets.GATLING_CI_EMAIL }}
-        run: |
-          contents=$(jq ".version = \"$VERSION\"" plugins/gatling/.claude-plugin/plugin.json) && \
-          echo -E "$contents" > plugins/gatling/.claude-plugin/plugin.json
-          git config user.name "$GIT_USER_NAME"
-          git config user.email "$GIT_USER_EMAIL"
-          git commit --all --message "chore: set plugin version to $VERSION"
-          git tag "v$VERSION" --message "Version v$VERSION"
-          git push origin
-          git push origin "v$VERSION"
