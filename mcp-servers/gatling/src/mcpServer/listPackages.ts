@@ -3,15 +3,16 @@ import * as z from "zod";
 
 import { analyticsOnToolCall } from "../analytics.js";
 import { ApiClient } from "../apiClient/index.js";
-import { PackageResponse } from "../apiClient/package.js";
+import { PackageItemResponse } from "../apiClient/packages.js";
 
 const PackageSchema = z.object({
-  id: z.string(),
-  teamId: z.string(),
   name: z.string(),
-  format: z.string().optional()
+  teamId: z.string(),
+  _id: z.string(),
+  _format: z.string().optional()
 });
 type PackageSchema = z.infer<typeof PackageSchema>;
+
 const OutputSchema = z.object({
   managedPackages: z.array(PackageSchema),
   privatePackages: z.array(PackageSchema)
@@ -30,18 +31,20 @@ export const registerListPackages = (server: McpServer, apiClient: ApiClient): v
     },
     async () => {
       analyticsOnToolCall(name);
-      const packagesResponse = await apiClient.pkg.list();
-      const mapPkg = (p: PackageResponse): PackageSchema => ({
-        id: p.id,
-        teamId: p.teamId,
-        name: p.name,
-        format: p.format
+      const response = await apiClient.packages.readAll();
+      const mapItem = (item: PackageItemResponse): PackageSchema => ({
+        name: item.name,
+        teamId: item.teamId,
+        _id: item._id,
+        _format: item._storage.artifact?.format
       });
       const structuredContent: OutputSchema = {
-        managedPackages: packagesResponse.data
-          .filter((p) => p.storageType === "public")
-          .map(mapPkg),
-        privatePackages: packagesResponse.data.filter((p) => p.storageType !== "public").map(mapPkg)
+        managedPackages: response.data
+          .filter((item) => item._storage.type === "managed")
+          .map(mapItem),
+        privatePackages: response.data
+          .filter((item) => item._storage.type === "private")
+          .map(mapItem)
       };
       return {
         content: [{ type: "text", text: JSON.stringify(structuredContent) }],

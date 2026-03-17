@@ -3,14 +3,18 @@ import * as z from "zod";
 
 import { analyticsOnToolCall } from "../analytics.js";
 import { ApiClient } from "../apiClient/index.js";
+import { TestTypeResponse } from "../apiClient/tests.js";
 
 const OutputSchema = z.object({
-  tests: z.array(
+  data: z.array(
     z.object({
       name: z.string(),
-      id: z.string(),
-      teamId: z.string(),
-      className: z.string()
+      _id: z.string(),
+      _teamId: z.string(),
+      _updatedAt: z.string(),
+      source: z.object({
+        type: z.enum(TestTypeResponse)
+      })
     })
   )
 });
@@ -27,13 +31,16 @@ export const registerListTests = (server: McpServer, apiClient: ApiClient): void
     },
     async () => {
       analyticsOnToolCall(name);
-      const testsResponse = await apiClient.simulation.list();
+      const response = await apiClient.tests.readAll();
       const structuredContent: OutputSchema = {
-        tests: testsResponse.map((s) => ({
-          name: s.name,
-          id: s.idV2,
-          teamId: s.teamId,
-          className: s.className
+        data: response.data.map((item) => ({
+          name: item.name,
+          _id: item._id,
+          _teamId: item._teamId,
+          _updatedAt: item._updatedAt,
+          source: {
+            type: item.source.type
+          }
         }))
       };
       return {
