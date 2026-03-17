@@ -30,12 +30,12 @@ export const registerListLocations = (server: McpServer, apiClient: ApiClient): 
     },
     async () => {
       analyticsOnToolCall(name);
-      const privateLocationsResponse = await apiClient.privateLocation.list();
-      const privateLocations = privateLocationsResponse.data.map((pl) => ({
-        id: pl.id,
-        organizationSlug: pl.organizationSlug,
-        type: pl.type,
-        description: pl.description
+      const response = await apiClient.locations.readPrivate();
+      const privateLocations = response.data.map((item) => ({
+        id: item.id,
+        organizationSlug: item.organizationSlug,
+        type: item.type,
+        description: item.description
       }));
       const structuredContent: OutputSchema = {
         managedLocations,

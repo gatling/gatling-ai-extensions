@@ -5,10 +5,18 @@ import { analyticsOnToolCall } from "../analytics.js";
 import { ApiClient } from "../apiClient/index.js";
 
 const OutputSchema = z.object({
-  teams: z.array(
+  data: z.array(
     z.object({
       name: z.string(),
-      id: z.string()
+      _id: z.string(),
+      _limits: z.object({
+        credits: z
+          .object({
+            quota: z.number()
+          })
+          .optional()
+      }),
+      _creditsUsed: z.number()
     })
   )
 });
@@ -25,11 +33,19 @@ export const registerListTeams = (server: McpServer, apiClient: ApiClient): void
     },
     async () => {
       analyticsOnToolCall(name);
-      const teamsResponse = await apiClient.team.list();
+      const response = await apiClient.teams.readAll();
       const structuredContent: OutputSchema = {
-        teams: teamsResponse.data.map((t) => ({
-          name: t.name,
-          id: t._id
+        data: response.data.map((item) => ({
+          name: item.name,
+          _id: item._id,
+          _limits: item._limits.credits
+            ? {
+                credits: {
+                  quota: item._limits.credits?.quota
+                }
+              }
+            : {},
+          _creditsUsed: item._creditsUsed
         }))
       };
       return {
