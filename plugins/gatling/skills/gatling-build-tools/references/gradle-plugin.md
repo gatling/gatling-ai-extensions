@@ -23,5 +23,5 @@
 Use the simulation name in the `.gatling/package.conf` package descriptor file:
 
 ```
-./gradlew gatlingEnterpriseStart -Dgatling.enterprise.simulationName="<simulation name>"
+./gradlew gatlingEnterpriseStart -Dgatling.enterprise.simulationName="<display name>"
 ```

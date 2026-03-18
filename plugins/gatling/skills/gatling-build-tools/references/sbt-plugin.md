@@ -20,5 +20,5 @@ sbt Gatling/enterpriseDeploy
 ## Start
 
 ```
-sbt 'Gatling/enterpriseStart "<simulation name>"'
+sbt 'Gatling/enterpriseStart "<display name>"'
 ```

@@ -23,5 +23,5 @@
 Use the simulation name in the `.gatling/package.conf` package descriptor file:
 
 ```
-./mvnw gatling:enterpriseStart -Dgatling.enterprise.simulationName="<simulation name>"
+./mvnw gatling:enterpriseStart -Dgatling.enterprise.simulationName="<display name>"
 ```

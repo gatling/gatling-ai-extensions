@@ -21,5 +21,5 @@ npx gatling enterprise-deploy
 ## Start
 
 ```
-npx gatling enterprise-start --enterprise-simulation="<simulation name>"
+npx gatling enterprise-start --enterprise-simulation="<display name>"
 ```
