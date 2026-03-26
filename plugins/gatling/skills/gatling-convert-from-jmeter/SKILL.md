@@ -2,6 +2,7 @@
 name: gatling-convert-from-jmeter
 description: Guide for converting Apache JMeter tests to Gatling.
 license: Apache-2.0
+user-invocable: true
 ---
 
 # Convert a JMeter test plan to a Gatling simulation
@@ -17,7 +18,7 @@ license: Apache-2.0
 
 Either find an existing Gatling project or initialize a new Gatling project.
 
-#### Option 1 : search for existing Gatling project and identify language
+#### Option 1: search for existing Gatling project and identify language
 
 Search inside the current working directory for a project containing:
 
@@ -37,7 +38,7 @@ Search inside the current working directory for a project containing:
 
 If no Gatling project found, offer to initialize a new one.
 
-#### Option 2 : initialize new Gatling project
+#### Option 2: initialize new Gatling project
 
 Ask user to chose their preferred language and build tool, then download the corresponding sample project:
 
@@ -99,7 +100,7 @@ IF there are several instances of `CSVDataSet` referencing the same file name:
 #### JMESPathExtractor
 
 The `jmesPath` Gatling check extracts Strings, meaning that non String values get serialized back into JSON.
-You can tell Gatling the expected type with an extra step.
+Using `findAll` with `jmesPath` is a mistake but you can tell Gatling the expected type with an extra step.
 Note that the check will then fail is the actual value doesn’t match the expected type.
 
 ```
@@ -117,7 +118,19 @@ jmesPath("foo").ofObject()
 )
 ```
 
-### Step 4: Post conversion
+#### Functions
+
+Some functions have variants that saves the result to a variable (e.g.: `__Random(0,10,myVar)`) but Gatling
+Expression Language cannot save variables as a side effect.
+
+IF a variable needs to be saved inside the function AND the function is used within an Expression Language
+- Move the code to an exec block that allows saving variables
+
+### Step 4: Verify the code compiles
+
+Use the build-tool skill if available.
+
+### Step 5: Post conversion
 
 After the conversion in Step 3, prompt the user for possible enhancements that are more idiomatic to Gatling.
 
