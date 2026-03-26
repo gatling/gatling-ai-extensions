@@ -1,5 +1,5 @@
 ---
-name: gatling-enterprise-build-tools
+name: gatling-build-tools
 description: Guide for deploying and starting Gatling tests on Gatling Enterprise. Use this skill when the user wants to deploy, push, or start tests on Gatling Enterprise using Gatling build tools (aka plugins) and Configuration as Code.
 license: Apache-2.0
 mcp-server: gatling
