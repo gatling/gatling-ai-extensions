@@ -16,46 +16,10 @@ user-invocable: true
 
 ### Step 2: Specify output
 
-Either find an existing Gatling project or initialize a new Gatling project.
+Either find an existing Gatling project or initialize a new Gatling project:
 
-#### Option 1: search for existing Gatling project and identify language
-
-Search inside the current working directory for a project containing:
-
-- `pom.xml` file, with `io.gatling:gatling-maven-plugin` plugin (Maven project)
-  - if it also contains `kotlin-maven-plugin` plugin, language is Kotlin
-  - if it also contains `scala-maven-plugin` plugin, language is Scala
-  - otherwise language is Java
-- `build.gradle` or `build.gradle.kts` file, with `io.gatling.gradle` plugin (Gradle project)
-  - if it also contains `kotlin` plugin, language is Kotlin
-  - if it also contains `scala` plugin, language is Scala
-  - otherwise language is Java
-- `build.sbt` file with, with `io.gatling:gatling-sbt` plugin (sbt project)
-  - language is Scala.
-- `package.json` file, with `@gatling.io/cli` dependency (npm project)
-  - if it contains `typescript` dependency, language is TypeScript
-  - otherwise language is JavaScript.
-
-If no Gatling project found, offer to initialize a new one.
-
-#### Option 2: initialize new Gatling project
-
-Ask user to chose their preferred language and build tool, then download the corresponding sample project:
-
-- Java
-  - with Maven: https://github.com/gatling/gatling-maven-plugin-demo-java/archive/refs/heads/main.zip
-  - with Gradle: https://github.com/gatling/gatling-gradle-plugin-demo-java/archive/refs/heads/main.zip
-- Kotlin
-  - with Maven: https://github.com/gatling/gatling-maven-plugin-demo-kotlin/archive/refs/heads/main.zip
-  - with Gradle: https://github.com/gatling/gatling-gradle-plugin-demo-kotlin/archive/refs/heads/main.zip
-- Scala
-  - with Maven: https://github.com/gatling/gatling-maven-plugin-demo-scala/archive/refs/heads/main.zip
-  - with Gradle: https://github.com/gatling/gatling-gradle-plugin-demo-scala/archive/refs/heads/main.zip
-  - with sbt: https://github.com/gatling/gatling-sbt-plugin-demo/archive/refs/heads/main.zip
-- TypeScript with npm: https://github.com/gatling/gatling-js-demo/archive/refs/heads/main.zip, then only copy the `typescript` directory from this sample project
-- JavaScript with npm: https://github.com/gatling/gatling-js-demo/archive/refs/heads/main.zip, then only copy the `javascript` directory from this sample project
-
-Unzip the content to a new `gatling-project` directory within the current working directory.
+- Try to find an existing project with the /Gatling:gatling-detect-existing-project skill.
+- If no existing project is found, offer to create a new one with the /Gatling:gatling-bootstrap-project skill.
 
 ### Step 3: Conversion
 
