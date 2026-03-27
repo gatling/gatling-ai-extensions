@@ -90,6 +90,27 @@ Expression Language cannot save variables as a side effect.
 IF a variable needs to be saved inside the function AND the function is used within an Expression Language
 - Move the code to an exec block that allows saving variables
 
+When parsing dates, use `java.time.format.DateTimeFormatter.ofPattern` with system default zone and store it
+outside a function to avoid creation cost overhead.
+
+For regular expression, use `java.util.regex.Pattern.compile` and store it outside a function to avoid creation cost
+overhead.
+
+Convert these functions to what JMeter uses under the hood:
+
+- `changeCase` => `toUpperCase` or `toLowerCase` with `Locale.ROOT` or `capitalize`
+- `digest` => `java.security.MessageDigest`
+- `urldecode` => `java.net.URLDecoder.decode`
+- `urlencode` => `java.net.URLEncoder.encode`
+- `UUID` => `java.util.UUID.randomUUID`
+
+Import `org.unbescape:unbescape` for the following escaping functions:
+
+- `escapeHtml` => `HtmlEscape.escapeHtml5`
+- `escapeXml` => `XmlEscape.escapeXml10`
+- `unescape` => `JavaEscape.unescapeJava`
+- `unescapeHtml` => `HtmlEscape.unescapeHtml`
+
 ### Step 4: Verify the code compiles
 
 Use the build-tool skill if available.
