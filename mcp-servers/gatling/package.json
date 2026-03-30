@@ -34,7 +34,7 @@
   ],
   "main": "target/index.js",
   "scripts": {
-    "clean": "rimraf /target",
+    "clean": "rimraf target",
     "build": "tsc && chmod +x target/index.js",
     "format": "prettier --write '**/*.ts'",
     "format-check": "prettier --check '**/*.ts'",
@@ -51,6 +51,6 @@
     "@types/node": "24.12.0",
     "prettier": "3.8.1",
     "rimraf": "6.1.3",
-    "typescript": "5.9.3"
+    "typescript": "6.0.2"
   }
 }
