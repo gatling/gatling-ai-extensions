@@ -1,8 +1,7 @@
 {
   "compilerOptions": {
-    "baseUrl": "./",
-    "rootDir": "src",
-    "outDir": "target",
+    "rootDir": "./src",
+    "outDir": "./target",
     "lib": [
       "es2024",
       "ESNext.Array",
