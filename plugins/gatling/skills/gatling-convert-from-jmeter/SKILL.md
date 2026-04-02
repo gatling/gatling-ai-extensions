@@ -18,13 +18,13 @@ user-invocable: true
 
 Either find an existing Gatling project or initialize a new Gatling project:
 
-- Try to find an existing project with the /Gatling:gatling-detect-existing-project skill.
-- If no existing project is found, offer to create a new one with the /Gatling:gatling-bootstrap-project skill.
+- Try to find an existing project with the /Gatling:gatling-detect-existing-project skill
+- If no existing project is found, offer to create a new one with the /Gatling:gatling-bootstrap-project skill
 
 ### Step 3: Conversion
 
 - Convert the JMeter test to a Gatling test written in the specified language.
-- Write the output to the specified Gatling project.
+- Write the output to the appropriate source directory of the Gatling project.
 
 #### ThreadGroup
 
@@ -98,18 +98,18 @@ overhead.
 
 Convert these functions to what JMeter uses under the hood:
 
-- `changeCase` => `toUpperCase` or `toLowerCase` with `Locale.ROOT` or `capitalize`
-- `digest` => `java.security.MessageDigest`
-- `urldecode` => `java.net.URLDecoder.decode`
-- `urlencode` => `java.net.URLEncoder.encode`
-- `UUID` => `java.util.UUID.randomUUID`
+- `changeCase`: `toUpperCase` or `toLowerCase` with `Locale.ROOT` or `capitalize`
+- `digest`: `java.security.MessageDigest`
+- `urldecode`: `java.net.URLDecoder.decode`
+- `urlencode`: `java.net.URLEncoder.encode`
+- `UUID`: `java.util.UUID.randomUUID`
 
 Import `org.unbescape:unbescape` for the following escaping functions:
 
-- `escapeHtml` => `HtmlEscape.escapeHtml5`
-- `escapeXml` => `XmlEscape.escapeXml10`
-- `unescape` => `JavaEscape.unescapeJava`
-- `unescapeHtml` => `HtmlEscape.unescapeHtml`
+- `escapeHtml`: `HtmlEscape.escapeHtml5`
+- `escapeXml`: `XmlEscape.escapeXml10`
+- `unescape`: `JavaEscape.unescapeJava`
+- `unescapeHtml`: `HtmlEscape.unescapeHtml`
 
 ### Step 4: Verify the code compiles
 
