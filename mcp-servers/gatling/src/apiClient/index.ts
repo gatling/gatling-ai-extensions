@@ -1,13 +1,13 @@
 import { HttpClient } from "@actions/http-client";
 
 import { ApiClientConfig } from "./common.js";
-import { LocationV1Endpoints, locations } from "./locations.js";
+import { LocationEndpoints, locations } from "./locations.js";
 import { PackageEndpoints, packages } from "./packages.js";
 import { TeamEndpoints, teams } from "./teams.js";
 import { TestEndpoints, tests } from "./tests.js";
 
 export interface ApiClient {
-  locations: LocationV1Endpoints;
+  locations: LocationEndpoints;
   packages: PackageEndpoints;
   teams: TeamEndpoints;
   tests: TestEndpoints;
