@@ -3,15 +3,14 @@ import * as z from "zod";
 
 import { Analytics } from "../analytics.js";
 import { ApiClient } from "../apiClient/index.js";
-import { managedLocations } from "../constants.js";
+import { isManagedLocation, isPrivateLocation } from "../apiClient/locations.js";
 
 const OutputSchema = z.object({
   managedLocations: z.array(z.string()),
   privateLocations: z.array(
     z.object({
       id: z.string(),
-      organizationSlug: z.string(),
-      type: z.string(),
+      artifactFormats: z.array(z.string()),
       description: z.string().optional()
     })
   )
@@ -34,13 +33,29 @@ export const registerListLocations = (
     },
     async () => {
       analytics.onToolCall(name);
-      const response = await apiClient.locations.readPrivate();
-      const privateLocations = response.data.map((item) => ({
-        id: item.id,
-        organizationSlug: item.organizationSlug,
-        type: item.type,
-        description: item.description
-      }));
+      const response = await apiClient.locations.readAll();
+      const privateLocations = response.data.flatMap((item) => {
+        if (isPrivateLocation(item)) {
+          return [
+            {
+              id: item._id,
+              artifactFormats: item._capabilities.artifactFormats,
+              description: item._description
+            }
+          ];
+        } else {
+          return [];
+        }
+      });
+      const rawManagedLocations = response.data.flatMap((item) => {
+        if (isManagedLocation(item)) {
+          return item._name;
+        } else {
+          return [];
+        }
+      });
+      // There can be duplicates because there are different IDs for jvm/js support
+      const managedLocations = [...new Set(rawManagedLocations)];
       const structuredContent: OutputSchema = {
         managedLocations,
         privateLocations
