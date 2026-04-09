@@ -1,7 +1,7 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import * as z from "zod";
 
-import { analyticsOnToolCall } from "../analytics.js";
+import { Analytics } from "../analytics.js";
 import { ApiClient } from "../apiClient/index.js";
 import { PackageItemResponse } from "../apiClient/packages.js";
 
@@ -19,7 +19,11 @@ const OutputSchema = z.object({
 });
 type OutputSchema = z.infer<typeof OutputSchema>;
 
-export const registerListPackages = (server: McpServer, apiClient: ApiClient): void => {
+export const registerListPackages = (
+  server: McpServer,
+  apiClient: ApiClient,
+  analytics: Analytics
+): void => {
   const name = "list_gatling_enterprise_packages";
   server.registerTool(
     name,
@@ -30,7 +34,7 @@ export const registerListPackages = (server: McpServer, apiClient: ApiClient): v
       outputSchema: OutputSchema
     },
     async () => {
-      analyticsOnToolCall(name);
+      analytics.onToolCall(name);
       const response = await apiClient.packages.readAll();
       const mapItem = (item: PackageItemResponse): PackageSchema => ({
         name: item.name,

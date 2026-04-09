@@ -1,7 +1,7 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import * as z from "zod";
 
-import { analyticsOnToolCall } from "../analytics.js";
+import { Analytics } from "../analytics.js";
 import { ApiClient } from "../apiClient/index.js";
 import { managedLocations } from "../constants.js";
 
@@ -18,7 +18,11 @@ const OutputSchema = z.object({
 });
 type OutputSchema = z.infer<typeof OutputSchema>;
 
-export const registerListLocations = (server: McpServer, apiClient: ApiClient): void => {
+export const registerListLocations = (
+  server: McpServer,
+  apiClient: ApiClient,
+  analytics: Analytics
+): void => {
   const name = "list_gatling_enterprise_locations";
   server.registerTool(
     name,
@@ -29,7 +33,7 @@ export const registerListLocations = (server: McpServer, apiClient: ApiClient): 
       outputSchema: OutputSchema
     },
     async () => {
-      analyticsOnToolCall(name);
+      analytics.onToolCall(name);
       const response = await apiClient.locations.readPrivate();
       const privateLocations = response.data.map((item) => ({
         id: item.id,

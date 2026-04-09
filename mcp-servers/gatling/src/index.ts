@@ -2,17 +2,17 @@
 
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 
-import { analyticsInit, analyticsOnServerReady } from "./analytics.js";
+import { analyticsInit } from "./analytics.js";
 import { apiClient } from "./apiClient/index.js";
 import { readConfig } from "./config.js";
 import { mcpServer } from "./mcpServer/index.js";
 
 const main = async (): Promise<void> => {
   const config = readConfig();
-  analyticsInit(config);
+  const analytics = analyticsInit(config);
 
   const client = apiClient(config.apiClient);
-  const server = mcpServer(config, client);
+  const server = mcpServer(config, client, analytics);
   process.on("SIGINT", () => {
     server
       .close()
@@ -22,7 +22,7 @@ const main = async (): Promise<void> => {
   const transport = new StdioServerTransport();
 
   await server.connect(transport);
-  analyticsOnServerReady();
+  analytics.onServerReady();
 };
 
 main().catch((error) => {

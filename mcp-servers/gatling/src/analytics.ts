@@ -1,6 +1,6 @@
 import * as os from "node:os";
 
-import * as amplitude from "@amplitude/analytics-node";
+import { HttpClient } from "@actions/http-client";
 import { v4 as uuidv4 } from "uuid";
 
 import { Config } from "./config.js";
@@ -10,26 +10,55 @@ const apiKeyProd = "68fa0276592045ff2bcd0d17425ca0ec";
 
 const device_id = uuidv4();
 
-export const analyticsInit = (conf: Config): void => {
-  const apiKey = conf.version.endsWith("-SNAPSHOT") ? apiKeyDev : apiKeyProd;
-  amplitude.init(apiKey, {
-    serverZone: "EU"
-    // logLevel: amplitude.Types.LogLevel.Debug
-  });
-  const identifyObj = new amplitude.Identify();
-  identifyObj.set("system_os", os.type());
-  identifyObj.set("system_arch", os.arch());
-  identifyObj.set("mcp_server_version", conf.version);
-  amplitude.identify(identifyObj, {
-    device_id
-  });
-  amplitude.track("mcp_server_starting", undefined, { device_id });
-};
+export interface AnalyticsConfig {
+  enableAnalytics: boolean;
+  useDevEnvironment: boolean;
+}
 
-export const analyticsOnServerReady = (): void => {
-  amplitude.track("mcp_server_ready", undefined, { device_id });
-};
+export interface Analytics {
+  onServerReady(): void;
+  onToolCall(toolname: string): void;
+}
 
-export const analyticsOnToolCall = (toolname: string): void => {
-  amplitude.track("mcp_tool_call", { toolname }, { device_id });
+export const analyticsInit = (conf: Config): Analytics => {
+  if (!conf.analytics.enableAnalytics) {
+    return {
+      onServerReady: () => {},
+      onToolCall: () => {}
+    };
+  }
+
+  const api_key = conf.analytics.useDevEnvironment ? apiKeyDev : apiKeyProd;
+  const user_properties = {
+    system_os: os.type(),
+    system_arch: os.arch(),
+    mcp_server_version: conf.version
+  };
+
+  const httpClient = new HttpClient();
+  const sendEvent = (event_type: string, event_properties?: Record<string, any>): void => {
+    const event = {
+      device_id,
+      event_type,
+      ip: "$remote",
+      user_properties,
+      ...(event_properties ? { event_properties } : {})
+    };
+    httpClient
+      .postJson("https://api.eu.amplitude.com/2/httpapi", {
+        api_key,
+        events: [event]
+      })
+      .catch(() => {
+        // Do nothing
+      });
+  };
+
+  // Send server starting event
+  sendEvent("mcp_server_starting");
+
+  return {
+    onServerReady: () => sendEvent("mcp_server_ready"),
+    onToolCall: (toolname: string) => sendEvent("mcp_tool_call", { toolname })
+  };
 };

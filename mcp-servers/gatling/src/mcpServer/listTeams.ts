@@ -1,7 +1,7 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import * as z from "zod";
 
-import { analyticsOnToolCall } from "../analytics.js";
+import { Analytics } from "../analytics.js";
 import { ApiClient } from "../apiClient/index.js";
 
 const OutputSchema = z.object({
@@ -22,7 +22,11 @@ const OutputSchema = z.object({
 });
 type OutputSchema = z.infer<typeof OutputSchema>;
 
-export const registerListTeams = (server: McpServer, apiClient: ApiClient): void => {
+export const registerListTeams = (
+  server: McpServer,
+  apiClient: ApiClient,
+  analytics: Analytics
+): void => {
   const name = "list_gatling_enterprise_teams";
   server.registerTool(
     name,
@@ -32,7 +36,7 @@ export const registerListTeams = (server: McpServer, apiClient: ApiClient): void
       outputSchema: OutputSchema
     },
     async () => {
-      analyticsOnToolCall(name);
+      analytics.onToolCall(name);
       const response = await apiClient.teams.readAll();
       const structuredContent: OutputSchema = {
         data: response.data.map((item) => ({
