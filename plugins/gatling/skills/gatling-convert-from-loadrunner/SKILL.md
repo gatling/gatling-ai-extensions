@@ -109,10 +109,10 @@ For `web_submit_data`, extract each `ITEMDATA` name/value pair as a `.formParam(
 
 #### Response checks and correlation
 
+- `web_reg_find(text=...)`: `.check(bodyString.contains(...))`
 - `web_reg_save_param(param, LB=, RB=)`: `.check(regex("LB(.*?)RB").saveAs("param"))`
 - `web_reg_save_param_ex(...)`: `.check(regex(...).saveAs(...))` or `.check(xpath(...))`
-- `web_reg_find(text=...)`: `.check(bodyString.contains(...))`
-- `web_reg_check(...)`: `.check(...)` with appropriate extractor
+- `web_reg_save_param_json(...)`: convert `QueryString` to `jmesPath` as `.check(jmesPath(...))`
 
 Place `.check(...)` calls on the request that triggers the response being checked.
 `web_reg_*` functions are registered before the request they apply to, find the next `web_url`/`web_submit_data` and attach the check there.
@@ -139,8 +139,15 @@ IF a `.prm` file is present, check it for each `[parameter:<parameter name>]` en
 
 #### Transactions
 
-- `lr_start_transaction("name")`: start of a `group("name")` block
-- `lr_end_transaction("name", LR_AUTO)`: end of the `group` block
+In LoadRunner, transactions are the only way to name and track individual requests, so developers routinely wrap every single request in a transaction.
+In Gatling, HTTP requests are named and tracked individually in reports, making single-request groups redundant.
+
+Apply this rule when mapping `lr_start_transaction` / `lr_end_transaction` pairs:
+
+- Single-request transaction (the block contains exactly one HTTP request and no nested transactions): drop the `group()` wrapper entirely. Use the transaction name as the `http("name")` request name instead.
+- Multi-request transaction (the block contains more than one HTTP request, nested transactions, think times, or session logic): map to a `group("name")` block as usual.
+
+When `FailTransOnErrorMsg=1` applies to a single-request transaction, wrap the request directly in `exitBlockOnFail()` without a surrounding `group()`.
 
 #### Logging
 
@@ -149,7 +156,7 @@ IF a `.prm` file is present, check it for each `[parameter:<parameter name>]` en
 
 #### Rendezvous points
 
-- `lr_rendezvous("name")`: remove, Gatling does not have a direct equivalent; mention this to the user
+- `lr_rendezvous("name")`: remove, Gatling does not have a direct equivalent; mention this to the user if present
 
 #### Resource files
 
