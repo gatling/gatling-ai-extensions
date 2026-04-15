@@ -64,7 +64,7 @@ IF there are several instances of `CSVDataSet` referencing the same file name:
 #### JMESPathExtractor
 
 The `jmesPath` Gatling check extracts Strings, meaning that non String values get serialized back into JSON.
-Using `findAll` with `jmesPath` is a mistake but you can tell Gatling the expected type with an extra step.
+Using `findAll` with `jmesPath` is a mistake, but you can tell Gatling the expected type with an extra step.
 Note that the check will then fail is the actual value doesn’t match the expected type.
 
 ```
@@ -81,6 +81,19 @@ jmesPath("foo").ofMap(),
 jmesPath("foo").ofObject()
 )
 ```
+
+##### matchNumber
+
+`matchNumber` applies when the JMESPath expression returns an array and selects which element to use (1-based in JMeter).
+
+IF `matchNumber` = 1:
+- Use a JMESPath expression that selects the first element directly, e.g. `jmesPath("foo[0]")`
+
+IF `matchNumber` = -1 (random):
+- Extract the full array with `jmesPath("foo").ofList()`, then pick a random element in a subsequent `exec` block
+
+IF `matchNumber` > 1:
+- Use a JMESPath expression that indexes into the array, e.g. `jmesPath("foo[N-1]")` (0-based index)
 
 #### Functions
 
