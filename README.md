@@ -4,7 +4,7 @@
 
 AI-powered tools for load testing workflows, from writing scenarios to converting JMeter and LoadRunner scripts and running tests from your IDE.
 
-Gatling AI Extensions is an MCP server and a collection of skills that bring load testing into your AI-assisted workflows. Write tests faster, edit configuration, convert existing JMeter or LoadRunner scripts automatically, and query your Gatling Enterprise infrastructure — all without leaving your development environment.
+Gatling AI Extensions is an MCP server and a collection of skills that bring load testing into your AI-assisted workflows. Write tests faster, edit configuration, convert existing JMeter or LoadRunner scripts automatically, and query your Gatling Enterprise infrastructure, all without leaving your development environment.
 
 ## Installation
 
@@ -28,7 +28,7 @@ Or browse for the plugin via `/plugin > Discover`. Finally, reload Claude.
 
 ### Other MCP-compatible clients (Claude Desktop, Cursor, VS Code)
 
-The skills are plain-text instruction files that any compatible AI assistant can pick up. The MCP server needs to be configured separately, see the [MCP Server setup](#demo-mcp-server) section below.
+The skills are plain-text instruction files that any compatible AI assistant can pick up. The MCP server needs to be configured separately, see the [MCP server documentation](https://docs.gatling.io/ai/mcp-server/) for setup instructions.
 
 ## What's inside
 
@@ -55,107 +55,37 @@ Skills are instruction files for AI coding assistants (Claude, Cursor, and compa
 
 > Convert your existing LoadRunner scripts to Gatling simulations in minutes without a manual rewrite.
 
-[![LoadRunner to Gatling Converter Demo](https://cdn.prod.website-files.com/685a8fe4ddca049f26333871/69e0ad60bd79912cc12b9825_Loadrunner%20-%20Gatling%20Converter%20-%20Player.png)](https://app.arcade.software/share/m51KGGNMaycdbmNTQT6t)
+[![LoadRunner to Gatling Converter Demo](https://cdn.prod.website-files.com/685a8fe4ddca049f26333871/69e0ad60bd79912cc12b9825_Loadrunner%20-%20Gatling%20Converter%20-%20Player.png)](https://docs.gatling.io/ai/overview/#convert-a-loadrunner-script-to-gatling)
 
 *Click on the image to learn how to get started with LoadRunner to Gatling AI Converter*
 
 The `gatling-convert-from-loadrunner` skill reads your exported LoadRunner project, maps every script element and runtime configuration to its Gatling equivalent, and generates a working simulation in your language of choice.
 
-**What gets converted:**
-
-- `vuser_init` / `Action` / `vuser_end` → `before` block, scenario, `after` block
-- Runtime settings (`default.cfg`) → HTTP protocol config, pause strategy, error handling
-- HTTP functions (`web_url`, `web_submit_data`, `web_custom_request`) → Gatling HTTP requests
-- Response checks and correlations (`web_reg_find`, `web_reg_save_param`) → Gatling checks and session variables
-- Parameter files (`.prm`, `.dat`) → Gatling feeders with matching selection strategy (random, sequential, circular)
-- Single-request transactions → named HTTP requests (no redundant `group()` wrapper)
-- Multi-request transactions → `group()` blocks
-- Think times with distribution settings → `uniformPauses()` or `disablePauses()` on `setUp`
-- Resource files (JSON bodies, CSV data) → copied to Gatling `resources` directory
-
-**How to use it:**
-
-1. Place your LoadRunner script in your project directory. The skill works with the standard three-file layout (`Action.c`, `vuser_init.c`, `vuser_end.c`), a directory of `.c`/`.h` files, a single combined `.c` file, or a VUGen-exported zip
-2. Open it in VS Code, Cursor, or any Claude-compatible IDE
-3. Prompt: `convert the LoadRunner script to Gatling`
-4. The skill activates automatically, no slash command needed
-5. Confirm the detected script and choose your language and build tool
-6. Review the generated simulation and run it
-
-> **Note:** Some LoadRunner features have no direct Gatling equivalent and need manual review — rendezvous points (`lr_rendezvous`), `SelectNextRow="Unique"` parameter selection, and `Options=MULTIPLY` think time. The skill flags these explicitly and suggests alternatives.
+See the [LoadRunner converter documentation](https://docs.gatling.io/ai/overview/#convert-a-loadrunner-script-to-gatling) for the full list of what gets converted, step-by-step usage, and known limitations.
 
 ## Demo: JMeter to Gatling converter
 
 > Convert your existing JMeter test plans to Gatling simulations in minutes.
 
-[![JMeter to Gatling Converter Demo](https://cdn.prod.website-files.com/685a8fe4ddca049f26333871/69ce606e92a80d39a1c76f39_JMeter%20-%20Gatling%20Converter%20-%20Player.png)](https://app.arcade.software/share/XPlB8jfY8HEXNO59L3de)
+[![JMeter to Gatling Converter Demo](https://cdn.prod.website-files.com/685a8fe4ddca049f26333871/69ce606e92a80d39a1c76f39_JMeter%20-%20Gatling%20Converter%20-%20Player.png)](https://docs.gatling.io/ai/overview/#convert-a-jmeter-script-to-gatling)
 
 *Click on the image to learn how to get started with JMeter to Gatling AI Converter*
 
 The `gatling-convert-from-jmeter` skill scans your project for `.jmx` files, maps every JMeter element to its Gatling equivalent, and generates a working simulation in your language of choice.
 
-**What gets converted:**
-
-- Thread groups → Gatling scenarios
-- CSV Data Set Config → feeders
-- HTTP requests → Gatling HTTP protocol
-- JMESPath extractors → Gatling JSON checks
-- Disabled thread groups → commented scenarios
-- Injection profiles → converted with improvement suggestions
-
-**How to use it:**
-
-1. Open your project in VS Code, Cursor, or any Claude-compatible IDE
-2. Prompt: `convert the JMeter script to Gatling`
-3. The skill activates automatically, no slash command needed
-4. Confirm the detected `.jmx` file and choose your language and build tool
-5. Review the generated simulation and run it
-
-```bash
-cd gatling-project/
-./mvnw gatling:test
-```
-
-> **Note:** The converter gets you most of the way there. Some elements may need manual review, particularly injection profiles and complex Groovy scripts. This skill flags these explicitly and suggests improvements.
+See the [JMeter converter documentation](https://docs.gatling.io/ai/overview/#convert-a-jmeter-script-to-gatling) for the full list of what gets converted, step-by-step usage, and known limitations.
 
 ## Demo: MCP Server
 
 > Query your Gatling Enterprise resources in natural language, without leaving your development environment.
 
-[![MCP Server Demo](https://cdn.prod.website-files.com/685a8fe4ddca049f26333871/69ce608c0c82b691c82d020e_MCP%20Server%20Demo.png)](https://app.arcade.software/share/L0b4TuxIh06ZObAqJ37x)
+[![MCP Server Demo](https://cdn.prod.website-files.com/685a8fe4ddca049f26333871/69ce608c0c82b691c82d020e_MCP%20Server%20Demo.png)](https://docs.gatling.io/ai/mcp-server/)
 
 *Click on the image to learn how to get started with Gatling MCP Server*
 
 The Gatling MCP server connects Gatling Enterprise to any MCP-compatible client: Claude Code, Claude Desktop, Cursor, VS Code, or your own tooling. Once connected, you can query your load testing infrastructure in natural language.
 
-**What you can do:**
-
-- List teams and their credit usage
-- List deployed packages (managed and private)
-- List tests (simulations) configured in Gatling Enterprise
-- List available load generator locations (managed and private)
-
-**Setup:**
-
-Claude Code users who installed the plugin already have the MCP server. For other clients, configure the server manually.
-
-With `npx` (requires Node.js v20+):
-
-```bash
-claude mcp add gatling \
-  --env 'GATLING_ENTERPRISE_API_TOKEN=${GATLING_ENTERPRISE_API_TOKEN}' \
-  -- npx -y @gatling.io/gatling-mcp-server
-```
-
-With Docker:
-
-```bash
-claude mcp add gatling \
-  --env 'GATLING_ENTERPRISE_API_TOKEN=${GATLING_ENTERPRISE_API_TOKEN}' \
-  -- docker run --rm --interactive --env GATLING_ENTERPRISE_API_TOKEN gatlingcorp/gatling-mcp-server
-```
-
-For Claude Desktop, Cursor, or VS Code, see the [MCP server documentation](https://docs.gatling.io/ai/mcp-server/) for client-specific config.
+See the [MCP server documentation](https://docs.gatling.io/ai/mcp-server/) for the full list of available tools, setup instructions, and client-specific configuration.
 
 ## Getting started
 
@@ -197,7 +127,7 @@ Tell us what worked, what didn't, and what the output looked like.
 [Open an issue here.](https://github.com/gatling/gatling-ai-extensions/issues)
 
 **Have a script that didn't convert correctly?**
-Share a minimal excerpt — even a small snippet that failed is valuable.
+Share a minimal excerpt, even a small snippet that failed is valuable.
 We'll use it to improve the skill and credit your contribution.
 
 **Built something with the MCP server or extended a skill?**
