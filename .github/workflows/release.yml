@@ -28,7 +28,7 @@ jobs:
           echo "${VERSION}" | grep -P '^[0-9]+\.[0-9]+\.[0-9]+$'
 
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           token: ${{ secrets.GATLING_CI_TOKEN }} # To create release commit and tag
 
