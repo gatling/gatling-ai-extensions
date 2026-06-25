@@ -1,0 +1,230 @@
+import { AnySchema, ZodRawShapeCompat } from "@modelcontextprotocol/sdk/server/zod-compat.js";
+import { RequestHandlerExtra } from "@modelcontextprotocol/sdk/shared/protocol.js";
+import {
+  ToolAnnotations,
+  CallToolResult,
+  ServerRequest,
+  ServerNotification
+} from "@modelcontextprotocol/sdk/types.js";
+
+import { ApiClient } from "../../apiClient/index.js";
+import * as locationsReadAll from "./locations/readAll.js";
+import * as packagesReadAll from "./packages/readAll.js";
+import * as runsReadReportRequests from "./runs/readReportRequests.js";
+import * as runsReadRunLogs from "./runs/readRunLogs.js";
+import * as teamsReadAll from "./teams/readAll.js";
+import * as testsCreateOne from "./tests/createOne.js";
+import * as testsReadAll from "./tests/readAll.js";
+import * as testsStartOne from "./tests/startOne.js";
+
+export const tools = (apiClient: ApiClient): Tool<any, any>[] => [
+  // API Tokens
+
+  // api_tokens.create_one
+  // api_tokens.delete_one
+  // api_tokens.patch_one
+  // api_tokens.read_all
+  // api_tokens.regenerate_one
+
+  // Locations
+
+  {
+    name: "locations.read_all",
+    config: {
+      title: "List all the locations that can bee seen by the API token",
+      description: "",
+      outputSchema: locationsReadAll.OutputSchema,
+      annotations: {
+        readOnlyHint: true,
+        destructiveHint: false,
+        idempotentHint: false,
+        openWorldHint: false
+      }
+    },
+    callback: locationsReadAll.callback(apiClient)
+  },
+
+  // Packages
+
+  // packages.read_one
+  // packages.create_one
+  // packages.delete_one
+  {
+    name: "packages.read_all",
+    config: {
+      title: "List all the packages that can be seen by the API token",
+      description: "",
+      outputSchema: packagesReadAll.OutputSchema,
+      annotations: {
+        readOnlyHint: true,
+        destructiveHint: false,
+        idempotentHint: false,
+        openWorldHint: false
+      }
+    },
+    callback: packagesReadAll.callback(apiClient)
+  },
+  // packages.patch_one
+  // packages.upload_artifact
+
+  // Runs
+
+  // runs.create_public_link
+  // runs.patch_one
+  // runs.read_all
+  // runs.read_one
+  {
+    name: "runs.read_report_requests",
+    config: {
+      title: "Get per-request performance statistic for the specified Run",
+      description: "",
+      inputSchema: runsReadReportRequests.InputSchema,
+      outputSchema: runsReadReportRequests.OutputSchema,
+      annotations: {
+        readOnlyHint: true,
+        destructiveHint: false,
+        idempotentHint: false,
+        openWorldHint: false
+      }
+    },
+    callback: runsReadReportRequests.callback(apiClient)
+  },
+  {
+    name: "runs.read_run_logs",
+    config: {
+      title: "Get the logs of the specified Run",
+      description: "",
+      inputSchema: runsReadRunLogs.InputSchema,
+      outputSchema: runsReadRunLogs.OutputSchema,
+      annotations: {
+        readOnlyHint: true,
+        destructiveHint: false,
+        idempotentHint: false,
+        openWorldHint: false
+      }
+    },
+    callback: runsReadRunLogs.callback(apiClient)
+  },
+  // runs.stop_one?
+
+  // SSO Groups
+
+  // sso_groups.create_one
+  // sso_groups.delete_one
+  // sso_groups.read_all
+  // sso_groups.patch_one
+  // sso_groups.read_one
+
+  // Source Repositories
+
+  // source_repositories.create_one
+  // source_repositories.delete_one
+  // source_repositories.read_all
+  // source_repositories.read_one
+
+  // Teams
+
+  // teams.create_one
+  // teams.delete_one
+  {
+    name: "teams.read_all",
+    config: {
+      title: "List all the teams that can be seen by the API token",
+      description: "",
+      outputSchema: teamsReadAll.OutputSchema,
+      annotations: {
+        readOnlyHint: true,
+        destructiveHint: false,
+        idempotentHint: false,
+        openWorldHint: false
+      }
+    },
+    callback: teamsReadAll.callback(apiClient)
+  },
+  // teams.read_one
+  // teams.read_limits
+  // teams.patch_limits
+
+  // Tests
+
+  // tests.create_one
+  {
+    name: "tests.create_one",
+    config: {
+      title: "Create a new test",
+      description: "",
+      inputSchema: testsCreateOne.InputSchema,
+      outputSchema: testsCreateOne.OutputSchema,
+      annotations: {
+        readOnlyHint: false,
+        destructiveHint: false,
+        idempotentHint: false,
+        openWorldHint: false
+      }
+    },
+    callback: testsCreateOne.callback(apiClient)
+  },
+  // tests.delete_one
+  // tests.patch_one
+  {
+    name: "tests.read_all",
+    config: {
+      title: "List all the tests that can be seen by the API token",
+      description: "",
+      outputSchema: testsReadAll.OutputSchema,
+      annotations: {
+        readOnlyHint: true,
+        destructiveHint: false,
+        idempotentHint: false,
+        openWorldHint: false
+      }
+    },
+    callback: testsReadAll.callback(apiClient)
+  },
+  // tests.read_one
+  {
+    name: "tests.start_one",
+    config: {
+      title: "Start a run for the specified test",
+      description: "",
+      inputSchema: testsStartOne.InputSchema,
+      outputSchema: testsStartOne.OutputSchema,
+      annotations: {
+        readOnlyHint: false,
+        destructiveHint: false,
+        idempotentHint: false,
+        openWorldHint: true
+      }
+    },
+    callback: testsStartOne.callback(apiClient)
+  }
+
+  // Users
+
+  // users.create_one
+  // users.delete_one
+  // users.patch_one
+  // users.read_all
+  // users.read_one
+];
+
+export type ToolCallback<InputArgs> = (
+  args: InputArgs,
+  extra: RequestHandlerExtra<ServerRequest, ServerNotification>
+) => Promise<CallToolResult>;
+
+export interface Tool<
+  OutputArgs extends ZodRawShapeCompat | AnySchema,
+  InputArgs extends undefined | ZodRawShapeCompat | AnySchema = undefined
+> {
+  name: string;
+  config: {
+    title?: string;
+    description?: string;
+    inputSchema?: InputArgs;
+    outputSchema?: OutputArgs;
+    annotations?: ToolAnnotations;
+    _meta?: Record<string, unknown>;
+  };
+  callback: ToolCallback<InputArgs>;
+}

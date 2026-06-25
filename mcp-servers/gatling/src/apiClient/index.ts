@@ -5,12 +5,14 @@ import { LocationEndpoints, locations } from "./locations.js";
 import { PackageEndpoints, packages } from "./packages.js";
 import { TeamEndpoints, teams } from "./teams.js";
 import { TestEndpoints, tests } from "./tests.js";
+import { RunsEndpoints, runs } from "./runs.js";
 
 export interface ApiClient {
   locations: LocationEndpoints;
   packages: PackageEndpoints;
   teams: TeamEndpoints;
   tests: TestEndpoints;
+  runs: RunsEndpoints;
 }
 
 export const apiClient = (conf: ApiClientConfig): ApiClient => {
@@ -19,6 +21,7 @@ export const apiClient = (conf: ApiClientConfig): ApiClient => {
     locations: locations(client, conf),
     packages: packages(client, conf),
     teams: teams(client, conf),
-    tests: tests(client, conf)
+    tests: tests(conf),
+    runs: runs(client, conf)
   };
 };

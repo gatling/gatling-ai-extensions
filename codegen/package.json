@@ -1,0 +1,7 @@
+{
+  "type": "module",
+  "devDependencies": {
+    "@openapi-codegen/cli": "3.1.0",
+    "@openapi-codegen/typescript": "11.1.0"
+  }
+}
