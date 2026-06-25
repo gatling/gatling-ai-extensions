@@ -1,34 +1,39 @@
-import { HttpClient } from "@actions/http-client";
-
-import { ApiClientConfig, getJson } from "./common.js";
+import {
+  testCreateOne,
+  testStartOne,
+  testReadAll
+} from "../apiClientGenerated/gatlingEnterpriseComponents.js";
+import {
+  TestStartOneResponse,
+  TestReadAllResponse,
+  TestCreateOneResponse,
+  TestRequest
+} from "../apiClientGenerated/gatlingEnterpriseSchemas.js";
+import { ApiClientConfig } from "./common.js";
 
 export interface TestEndpoints {
-  readAll(): Promise<TeamReadAllResponse>;
+  createOne(body: TestRequest): Promise<TestCreateOneResponse>;
+  readAll(): Promise<TestReadAllResponse>;
+  startOne(testId: string): Promise<TestStartOneResponse>;
 }
 
-export interface TeamReadAllResponse {
-  data: Array<TestItemResponse>;
-}
-
-export interface TestItemResponse {
-  name: string;
-  _type: "test";
-  _id: string;
-  _teamId: string;
-  _updatedAt: string;
-  source: SourceItem;
-}
-
-export interface SourceItem {
-  type: TestTypeResponse;
-}
-
-export enum TestTypeResponse {
-  BuildFromSources = "build_from_sources",
-  Packaged = "packaged",
-  NoCode = "no_code"
-}
-
-export const tests = (client: HttpClient, conf: ApiClientConfig): TestEndpoints => ({
-  readAll: () => getJson(client, conf, "/api/public/v2/tests", {}, {})
+export const tests = (conf: ApiClientConfig): TestEndpoints => ({
+  createOne: (body) =>
+    testCreateOne({
+      apiToken: conf.apiToken,
+      baseUrl: conf.baseUrl,
+      body
+    }),
+  readAll: () =>
+    testReadAll({
+      apiToken: conf.apiToken,
+      baseUrl: conf.baseUrl
+    }),
+  startOne: (testId: string) =>
+    testStartOne({
+      apiToken: conf.apiToken,
+      baseUrl: conf.baseUrl,
+      body: {},
+      pathParams: { testId }
+    })
 });
