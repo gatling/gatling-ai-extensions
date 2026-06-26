@@ -1,6 +1,6 @@
 import { HttpClient } from "@actions/http-client";
 
-import { ApiClientConfig, getJson } from "./common.js";
+import { getJson } from "./common.js";
 
 export interface PackageEndpoints {
   readAll(): Promise<PackageReadAllResponse>;
@@ -35,6 +35,6 @@ export interface PackageArtifactItem {
   gatlingCoreVersion: string;
 }
 
-export const packages = (client: HttpClient, conf: ApiClientConfig): PackageEndpoints => ({
-  readAll: () => getJson(client, conf, "/api/public/v2/packages", {}, {})
+export const packages = (client: HttpClient): PackageEndpoints => ({
+  readAll: () => getJson(client, "/api/public/v2/packages", {}, {})
 });

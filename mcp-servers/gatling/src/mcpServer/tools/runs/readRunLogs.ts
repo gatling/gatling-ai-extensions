@@ -1,6 +1,6 @@
 import * as z from "zod";
 
-import { ApiClient } from "../../../apiClient/index.js";
+import { apiClient } from "../../../apiClient/index.js";
 import { ToolCallback } from "../index.js";
 
 export const InputSchema = z.object({
@@ -13,12 +13,10 @@ export const OutputSchema = z.object({
 });
 export type OutputSchema = z.infer<typeof OutputSchema>;
 
-export const callback =
-  (apiClient: ApiClient): ToolCallback<InputSchema> =>
-  async ({ runId }: InputSchema) => {
-    const structuredContent: OutputSchema = await apiClient.runs.readRunLogs(runId);
-    return {
-      content: [{ type: "text", text: JSON.stringify(structuredContent) }],
-      structuredContent
-    };
+export const callback: ToolCallback<InputSchema> = async ({ runId }: InputSchema) => {
+  const structuredContent: OutputSchema = await apiClient.runs.readRunLogs(runId);
+  return {
+    content: [{ type: "text", text: JSON.stringify(structuredContent) }],
+    structuredContent
   };
+};

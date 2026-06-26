@@ -1,15 +1,10 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 
 import { Analytics } from "../analytics.js";
-import { ApiClient } from "../apiClient/index.js";
-import { Config } from "../config.js";
+import { config } from "../config.js";
 import { tools } from "./tools/index.js";
 
-export const mcpServer = (
-  config: Config,
-  apiClient: ApiClient,
-  analytics: Analytics
-): McpServer => {
+export const mcpServer = (analytics: Analytics): McpServer => {
   const server = new McpServer(
     {
       name: "gatling-mcp",
@@ -17,7 +12,7 @@ export const mcpServer = (
       version: config.version,
       description:
         "Exposes your Gatling Enterprise resources to AI assistants, enabling natural language interaction with your load testing infrastructure.",
-      websiteUrl: "https://docs.gatling.io",
+      websiteUrl: "https://docs.gatling.io/ai/mcp-server",
       icons: [
         {
           src: "https://cdn.prod.website-files.com/685a8fe4ddca049f26333871/6870d174865a20d066709f74_gatling-favicon.svg",
@@ -30,7 +25,7 @@ export const mcpServer = (
     }
   );
 
-  for (const { name, config, callback } of tools(apiClient)) {
+  for (const { name, config, callback } of tools) {
     server.registerTool(
       name,
       config,

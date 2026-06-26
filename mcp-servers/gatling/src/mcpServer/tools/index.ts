@@ -7,7 +7,6 @@ import {
   ServerNotification
 } from "@modelcontextprotocol/sdk/types.js";
 
-import { ApiClient } from "../../apiClient/index.js";
 import * as locationsReadAll from "./locations/readAll.js";
 import * as packagesReadAll from "./packages/readAll.js";
 import * as runsReadReportRequests from "./runs/readReportRequests.js";
@@ -17,7 +16,7 @@ import * as testsCreateOne from "./tests/createOne.js";
 import * as testsReadAll from "./tests/readAll.js";
 import * as testsStartOne from "./tests/startOne.js";
 
-export const tools = (apiClient: ApiClient): Tool<any, any>[] => [
+export const tools: Array<Tool<any, any>> = [
   // API Tokens
 
   // api_tokens.create_one
@@ -41,7 +40,7 @@ export const tools = (apiClient: ApiClient): Tool<any, any>[] => [
         openWorldHint: false
       }
     },
-    callback: locationsReadAll.callback(apiClient)
+    callback: locationsReadAll.callback
   },
 
   // Packages
@@ -62,7 +61,7 @@ export const tools = (apiClient: ApiClient): Tool<any, any>[] => [
         openWorldHint: false
       }
     },
-    callback: packagesReadAll.callback(apiClient)
+    callback: packagesReadAll.callback
   },
   // packages.patch_one
   // packages.upload_artifact
@@ -87,7 +86,7 @@ export const tools = (apiClient: ApiClient): Tool<any, any>[] => [
         openWorldHint: false
       }
     },
-    callback: runsReadReportRequests.callback(apiClient)
+    callback: runsReadReportRequests.callback
   },
   {
     name: "runs.read_run_logs",
@@ -103,7 +102,7 @@ export const tools = (apiClient: ApiClient): Tool<any, any>[] => [
         openWorldHint: false
       }
     },
-    callback: runsReadRunLogs.callback(apiClient)
+    callback: runsReadRunLogs.callback
   },
   // runs.stop_one?
 
@@ -139,7 +138,7 @@ export const tools = (apiClient: ApiClient): Tool<any, any>[] => [
         openWorldHint: false
       }
     },
-    callback: teamsReadAll.callback(apiClient)
+    callback: teamsReadAll.callback
   },
   // teams.read_one
   // teams.read_limits
@@ -162,7 +161,7 @@ export const tools = (apiClient: ApiClient): Tool<any, any>[] => [
         openWorldHint: false
       }
     },
-    callback: testsCreateOne.callback(apiClient)
+    callback: testsCreateOne.callback
   },
   // tests.delete_one
   // tests.patch_one
@@ -179,7 +178,7 @@ export const tools = (apiClient: ApiClient): Tool<any, any>[] => [
         openWorldHint: false
       }
     },
-    callback: testsReadAll.callback(apiClient)
+    callback: testsReadAll.callback
   },
   // tests.read_one
   {
@@ -196,7 +195,7 @@ export const tools = (apiClient: ApiClient): Tool<any, any>[] => [
         openWorldHint: true
       }
     },
-    callback: testsStartOne.callback(apiClient)
+    callback: testsStartOne.callback
   }
 
   // Users

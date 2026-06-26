@@ -1,6 +1,12 @@
+import { config } from "../config.js";
+
 export type GatlingEnterpriseFetcherExtraProps = {
-  apiToken?: string;
-  baseUrl: string;
+  /**
+   * You can add some extra props to your generated fetchers.
+   *
+   * Note: You need to re-gen after adding the first property to
+   * have the `GatlingEnterpriseFetcherExtraProps` injected in `GatlingEnterpriseComponents.ts`
+   **/
 };
 
 export type ErrorWrapper<TError> = TError | { status: "unknown"; payload: string };
@@ -13,7 +19,7 @@ export type GatlingEnterpriseFetcherOptions<TBody, THeaders, TQueryParams, TPath
   queryParams?: TQueryParams;
   pathParams?: TPathParams;
   signal?: AbortSignal;
-} & GatlingEnterpriseFetcherExtraProps;
+};
 
 export async function gatlingEnterpriseFetch<
   TData,
@@ -23,8 +29,6 @@ export async function gatlingEnterpriseFetch<
   TQueryParams extends {},
   TPathParams extends {}
 >({
-  apiToken,
-  baseUrl,
   url,
   method,
   body,
@@ -33,8 +37,6 @@ export async function gatlingEnterpriseFetch<
   queryParams,
   signal
 }: GatlingEnterpriseFetcherOptions<TBody, THeaders, TQueryParams, TPathParams>): Promise<TData> {
-  console.log("hello");
-
   let error: ErrorWrapper<TError>;
   try {
     const requestHeaders: HeadersInit = {
@@ -42,7 +44,8 @@ export async function gatlingEnterpriseFetch<
       ...headers
     };
 
-    if (apiToken !== undefined && apiToken !== null) {
+    const apiToken = config.api.apiToken;
+    if (apiToken) {
       requestHeaders["Authorization"] = apiToken;
     }
 
@@ -55,13 +58,17 @@ export async function gatlingEnterpriseFetch<
     if (requestHeaders["Content-Type"]?.toLowerCase().includes("multipart/form-data")) {
       delete requestHeaders["Content-Type"];
     }
-    // FIXME /api/public
-    const response = await window.fetch(`${baseUrl}/api/public${resolveUrl(url, queryParams, pathParams)}`, {
-      signal,
-      method: method.toUpperCase(),
-      body: body ? (body instanceof FormData ? body : JSON.stringify(body)) : undefined,
-      headers: requestHeaders
-    });
+
+    const response = await fetch(
+      `${config.api.baseUrl}/api/public${resolveUrl(url, queryParams, pathParams)}`,
+      {
+        signal,
+        method: method.toUpperCase(),
+        body: body ? (body instanceof FormData ? body : JSON.stringify(body)) : undefined,
+        headers: requestHeaders
+      }
+    );
+
     if (!response.ok) {
       try {
         error = await response.json();

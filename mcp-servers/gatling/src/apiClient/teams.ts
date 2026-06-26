@@ -1,6 +1,6 @@
 import { HttpClient } from "@actions/http-client";
 
-import { ApiClientConfig, getJson } from "./common.js";
+import { getJson } from "./common.js";
 
 export interface TeamEndpoints {
   readAll(): Promise<TeamReadAllResponse>;
@@ -26,6 +26,6 @@ export interface Credits {
   quota: number;
 }
 
-export const teams = (client: HttpClient, conf: ApiClientConfig): TeamEndpoints => ({
-  readAll: () => getJson(client, conf, "/api/public/v2/teams", {}, {})
+export const teams = (client: HttpClient): TeamEndpoints => ({
+  readAll: () => getJson(client, "/api/public/v2/teams", {}, {})
 });

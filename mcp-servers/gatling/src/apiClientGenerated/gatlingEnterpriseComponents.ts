@@ -4,10 +4,7 @@
  * @version 2.0.0
  */
 import type * as Fetcher from "./gatlingEnterpriseFetcher.js";
-import {
-  gatlingEnterpriseFetch,
-  GatlingEnterpriseFetcherExtraProps
-} from "./gatlingEnterpriseFetcher.js";
+import { gatlingEnterpriseFetch } from "./gatlingEnterpriseFetcher.js";
 import type * as Schemas from "./gatlingEnterpriseSchemas.js";
 
 export type ApiTokenReadAllError = Fetcher.ErrorWrapper<
@@ -41,14 +38,12 @@ export type ApiTokenReadAllError = Fetcher.ErrorWrapper<
     }
 >;
 
-export type ApiTokenReadAllVariables = GatlingEnterpriseFetcherExtraProps;
-
 /**
  * List all the API Tokens that can be seen by the API token.
  *
  * Require the `Administrate` role at the global level or on a team to see its tokens; others are omitted.
  */
-export const apiTokenReadAll = (variables: ApiTokenReadAllVariables, signal?: AbortSignal) =>
+export const apiTokenReadAll = (signal?: AbortSignal) =>
   gatlingEnterpriseFetch<
     Schemas.ApiTokenReadAllResponse,
     ApiTokenReadAllError,
@@ -56,7 +51,7 @@ export const apiTokenReadAll = (variables: ApiTokenReadAllVariables, signal?: Ab
     {},
     {},
     {}
-  >({ url: "/v2/api-tokens", method: "get", ...variables, signal });
+  >({ url: "/v2/api-tokens", method: "get", signal });
 
 export type ApiTokenCreateOneError = Fetcher.ErrorWrapper<
   | {
@@ -91,7 +86,7 @@ export type ApiTokenCreateOneError = Fetcher.ErrorWrapper<
 
 export type ApiTokenCreateOneVariables = {
   body: Schemas.ApiTokenRequest;
-} & GatlingEnterpriseFetcherExtraProps;
+};
 
 /**
  * Create a new API Token.
@@ -148,7 +143,7 @@ export type ApiTokenDeleteOneError = Fetcher.ErrorWrapper<
 
 export type ApiTokenDeleteOneVariables = {
   pathParams: ApiTokenDeleteOnePathParams;
-} & GatlingEnterpriseFetcherExtraProps;
+};
 
 /**
  * Delete the specified API Token.
@@ -211,7 +206,7 @@ export type ApiTokenUpdateOneError = Fetcher.ErrorWrapper<
 export type ApiTokenUpdateOneVariables = {
   body: Schemas.ApiTokenRequest;
   pathParams: ApiTokenUpdateOnePathParams;
-} & GatlingEnterpriseFetcherExtraProps;
+};
 
 /**
  * Update the details of the specified API Token.
@@ -273,7 +268,7 @@ export type ApiTokenRegenerateError = Fetcher.ErrorWrapper<
 
 export type ApiTokenRegenerateVariables = {
   pathParams: ApiTokenRegeneratePathParams;
-} & GatlingEnterpriseFetcherExtraProps;
+};
 
 /**
  * Regenerate the specified API Token.
@@ -318,18 +313,15 @@ export type InfoReadError = Fetcher.ErrorWrapper<
     }
 >;
 
-export type InfoReadVariables = GatlingEnterpriseFetcherExtraProps;
-
 /**
  * Get the server information.
  *
  * No permission, no authentication required.
  */
-export const infoRead = (variables: InfoReadVariables, signal?: AbortSignal) =>
+export const infoRead = (signal?: AbortSignal) =>
   gatlingEnterpriseFetch<Schemas.InfoReadResponse, InfoReadError, undefined, {}, {}, {}>({
     url: "/v2/info",
     method: "get",
-    ...variables,
     signal
   });
 
@@ -371,7 +363,7 @@ export type LocationReadAllError = Fetcher.ErrorWrapper<
 
 export type LocationReadAllVariables = {
   queryParams?: LocationReadAllQueryParams;
-} & GatlingEnterpriseFetcherExtraProps;
+};
 
 /**
  * List all the locations that can be seen by the API token.
@@ -419,14 +411,12 @@ export type PackageReadAllError = Fetcher.ErrorWrapper<
     }
 >;
 
-export type PackageReadAllVariables = GatlingEnterpriseFetcherExtraProps;
-
 /**
  * List all the packages that can be seen by the API token.
  *
  * Require at least the `Read` role on a team to see its packages; others are omitted.
  */
-export const packageReadAll = (variables: PackageReadAllVariables, signal?: AbortSignal) =>
+export const packageReadAll = (signal?: AbortSignal) =>
   gatlingEnterpriseFetch<
     Schemas.PackageReadAllResponse,
     PackageReadAllError,
@@ -434,7 +424,7 @@ export const packageReadAll = (variables: PackageReadAllVariables, signal?: Abor
     {},
     {},
     {}
-  >({ url: "/v2/packages", method: "get", ...variables, signal });
+  >({ url: "/v2/packages", method: "get", signal });
 
 export type PackageCreateOneError = Fetcher.ErrorWrapper<
   | {
@@ -469,7 +459,7 @@ export type PackageCreateOneError = Fetcher.ErrorWrapper<
 
 export type PackageCreateOneVariables = {
   body: Schemas.PackageCreateOneRequest;
-} & GatlingEnterpriseFetcherExtraProps;
+};
 
 /**
  * Create a new package.
@@ -527,7 +517,7 @@ export type PackageDeleteOneError = Fetcher.ErrorWrapper<
 
 export type PackageDeleteOneVariables = {
   pathParams: PackageDeleteOnePathParams;
-} & GatlingEnterpriseFetcherExtraProps;
+};
 
 /**
  * Delete the specified package.
@@ -589,7 +579,7 @@ export type PackageReadOneError = Fetcher.ErrorWrapper<
 
 export type PackageReadOneVariables = {
   pathParams: PackageReadOnePathParams;
-} & GatlingEnterpriseFetcherExtraProps;
+};
 
 /**
  * Get the details of the specified package.
@@ -647,7 +637,7 @@ export type PackageUpdateOneError = Fetcher.ErrorWrapper<
 export type PackageUpdateOneVariables = {
   body: Schemas.PackageRequest;
   pathParams: PackageUpdateOnePathParams;
-} & GatlingEnterpriseFetcherExtraProps;
+};
 
 /**
  * Update the details of the specified package.
@@ -710,7 +700,7 @@ export type RunReadAllError = Fetcher.ErrorWrapper<
 
 export type RunReadAllVariables = {
   queryParams?: RunReadAllQueryParams;
-} & GatlingEnterpriseFetcherExtraProps;
+};
 
 /**
  * List all the Runs updated since the provided timestamp (default: 24h).
@@ -767,7 +757,7 @@ export type RunReadOneError = Fetcher.ErrorWrapper<
 
 export type RunReadOneVariables = {
   pathParams: RunReadOnePathParams;
-} & GatlingEnterpriseFetcherExtraProps;
+};
 
 /**
  * Get the details of the specified Run.
@@ -825,7 +815,7 @@ export type RunUpdateOneError = Fetcher.ErrorWrapper<
 export type RunUpdateOneVariables = {
   body?: Schemas.RunRequest;
   pathParams: RunUpdateOnePathParams;
-} & GatlingEnterpriseFetcherExtraProps;
+};
 
 /**
  * Update the details of the specified Run.
@@ -883,7 +873,7 @@ export type RunPublicLinkCreateOneError = Fetcher.ErrorWrapper<
 export type RunPublicLinkCreateOneVariables = {
   body: Schemas.RunPublicLinkRequest;
   pathParams: RunPublicLinkCreateOnePathParams;
-} & GatlingEnterpriseFetcherExtraProps;
+};
 
 /**
  * Create a public link for the specified Run.
@@ -949,7 +939,7 @@ export type RunStopOneError = Fetcher.ErrorWrapper<
 
 export type RunStopOneVariables = {
   pathParams: RunStopOnePathParams;
-} & GatlingEnterpriseFetcherExtraProps;
+};
 
 /**
  * Stop the specified Run.
@@ -1004,7 +994,7 @@ export type RunReadLogsError = Fetcher.ErrorWrapper<
 
 export type RunReadLogsVariables = {
   pathParams: RunReadLogsPathParams;
-} & GatlingEnterpriseFetcherExtraProps;
+};
 
 /**
  * Get the logs of the specified Run.
@@ -1079,7 +1069,7 @@ export type RunViewReadReportGroupsError = Fetcher.ErrorWrapper<
 export type RunViewReadReportGroupsVariables = {
   pathParams: RunViewReadReportGroupsPathParams;
   queryParams?: RunViewReadReportGroupsQueryParams;
-} & GatlingEnterpriseFetcherExtraProps;
+};
 
 /**
  * Get per-group performance statistics for the specified Run.
@@ -1166,7 +1156,7 @@ export type RunViewReadReportRequestsError = Fetcher.ErrorWrapper<
 export type RunViewReadReportRequestsVariables = {
   pathParams: RunViewReadReportRequestsPathParams;
   queryParams?: RunViewReadReportRequestsQueryParams;
-} & GatlingEnterpriseFetcherExtraProps;
+};
 
 /**
  * Get per-request performance statistics for the specified Run.
@@ -1226,17 +1216,12 @@ export type SourceRepositoryReadAllError = Fetcher.ErrorWrapper<
     }
 >;
 
-export type SourceRepositoryReadAllVariables = GatlingEnterpriseFetcherExtraProps;
-
 /**
  * List all the Source Repositories that can be seen by the API token.
  *
  * Require at least the `Read` role on a team to see its source repositories; others are omitted.
  */
-export const sourceRepositoryReadAll = (
-  variables: SourceRepositoryReadAllVariables,
-  signal?: AbortSignal
-) =>
+export const sourceRepositoryReadAll = (signal?: AbortSignal) =>
   gatlingEnterpriseFetch<
     Schemas.SourceRepositoryReadAllResponse,
     SourceRepositoryReadAllError,
@@ -1244,7 +1229,7 @@ export const sourceRepositoryReadAll = (
     {},
     {},
     {}
-  >({ url: "/v2/source-repositories", method: "get", ...variables, signal });
+  >({ url: "/v2/source-repositories", method: "get", signal });
 
 export type SourceRepositoryCreateOneError = Fetcher.ErrorWrapper<
   | {
@@ -1279,7 +1264,7 @@ export type SourceRepositoryCreateOneError = Fetcher.ErrorWrapper<
 
 export type SourceRepositoryCreateOneVariables = {
   body: Schemas.SourceRepositoryRequest;
-} & GatlingEnterpriseFetcherExtraProps;
+};
 
 /**
  * Create a new Source Repository.
@@ -1339,7 +1324,7 @@ export type SourceRepositoryDeleteOneError = Fetcher.ErrorWrapper<
 
 export type SourceRepositoryDeleteOneVariables = {
   pathParams: SourceRepositoryDeleteOnePathParams;
-} & GatlingEnterpriseFetcherExtraProps;
+};
 
 /**
  * Delete the specified Source Repository.
@@ -1404,7 +1389,7 @@ export type SourceRepositoryReadOneError = Fetcher.ErrorWrapper<
 
 export type SourceRepositoryReadOneVariables = {
   pathParams: SourceRepositoryReadOnePathParams;
-} & GatlingEnterpriseFetcherExtraProps;
+};
 
 /**
  * Get the details of the specified Source Repository.
@@ -1460,14 +1445,12 @@ export type SsoGroupReadAllError = Fetcher.ErrorWrapper<
     }
 >;
 
-export type SsoGroupReadAllVariables = GatlingEnterpriseFetcherExtraProps;
-
 /**
  * List all the SSO Groups that can be seen by the API token.
  *
  * Require the `Administrate` role at the global level or on a team to see its SSO groups; others are omitted.
  */
-export const ssoGroupReadAll = (variables: SsoGroupReadAllVariables, signal?: AbortSignal) =>
+export const ssoGroupReadAll = (signal?: AbortSignal) =>
   gatlingEnterpriseFetch<
     Schemas.SsoGroupReadAllResponse,
     SsoGroupReadAllError,
@@ -1475,7 +1458,7 @@ export const ssoGroupReadAll = (variables: SsoGroupReadAllVariables, signal?: Ab
     {},
     {},
     {}
-  >({ url: "/v2/sso-groups", method: "get", ...variables, signal });
+  >({ url: "/v2/sso-groups", method: "get", signal });
 
 export type SsoGroupCreateOneError = Fetcher.ErrorWrapper<
   | {
@@ -1510,7 +1493,7 @@ export type SsoGroupCreateOneError = Fetcher.ErrorWrapper<
 
 export type SsoGroupCreateOneVariables = {
   body: Schemas.SsoGroupRequest;
-} & GatlingEnterpriseFetcherExtraProps;
+};
 
 /**
  * Create a new SSO group.
@@ -1568,7 +1551,7 @@ export type SsoGroupDeleteOneError = Fetcher.ErrorWrapper<
 
 export type SsoGroupDeleteOneVariables = {
   pathParams: SsoGroupDeleteOnePathParams;
-} & GatlingEnterpriseFetcherExtraProps;
+};
 
 /**
  * Delete the specified SSO group.
@@ -1630,7 +1613,7 @@ export type SsoGroupReadOneError = Fetcher.ErrorWrapper<
 
 export type SsoGroupReadOneVariables = {
   pathParams: SsoGroupReadOnePathParams;
-} & GatlingEnterpriseFetcherExtraProps;
+};
 
 /**
  * Get the details of the specified SSO group.
@@ -1693,7 +1676,7 @@ export type SsoGroupUpdateOneError = Fetcher.ErrorWrapper<
 export type SsoGroupUpdateOneVariables = {
   body: Schemas.SsoGroupRequest;
   pathParams: SsoGroupUpdateOnePathParams;
-} & GatlingEnterpriseFetcherExtraProps;
+};
 
 /**
  * Update the details of the specified SSO group.
@@ -1746,18 +1729,15 @@ export type TeamReadAllError = Fetcher.ErrorWrapper<
     }
 >;
 
-export type TeamReadAllVariables = GatlingEnterpriseFetcherExtraProps;
-
 /**
  * List all the teams that can be seen by the API token.
  *
  * Require at least the `Read` role on a team to see it; others are omitted.
  */
-export const teamReadAll = (variables: TeamReadAllVariables, signal?: AbortSignal) =>
+export const teamReadAll = (signal?: AbortSignal) =>
   gatlingEnterpriseFetch<Schemas.TeamReadAllResponse, TeamReadAllError, undefined, {}, {}, {}>({
     url: "/v2/teams",
     method: "get",
-    ...variables,
     signal
   });
 
@@ -1794,7 +1774,7 @@ export type TeamCreateOneError = Fetcher.ErrorWrapper<
 
 export type TeamCreateOneVariables = {
   body: Schemas.TeamRequest;
-} & GatlingEnterpriseFetcherExtraProps;
+};
 
 /**
  * Create a new team.
@@ -1859,7 +1839,7 @@ export type TeamDeleteOneError = Fetcher.ErrorWrapper<
 export type TeamDeleteOneVariables = {
   pathParams: TeamDeleteOnePathParams;
   queryParams: TeamDeleteOneQueryParams;
-} & GatlingEnterpriseFetcherExtraProps;
+};
 
 /**
  * Delete the specified team.
@@ -1916,7 +1896,7 @@ export type TeamReadOneError = Fetcher.ErrorWrapper<
 
 export type TeamReadOneVariables = {
   pathParams: TeamReadOnePathParams;
-} & GatlingEnterpriseFetcherExtraProps;
+};
 
 /**
  * Get the details of the specified team.
@@ -1973,7 +1953,7 @@ export type TeamLimitReadOneError = Fetcher.ErrorWrapper<
 
 export type TeamLimitReadOneVariables = {
   pathParams: TeamLimitReadOnePathParams;
-} & GatlingEnterpriseFetcherExtraProps;
+};
 
 /**
  * Get the limits of the specified team.
@@ -2031,7 +2011,7 @@ export type TeamLimitUpdateOneError = Fetcher.ErrorWrapper<
 export type TeamLimitUpdateOneVariables = {
   body?: Schemas.TeamLimitRequest;
   pathParams: TeamLimitUpdateOnePathParams;
-} & GatlingEnterpriseFetcherExtraProps;
+};
 
 /**
  * Update the limits of the specified team.
@@ -2089,7 +2069,7 @@ export type TestReadAllError = Fetcher.ErrorWrapper<
 
 export type TestReadAllVariables = {
   queryParams?: TestReadAllQueryParams;
-} & GatlingEnterpriseFetcherExtraProps;
+};
 
 /**
  * List all the tests that can be seen by the API token.
@@ -2139,7 +2119,7 @@ export type TestCreateOneError = Fetcher.ErrorWrapper<
 
 export type TestCreateOneVariables = {
   body: Schemas.TestRequest;
-} & GatlingEnterpriseFetcherExtraProps;
+};
 
 /**
  * Create a new test.
@@ -2196,7 +2176,7 @@ export type TestDeleteOneError = Fetcher.ErrorWrapper<
 
 export type TestDeleteOneVariables = {
   pathParams: TestDeleteOnePathParams;
-} & GatlingEnterpriseFetcherExtraProps;
+};
 
 /**
  * Delete the specified test.
@@ -2248,7 +2228,7 @@ export type TestReadOneError = Fetcher.ErrorWrapper<
 
 export type TestReadOneVariables = {
   pathParams: TestReadOnePathParams;
-} & GatlingEnterpriseFetcherExtraProps;
+};
 
 /**
  * Get the details of the specified test.
@@ -2306,7 +2286,7 @@ export type TestUpdateOneError = Fetcher.ErrorWrapper<
 export type TestUpdateOneVariables = {
   body: Schemas.TestRequest;
   pathParams: TestUpdateOnePathParams;
-} & GatlingEnterpriseFetcherExtraProps;
+};
 
 /**
  * Update the details of the specified test.
@@ -2364,7 +2344,7 @@ export type TestStartOneError = Fetcher.ErrorWrapper<
 export type TestStartOneVariables = {
   body?: Schemas.TestStartOneRequest;
   pathParams: TestStartOnePathParams;
-} & GatlingEnterpriseFetcherExtraProps;
+};
 
 /**
  * Start a run for the specified test.
@@ -2419,7 +2399,7 @@ export type UserReadAllError = Fetcher.ErrorWrapper<
 
 export type UserReadAllVariables = {
   queryParams?: UserReadAllQueryParams;
-} & GatlingEnterpriseFetcherExtraProps;
+};
 
 /**
  * List all the users that can be seen by the API token.
@@ -2470,7 +2450,7 @@ export type UserCreateOneError = Fetcher.ErrorWrapper<
 
 export type UserCreateOneVariables = {
   body: Schemas.UserRequest;
-} & GatlingEnterpriseFetcherExtraProps;
+};
 
 /**
  * Create a new user.
@@ -2529,7 +2509,7 @@ export type UserDeleteOneError = Fetcher.ErrorWrapper<
 
 export type UserDeleteOneVariables = {
   pathParams: UserDeleteOnePathParams;
-} & GatlingEnterpriseFetcherExtraProps;
+};
 
 /**
  * Delete the specified user.
@@ -2581,7 +2561,7 @@ export type UserReadOneError = Fetcher.ErrorWrapper<
 
 export type UserReadOneVariables = {
   pathParams: UserReadOnePathParams;
-} & GatlingEnterpriseFetcherExtraProps;
+};
 
 /**
  * Get the details of the specified user.
@@ -2640,7 +2620,7 @@ export type UserUpdateOneError = Fetcher.ErrorWrapper<
 export type UserUpdateOneVariables = {
   body: Schemas.UserRequest;
   pathParams: UserUpdateOnePathParams;
-} & GatlingEnterpriseFetcherExtraProps;
+};
 
 /**
  * Update the details of the specified user.
@@ -2673,7 +2653,7 @@ export type UploadPackageContentVariables = {
   body?: Blob;
   pathParams: UploadPackageContentPathParams;
   queryParams: UploadPackageContentQueryParams;
-} & GatlingEnterpriseFetcherExtraProps;
+};
 
 /**
  * Upload the binary content of the specified package (simulation JAR or bundle).

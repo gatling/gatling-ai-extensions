@@ -3,7 +3,7 @@ import * as os from "node:os";
 import { HttpClient } from "@actions/http-client";
 import { v4 as uuidv4 } from "uuid";
 
-import { Config } from "./config.js";
+import { config } from "./config.js";
 
 const apiKeyDev = "c6150be222fed5925bee6210287aa12e";
 const apiKeyProd = "68fa0276592045ff2bcd0d17425ca0ec";
@@ -20,19 +20,19 @@ export interface Analytics {
   onToolCall(toolname: string): void;
 }
 
-export const analyticsInit = (conf: Config): Analytics => {
-  if (!conf.analytics.enableAnalytics) {
+export const analyticsInit = (): Analytics => {
+  if (!config.analytics.enableAnalytics) {
     return {
       onServerReady: () => {},
       onToolCall: () => {}
     };
   }
 
-  const api_key = conf.analytics.useDevEnvironment ? apiKeyDev : apiKeyProd;
+  const api_key = config.analytics.useDevEnvironment ? apiKeyDev : apiKeyProd;
   const user_properties = {
     system_os: os.type(),
     system_arch: os.arch(),
-    mcp_server_version: conf.version
+    mcp_server_version: config.version
   };
 
   const httpClient = new HttpClient();
