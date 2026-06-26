@@ -8,17 +8,17 @@
       "ESNext.Collection",
       "ESNext.Error",
       "ESNext.Iterator",
-      "ESNext.Promise",
-      "dom"
+      "ESNext.Promise"
     ],
     "target": "es2024",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
     "module": "nodenext",
     "moduleResolution": "node16",
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
-    "strict": true
+    "skipLibCheck": true,
+    "strict": true,
+    "types": ["jest"]
   },
   "include": ["src/**/*.ts"],
   "exclude": ["node_modules"]
