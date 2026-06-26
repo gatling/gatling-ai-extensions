@@ -9,7 +9,6 @@ import {
   TestCreateOneResponse,
   TestRequest
 } from "../apiClientGenerated/gatlingEnterpriseSchemas.js";
-import { ApiClientConfig } from "./common.js";
 
 export interface TestEndpoints {
   createOne(body: TestRequest): Promise<TestCreateOneResponse>;
@@ -17,22 +16,11 @@ export interface TestEndpoints {
   startOne(testId: string): Promise<TestStartOneResponse>;
 }
 
-export const tests = (conf: ApiClientConfig): TestEndpoints => ({
-  createOne: (body) =>
-    testCreateOne({
-      apiToken: conf.apiToken,
-      baseUrl: conf.baseUrl,
-      body
-    }),
-  readAll: () =>
-    testReadAll({
-      apiToken: conf.apiToken,
-      baseUrl: conf.baseUrl
-    }),
+export const tests = (): TestEndpoints => ({
+  createOne: (body) => testCreateOne({ body }),
+  readAll: () => testReadAll({}),
   startOne: (testId: string) =>
     testStartOne({
-      apiToken: conf.apiToken,
-      baseUrl: conf.baseUrl,
       body: {},
       pathParams: { testId }
     })

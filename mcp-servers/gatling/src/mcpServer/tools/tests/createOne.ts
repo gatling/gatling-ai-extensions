@@ -1,6 +1,6 @@
 import * as z from "zod";
 
-import { ApiClient } from "../../../apiClient/index.js";
+import { apiClient } from "../../../apiClient/index.js";
 import { ToolCallback } from "../index.js";
 
 export const LoadGeneratorSchema = z.object({
@@ -114,12 +114,10 @@ export const OutputSchema = z.object({
 });
 export type OutputSchema = z.infer<typeof OutputSchema>;
 
-export const callback =
-  (apiClient: ApiClient): ToolCallback<InputSchema> =>
-  async (args: InputSchema) => {
-    const structuredContent: OutputSchema = await apiClient.tests.createOne(args);
-    return {
-      content: [{ type: "text", text: JSON.stringify(structuredContent) }],
-      structuredContent
-    };
+export const callback: ToolCallback<InputSchema> = async (args: InputSchema) => {
+  const structuredContent: OutputSchema = await apiClient.tests.createOne(args);
+  return {
+    content: [{ type: "text", text: JSON.stringify(structuredContent) }],
+    structuredContent
   };
+};

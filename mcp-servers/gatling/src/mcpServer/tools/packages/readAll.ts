@@ -1,6 +1,6 @@
 import * as z from "zod";
 
-import { ApiClient } from "../../../apiClient/index.js";
+import { apiClient } from "../../../apiClient/index.js";
 import { PackageItemResponse } from "../../../apiClient/packages.js";
 import { ToolCallback } from "../index.js";
 
@@ -18,24 +18,20 @@ export const OutputSchema = z.object({
 });
 export type OutputSchema = z.infer<typeof OutputSchema>;
 
-export const callback =
-  (apiClient: ApiClient): ToolCallback<undefined> =>
-  async () => {
-    const response = await apiClient.packages.readAll();
-    const mapItem = (item: PackageItemResponse): PackageSchema => ({
-      name: item.name,
-      teamId: item.teamId,
-      _id: item._id,
-      _format: item._storage.artifact?.format
-    });
-    const structuredContent: OutputSchema = {
-      managedPackages: response.data
-        .filter((item) => item._storage.type === "managed")
-        .map(mapItem),
-      privatePackages: response.data.filter((item) => item._storage.type === "private").map(mapItem)
-    };
-    return {
-      content: [{ type: "text", text: JSON.stringify(structuredContent) }],
-      structuredContent
-    };
+export const callback: ToolCallback<undefined> = async () => {
+  const response = await apiClient.packages.readAll();
+  const mapItem = (item: PackageItemResponse): PackageSchema => ({
+    name: item.name,
+    teamId: item.teamId,
+    _id: item._id,
+    _format: item._storage.artifact?.format
+  });
+  const structuredContent: OutputSchema = {
+    managedPackages: response.data.filter((item) => item._storage.type === "managed").map(mapItem),
+    privatePackages: response.data.filter((item) => item._storage.type === "private").map(mapItem)
   };
+  return {
+    content: [{ type: "text", text: JSON.stringify(structuredContent) }],
+    structuredContent
+  };
+};

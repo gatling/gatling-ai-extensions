@@ -1,6 +1,6 @@
 import * as z from "zod";
 
-import { ApiClient } from "../../../apiClient/index.js";
+import { apiClient } from "../../../apiClient/index.js";
 import { ToolCallback } from "../index.js";
 
 export const OutputSchema = z.object({
@@ -18,23 +18,21 @@ export const OutputSchema = z.object({
 });
 export type OutputSchema = z.infer<typeof OutputSchema>;
 
-export const callback =
-  (apiClient: ApiClient): ToolCallback<undefined> =>
-  async (args) => {
-    const response = await apiClient.tests.readAll();
-    const structuredContent: OutputSchema = {
-      data: response.data.map((item) => ({
-        name: item.name,
-        _id: item._id,
-        _teamId: item._teamId,
-        _updatedAt: item._updatedAt,
-        source: {
-          type: item.source.type
-        }
-      }))
-    };
-    return {
-      content: [{ type: "text", text: JSON.stringify(structuredContent) }],
-      structuredContent
-    };
+export const callback: ToolCallback<undefined> = async (args) => {
+  const response = await apiClient.tests.readAll();
+  const structuredContent: OutputSchema = {
+    data: response.data.map((item) => ({
+      name: item.name,
+      _id: item._id,
+      _teamId: item._teamId,
+      _updatedAt: item._updatedAt,
+      source: {
+        type: item.source.type
+      }
+    }))
   };
+  return {
+    content: [{ type: "text", text: JSON.stringify(structuredContent) }],
+    structuredContent
+  };
+};
