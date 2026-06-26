@@ -31,7 +31,7 @@ const headers = (): OutgoingHttpHeaders => ({
   Accept: "application/json",
   "X-Gatling-Plugin-Flavor": config.api.pluginFlavor,
   "X-Gatling-Plugin-Version": config.version,
-  Authorization: config.api.apiToken
+  Authorization: config.api.apiToken()
 });
 
 const handleJsonResponse = <T>(response: TypedResponse<T>): T => {

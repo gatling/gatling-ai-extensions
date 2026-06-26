@@ -1,3 +1,7 @@
+import { OutgoingHttpHeaders } from "node:http";
+
+import { HttpClient } from "@actions/http-client";
+
 import { config } from "../config.js";
 
 export type GatlingEnterpriseFetcherExtraProps = {
@@ -21,10 +25,12 @@ export type GatlingEnterpriseFetcherOptions<TBody, THeaders, TQueryParams, TPath
   signal?: AbortSignal;
 };
 
-export async function gatlingEnterpriseFetch<
-  TData,
+const client = new HttpClient();
+
+export const gatlingEnterpriseFetch = async <
+  TData extends {} | undefined,
   TError,
-  TBody extends {} | FormData | undefined | null,
+  TBody extends {} | undefined | null,
   THeaders extends {},
   TQueryParams extends {},
   TPathParams extends {}
@@ -36,64 +42,55 @@ export async function gatlingEnterpriseFetch<
   pathParams,
   queryParams,
   signal
-}: GatlingEnterpriseFetcherOptions<TBody, THeaders, TQueryParams, TPathParams>): Promise<TData> {
-  let error: ErrorWrapper<TError>;
-  try {
-    const requestHeaders: HeadersInit = {
-      "Content-Type": "application/json",
-      ...headers
-    };
+}: GatlingEnterpriseFetcherOptions<TBody, THeaders, TQueryParams, TPathParams>): Promise<TData> => {
+  const requestHeaders: OutgoingHttpHeaders = {
+    "User-Agent": "GatlingMcpServer/v1",
+    Accept: "application/json",
+    "X-Gatling-Plugin-Flavor": config.api.pluginFlavor,
+    "X-Gatling-Plugin-Version": config.version,
+    Authorization: config.api.apiToken(),
+    ...headers
+  };
 
-    const apiToken = config.api.apiToken;
-    if (apiToken) {
-      requestHeaders["Authorization"] = apiToken;
-    }
-
-    /**
-     * As the fetch API is being used, when multipart/form-data is specified
-     * the Content-Type header must be deleted so that the browser can set
-     * the correct boundary.
-     * https://developer.mozilla.org/en-US/docs/Web/API/FormData/Using_FormData_Objects#sending_files_using_a_formdata_object
-     */
-    if (requestHeaders["Content-Type"]?.toLowerCase().includes("multipart/form-data")) {
-      delete requestHeaders["Content-Type"];
-    }
-
-    const response = await fetch(
-      `${config.api.baseUrl}/api/public${resolveUrl(url, queryParams, pathParams)}`,
-      {
-        signal,
-        method: method.toUpperCase(),
-        body: body ? (body instanceof FormData ? body : JSON.stringify(body)) : undefined,
-        headers: requestHeaders
-      }
+  const response = await client.request(
+    method.toUpperCase(),
+    `${config.api.baseUrl}/api/public${resolveUrl(url, queryParams, pathParams)}`,
+    body ? JSON.stringify(body) : null,
+    requestHeaders
+  );
+  const status = response.message.statusCode;
+  if (status === undefined) {
+    throw Error(
+      "HTTP status was undefined (this should not happen and indicates a bug in the API client)"
     );
-
-    if (!response.ok) {
-      try {
-        error = await response.json();
-      } catch (e) {
-        error = {
-          status: "unknown" as const,
-          payload: e instanceof Error ? `Unexpected error (${e.message})` : "Unexpected error"
-        };
-      }
-    } else if (response.headers.get("content-type")?.includes("json")) {
-      return await response.json();
-    } else {
-      // if it is not a json response, assume it is a blob and cast it to TData
-      return (await response.blob()) as unknown as TData;
-    }
-  } catch (e) {
-    const errorObject: Error = {
-      name: "unknown" as const,
-      message: e instanceof Error ? `Network error (${e.message})` : "Network error",
-      stack: e as string
-    };
-    throw errorObject;
   }
-  throw error;
-}
+  const responseBody = await response.readBody();
+
+  if (status < 300) {
+    if (status === 204) {
+      return responseBody as unknown as TData;
+    } else {
+      if (responseBody.trim().length === 0) {
+        throw new Error(`Gatling Enterprise API unexpected empty response with status ${status}`);
+      }
+      return JSON.parse(responseBody);
+    }
+  } else {
+    let errorMessage;
+    if (status === 401) {
+      errorMessage = "the API token is invalid";
+    } else if (status === 403) {
+      errorMessage = "the API token does not have sufficient privileges";
+    } else {
+      try {
+        errorMessage = JSON.parse(responseBody).message;
+      } catch (e) {
+        errorMessage = responseBody;
+      }
+    }
+    throw Error(`${method.toUpperCase()} ${url} returned status ${status}: ${errorMessage}`);
+  }
+};
 
 const resolveUrl = (
   url: string,
