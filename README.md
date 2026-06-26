@@ -124,7 +124,7 @@ These skills and the MCP server improve with real-world usage, and we need yours
 
 **Tried the JMeter or LoadRunner converter?**
 Tell us what worked, what didn't, and what the output looked like.
-[Open an issue here.](https://github.com/gatling/gatling-ai-extensions/issues)
+[Open an issue here.](https://github.com/gatling/gatling/issues)
 
 **Have a script that didn't convert correctly?**
 Share a minimal excerpt, even a small snippet that failed is valuable.
@@ -141,7 +141,7 @@ Show us. If it's useful for the community, we'll feature it.
 - [Gatling Community Forum](https://community.gatling.io)
 - [Gatling on GitHub](https://github.com/gatling/gatling)
 - [Try Gatling Enterprise](https://gatling.io/sign-up)
-- Found a bug? [Raise an issue](https://github.com/gatling/gatling-ai-extensions/issues)
+- Found a bug? [Raise an issue](https://github.com/gatling/gatling/issues)
 
 ## License
 
