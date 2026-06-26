@@ -55,7 +55,7 @@ Skills are instruction files for AI coding assistants (Claude, Cursor, and compa
 
 > Convert your existing LoadRunner scripts to Gatling simulations in minutes without a manual rewrite.
 
-[![LoadRunner to Gatling Converter Demo](https://cdn.prod.website-files.com/685a8fe4ddca049f26333871/69e0ad60bd79912cc12b9825_Loadrunner%20-%20Gatling%20Converter%20-%20Player.png)](https://docs.gatling.io/ai/overview/#convert-a-loadrunner-script-to-gatling)
+[![LoadRunner to Gatling Converter Demo](https://cdn.prod.website-files.com/685a8fe4ddca049f26333871/69e0ad60bd79912cc12b9825_Loadrunner%20-%20Gatling%20Converter%20-%20Player.png)](https://app.arcade.software/share/m51KGGNMaycdbmNTQT6t)
 
 *Click on the image to learn how to get started with LoadRunner to Gatling AI Converter*
 
@@ -67,7 +67,7 @@ See the [LoadRunner converter documentation](https://docs.gatling.io/ai/overview
 
 > Convert your existing JMeter test plans to Gatling simulations in minutes.
 
-[![JMeter to Gatling Converter Demo](https://cdn.prod.website-files.com/685a8fe4ddca049f26333871/69ce606e92a80d39a1c76f39_JMeter%20-%20Gatling%20Converter%20-%20Player.png)](https://docs.gatling.io/ai/overview/#convert-a-jmeter-script-to-gatling)
+[![JMeter to Gatling Converter Demo](https://cdn.prod.website-files.com/685a8fe4ddca049f26333871/69ce606e92a80d39a1c76f39_JMeter%20-%20Gatling%20Converter%20-%20Player.png)](https://app.arcade.software/share/XPlB8jfY8HEXNO59L3de)
 
 *Click on the image to learn how to get started with JMeter to Gatling AI Converter*
 
@@ -79,7 +79,7 @@ See the [JMeter converter documentation](https://docs.gatling.io/ai/overview/#co
 
 > Query your Gatling Enterprise resources in natural language, without leaving your development environment.
 
-[![MCP Server Demo](https://cdn.prod.website-files.com/685a8fe4ddca049f26333871/69ce608c0c82b691c82d020e_MCP%20Server%20Demo.png)](https://docs.gatling.io/ai/mcp-server/)
+[![MCP Server Demo](https://cdn.prod.website-files.com/685a8fe4ddca049f26333871/69ce608c0c82b691c82d020e_MCP%20Server%20Demo.png)](https://app.arcade.software/share/L0b4TuxIh06ZObAqJ37x)
 
 *Click on the image to learn how to get started with Gatling MCP Server*
 
