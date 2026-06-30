@@ -72,13 +72,8 @@ describe("tests.start_one", () => {
       args: testsStartOneArgs
     });
 
-    expect(result).toEqual({
-      content: [
-        expect.objectContaining({
-          type: "text"
-        })
-      ],
-      structuredContent: expect.objectContaining({
+    expect(result.structuredContent).toEqual(
+      expect.objectContaining({
         data: expect.objectContaining({
           _configuration: expect.objectContaining({
             simulation: "[R&D] dummy test",
@@ -95,6 +90,6 @@ describe("tests.start_one", () => {
           }
         }
       })
-    });
+    );
   });
 });

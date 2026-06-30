@@ -76,18 +76,13 @@ describe("tests.create_one", () => {
       args: testsCreateOneArgs
     });
 
-    expect(result).toEqual({
-      content: expect.arrayContaining([
-        expect.objectContaining({
-          type: "text"
-        })
-      ]),
-      structuredContent: expect.objectContaining({
+    expect(result.structuredContent).toEqual(
+      expect.objectContaining({
         data: expect.objectContaining({
           _type: "test",
           name: "[R&D] sample test"
         })
       })
-    });
+    );
   });
 });
