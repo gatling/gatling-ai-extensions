@@ -1,5 +1,6 @@
 import {
   testCreateOne,
+  testDeleteOne,
   testReadAll,
   testReadOne,
   testStartOne
@@ -14,6 +15,7 @@ import {
 
 export interface TestEndpoints {
   createOne(body: TestRequest): Promise<TestCreateOneResponse>;
+  deleteOne(testId: string): Promise<undefined>;
   readAll(): Promise<TestReadAllResponse>;
   readOne(testId: string): Promise<TestReadOneResponse>;
   startOne(testId: string, title?: string, description?: string): Promise<TestStartOneResponse>;
@@ -21,6 +23,10 @@ export interface TestEndpoints {
 
 export const tests = (): TestEndpoints => ({
   createOne: (body) => testCreateOne({ body }),
+  deleteOne: (testId) =>
+    testDeleteOne({
+      pathParams: { testId }
+    }),
   readAll: () => testReadAll({}),
   readOne: (testId) =>
     testReadOne({

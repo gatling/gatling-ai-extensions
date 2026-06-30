@@ -35,46 +35,8 @@ const testsCreateOneArgs = {
   }
 };
 
-describe("tests.create_one", () => {
-  it("should fail when called with an api token with insufficient permissions", async () => {
-    const result = await mcpToolCall({
-      tool: "tests.create_one",
-      apiToken: "start",
-      args: testsCreateOneArgs
-    });
-
-    expect(result).toEqual({
-      content: [
-        {
-          text: "POST /v2/tests returned status 403: the API token does not have sufficient privileges",
-          type: "text"
-        }
-      ],
-      isError: true
-    });
-  });
-  it("should fail when called with partial inputs", async () => {
-    const { execution: _, ...partialTestsCreateOneArgs } = testsCreateOneArgs;
-    const result = await mcpToolCall({
-      tool: "tests.create_one",
-      apiToken: "configure",
-      args: partialTestsCreateOneArgs
-    });
-
-    expect(result).toEqual({
-      content: [
-        {
-          text: 'MCP error -32602: Input validation error: Invalid arguments for tool tests.create_one: [\n  {\n    "expected": "object",\n    "code": "invalid_type",\n    "path": [\n      "execution"\n    ],\n    "message": "Invalid input: expected object, received undefined"\n  }\n]',
-          type: "text"
-        }
-      ],
-      isError: true
-    });
-  });
-});
-
-describe("tests.create_one", () => {
-  it("should succeed with proper inputs", async () => {
+describe("tests.delete_one", () => {
+  beforeAll(async () => {
     const result = await mcpToolCall({
       tool: "tests.create_one",
       apiToken: "configure",
@@ -95,7 +57,26 @@ describe("tests.create_one", () => {
     testId = result.structuredContent.data._id;
     console.log("Created test with Id", testId);
   });
-  afterAll(async () => {
+  it("should fail when called with an api token with insufficient permissions", async () => {
+    const result = await mcpToolCall({
+      tool: "tests.delete_one",
+      apiToken: "start",
+      args: {
+        testId
+      }
+    });
+
+    expect(result).toEqual({
+      content: [
+        {
+          text: "DELETE /v2/tests/{testId} returned status 403: the API token does not have sufficient privileges",
+          type: "text"
+        }
+      ],
+      isError: true
+    });
+  });
+  it("should successfully delete one test", async () => {
     const result = await mcpToolCall({
       tool: "tests.delete_one",
       apiToken: "configure",
