@@ -13,6 +13,7 @@ import * as runsReadReportRequests from "./runs/readReportRequests.js";
 import * as runsReadRunLogs from "./runs/readRunLogs.js";
 import * as teamsReadAll from "./teams/readAll.js";
 import * as testsCreateOne from "./tests/createOne.js";
+import * as testsDeleteOne from "./tests/deleteOne.js";
 import * as testsReadAll from "./tests/readAll.js";
 import * as testsReadOne from "./tests/readOne.js";
 import * as testsStartOne from "./tests/startOne.js";
@@ -147,7 +148,6 @@ export const tools: Array<Tool<any, any>> = [
 
   // Tests
 
-  // tests.create_one
   {
     name: "tests.create_one",
     config: {
@@ -164,7 +164,21 @@ export const tools: Array<Tool<any, any>> = [
     },
     callback: testsCreateOne.callback
   },
-  // tests.delete_one
+  {
+    name: "tests.delete_one",
+    config: {
+      title: "Delete the specified test",
+      description: "",
+      inputSchema: testsDeleteOne.InputSchema,
+      annotations: {
+        readOnlyHint: false,
+        destructiveHint: true,
+        idempotentHint: true,
+        openWorldHint: false
+      }
+    },
+    callback: testsDeleteOne.callback
+  },
   // tests.patch_one
   {
     name: "tests.read_all",
