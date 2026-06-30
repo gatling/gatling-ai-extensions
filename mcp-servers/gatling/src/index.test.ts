@@ -3,66 +3,86 @@ import process from "node:process";
 
 const debug = process.env.DEBUG !== undefined;
 
-interface JsonRpcMessageFunction {
-  (method: string, id?: number, params?: Record<string, any>): string;
+interface JsonRpcMessageArgs {
+  method: string;
+  id?: number;
+  params?: Record<string, any>;
 }
 
-const jsonRpcMessage: JsonRpcMessageFunction = (method, id, params) => {
+interface JsonRpcMessageFunction {
+  (args: JsonRpcMessageArgs): string;
+}
+
+const jsonRpcMessage: JsonRpcMessageFunction = (messageArgs) => {
   const message = {
     jsonrpc: "2.0",
-    id: method == "tools/call" ? 2 : 1
+    ...messageArgs
   };
 
   return JSON.stringify(message);
 };
 
 const messages = {
-  initialized:
-    '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-11-25","capabilities":{"roots":{"listChanged":true},"sampling":{},"elicitation":{"form":{},"url":{}},"tasks":{"requests":{"elicitation":{"create":{}},"sampling":{"createMessage":{}}}}}}}',
-  notificationsInitialized: '{"jsonrpc":"2.0","method":"notifications/initialized"}',
-  toolsList: '{"jsonrpc":"2.0","id":1,"method":"tools/list","params":{}}',
+  initialize: jsonRpcMessage({
+    method: "initialize",
+    id: 0,
+    params: {
+      protocolVersion: "2025-11-25",
+      capabilities: {},
+      clientInfo: {
+        "name": "jest",
+        "version": "0.0.0"
+      }
+    }
+  }),
+  notificationsInitialized: jsonRpcMessage({ method: "notifications/initialized" }),
+  toolsList: jsonRpcMessage({ method: "tools/list", id: 1, params: {} }),
   // TODO z schema?
   toolCall: (name: string, args?: Record<string, any>) => {
-    return (
-      '{"jsonrpc":"2.0","id":2,"method":"tools/call","params":{"name":"' +
-      name +
-      '","arguments":' +
-      (args ? JSON.stringify(args) : "{}") +
-      "}}"
-    );
+    return jsonRpcMessage({
+      method: "tools/call",
+      id: 2,
+      params: {
+        name,
+        arguments: args ? args : {}
+      }
+    });
   }
 };
 
-const Start = 0;
-const Initialized = 1;
-const ToolsListed = 2;
-const ToolCalled = 3;
-
-interface McpToolCallArgs {
+export interface McpToolCallArgs {
   tool: string;
-  apiToken?: string | null; // null: use env, undefined: don't use any
+  apiToken: "none" | "invalid" | "read" | "start" | "configure" | "administrate";
   args?: Record<string, any>;
 }
 
-interface McpToolCallResult {
-  content: Array<{ type: "text", text: string }>,
-  structuredContent?: Record<string, any>
+export interface McpToolCallResult {
+  content: Array<{ type: "text"; text: string }>;
+  structuredContent?: Record<string, any>;
 }
 
-interface McpToolCallFunction {
+export interface McpToolCallFunction {
   (args: McpToolCallArgs): Promise<McpToolCallResult>;
 }
 
-const mcpToolCall: McpToolCallFunction = ({ tool, apiToken, args }) => {
+enum McpClientState {
+  Uninitialized = -1,
+  Start = 0,
+  Initialized = 1,
+  ToolsListed = 2,
+  ToolCalled = 3
+}
+
+export const mcpToolCall: McpToolCallFunction = ({ tool, apiToken, args }) => {
   return new Promise((resolve, reject) => {
-    let state = -1;
+    let state = McpClientState.Uninitialized;
 
     const effectiveApiToken =
-      apiToken === null
+      apiToken === "none"
         ? undefined
-        : apiToken === undefined
-          ? process.env.GATLING_ENTERPRISE_API_TOKEN
-          : apiToken;
+        : apiToken === "invalid"
+          ? "invalid api token"
+          : process.env["GATLING_ENTERPRISE_API_TOKEN_" + apiToken.toUpperCase()];
 
     const env: Record<string, string | undefined> = {
       ...process.env,
@@ -74,24 +94,41 @@ const mcpToolCall: McpToolCallFunction = ({ tool, apiToken, args }) => {
       detached: true
     });
 
+    child.on("error", (error) => {
+      reject(error);
+    });
+
     const send = (data: string) => {
+      if (debug) {
+        console.log("send", data);
+      }
+
       child.stdin.write(data);
       child.stdin.write("\n");
     };
 
     child.stderr.on("data", (data: any) => {
+      if (debug) {
+        console.error("stderr.data", data.toString());
+      }
+
       resolve(data);
     });
 
     child.stdout.on("data", (data: any) => {
-      if (state === Start) {
-        send(messages.initialized);
-      } else if (state === Initialized) {
+      if (debug) {
+        console.log("state", state);
+        console.log("stdout.data", data.toString());
+      }
+
+      if (state === McpClientState.Start) {
+        send(messages.initialize);
+      } else if (state === McpClientState.Initialized) {
         send(messages.notificationsInitialized);
         send(messages.toolsList);
-      } else if (state === ToolsListed) {
+      } else if (state === McpClientState.ToolsListed) {
         send(messages.toolCall(tool, args));
-      } else if (state === ToolCalled) {
+      } else if (state === McpClientState.ToolCalled) {
         const json = JSON.parse(data.toString());
         if (debug) {
           console.log("tool called result", json.result);
@@ -106,78 +143,3 @@ const mcpToolCall: McpToolCallFunction = ({ tool, apiToken, args }) => {
     });
   });
 };
-
-describe("API token tests", () => {
-  test("Missing API token", async () => {
-    const result = await mcpToolCall({
-      apiToken: null,
-      tool: "tests.read_all"
-    });
-
-    expect(result.content[0].text).toBe(
-      "A Gatling Enterprise API token must be configured using the GATLING_ENTERPRISE_API_TOKEN environment variable"
-    );
-  });
-  test("Missing API token", async () => {
-    const result = await mcpToolCall({
-      apiToken: "invalid api token",
-      tool: "tests.read_all"
-    });
-
-    expect(result.content[0].text).toBe("GET /v2/tests returned status 401: the API token is invalid");
-  });
-  test("Good API token", async () => {
-    const result = await mcpToolCall({
-      tool: "tests.read_all"
-    });
-
-    expect(result.structuredContent).toBeDefined();
-    // @ts-ignore
-    expect(result.structuredContent.data).toBeDefined();
-    // @ts-ignore
-    expect(result.structuredContent.data[0].name).toBe("[R&D] build failure - simulation not found");
-  });
-  test("Good API token but not enough permissions", async () => {
-    const testsCreateOneArgs = {
-      name: "[R&D] sample test",
-      distribution: {
-        loadGenerators: [
-          {
-            locationId: "prl_rnd_x86_zulu25",
-            instance: {
-              count: 1
-            }
-          }
-        ]
-      },
-      execution: {
-        meaningfulTimeWindow: {
-          rampUpSeconds: 0,
-          rampDownSeconds: 0
-        },
-        systemProperties: {},
-        environmentVariables: {},
-        ignoreGlobalProperties: false,
-        stopCriteria: []
-      },
-      source: {
-        sourceRepositoryId: "source_repository_4a5koo6p8irz3nmug6o9yknwde",
-        buildTool: {
-          type: "maven"
-        },
-        workingDirectory: "simulations/dummy",
-        simulation: "example.BasicSimulation",
-        type: "build_from_sources"
-      }
-    };
-
-    const result = await mcpToolCall({
-      tool: "tests.create_one",
-      args: testsCreateOneArgs
-    });
-
-    expect(result.content[0].text).toBe(
-      "POST /v2/tests returned status 403: the API token does not have sufficient privileges"
-    );
-  });
-});

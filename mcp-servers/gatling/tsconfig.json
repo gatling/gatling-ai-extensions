@@ -15,10 +15,13 @@
     "forceConsistentCasingInFileNames": true,
     "module": "nodenext",
     "moduleResolution": "node16",
+    "paths": {
+      "@src/*": ["./src/*"]
+    },
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "strict": true,
-    "types": ["jest"]
+    "types": ["jest", "node"]
   },
   "include": ["src/**/*.ts"],
   "exclude": ["node_modules"]
