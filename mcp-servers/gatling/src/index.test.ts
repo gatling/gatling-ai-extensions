@@ -30,8 +30,8 @@ const messages = {
       protocolVersion: "2025-11-25",
       capabilities: {},
       clientInfo: {
-        "name": "jest",
-        "version": "0.0.0"
+        name: "jest",
+        version: "0.0.0"
       }
     }
   }),

@@ -13,15 +13,15 @@ import {
 export interface TestEndpoints {
   createOne(body: TestRequest): Promise<TestCreateOneResponse>;
   readAll(): Promise<TestReadAllResponse>;
-  startOne(testId: string): Promise<TestStartOneResponse>;
+  startOne(testId: string, title?: string, description?: string): Promise<TestStartOneResponse>;
 }
 
 export const tests = (): TestEndpoints => ({
   createOne: (body) => testCreateOne({ body }),
   readAll: () => testReadAll({}),
-  startOne: (testId: string) =>
+  startOne: (testId: string, title?: string, description?: string) =>
     testStartOne({
-      body: {},
+      body: { title, description },
       pathParams: { testId }
     })
 });
