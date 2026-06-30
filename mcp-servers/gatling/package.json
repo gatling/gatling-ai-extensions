@@ -39,7 +39,7 @@
     "format": "prettier --write '**/*.ts'",
     "format-check": "prettier --check '**/*.ts'",
     "start": "npm run build && GATLING_USE_DEV_ENV_ANALYTICS=true ./target/index.js",
-    "test": "jest"
+    "test": "jest --runInBand"
   },
   "dependencies": {
     "@actions/http-client": "4.0.1",
