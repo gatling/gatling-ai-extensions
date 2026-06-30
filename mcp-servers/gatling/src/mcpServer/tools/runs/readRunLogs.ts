@@ -1,6 +1,6 @@
 import * as z from "zod";
 
-import { apiClient } from "../../../apiClient/index.js";
+import { apiClient } from "@src/apiClient/index.js";
 import { ToolCallback } from "../index.js";
 
 export const InputSchema = z.object({
