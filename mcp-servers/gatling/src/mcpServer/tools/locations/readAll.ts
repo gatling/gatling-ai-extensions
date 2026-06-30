@@ -1,7 +1,7 @@
 import * as z from "zod";
 
-import { apiClient } from "../../../apiClient/index.js";
-import { isManagedLocation, isPrivateLocation } from "../../../apiClient/locations.js";
+import { apiClient } from "@src/apiClient/index.js";
+import { isManagedLocation, isPrivateLocation } from "@src/apiClient/locations.js";
 import { ToolCallback } from "../index.js";
 
 export const OutputSchema = z.object({
