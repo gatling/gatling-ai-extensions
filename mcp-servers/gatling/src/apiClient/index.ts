@@ -1,5 +1,3 @@
-import { HttpClient } from "@actions/http-client";
-
 import { LocationEndpoints, locations } from "./locations.js";
 import { PackageEndpoints, packages } from "./packages.js";
 import { TeamEndpoints, teams } from "./teams.js";
@@ -14,11 +12,10 @@ export interface ApiClient {
   runs: RunsEndpoints;
 }
 
-const client = new HttpClient();
 export const apiClient: ApiClient = {
   locations: locations(),
-  packages: packages(client),
-  teams: teams(client),
+  packages: packages(),
+  teams: teams(),
   tests: tests(),
   runs: runs()
 };

@@ -1,7 +1,7 @@
 import * as z from "zod";
 
 import { apiClient } from "@src/apiClient/index.js";
-import { PackageItemResponse } from "@src/apiClient/packages.js";
+import { PackageItemResponse } from "@src/apiClientGenerated/gatlingEnterpriseSchemas.js";
 import { ToolCallback } from "../index.js";
 
 export const PackageSchema = z.object({
