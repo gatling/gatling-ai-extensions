@@ -15,6 +15,9 @@
     "forceConsistentCasingInFileNames": true,
     "module": "nodenext",
     "moduleResolution": "node16",
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    //"noUnusedParameters": true,
     "paths": {
       "@src/*": ["./src/*"]
     },
