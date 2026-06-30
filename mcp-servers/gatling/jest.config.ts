@@ -14,7 +14,7 @@ export default {
   modulePathIgnorePatterns: ["src/index.test.ts"],
   testEnvironment: "node",
   transform: {
-    ...tsJestTransformCfg,
+    ...tsJestTransformCfg
   },
   rootDir: "src"
 } satisfies Config;
