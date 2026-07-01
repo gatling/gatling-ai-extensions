@@ -1,6 +1,6 @@
 import * as z from "zod";
 
-import { apiClient } from "@src/apiClient/index.js";
+import { testCreateOne } from "@src/apiClientGenerated/gatlingEnterpriseComponents.js";
 import { ToolCallback } from "../index.js";
 
 export const LoadGeneratorSchema = z.object({
@@ -115,7 +115,12 @@ export const OutputSchema = z.object({
 export type OutputSchema = z.infer<typeof OutputSchema>;
 
 export const callback: ToolCallback<InputSchema> = async (args: InputSchema) => {
-  const structuredContent: OutputSchema = await apiClient.tests.createOne(args);
+  const response = await testCreateOne({ body: args });
+  const structuredContent: OutputSchema = {
+    data: {
+      ...response.data
+    }
+  }
   return {
     content: [{ type: "text", text: JSON.stringify(structuredContent) }],
     structuredContent

@@ -1,6 +1,6 @@
 import * as z from "zod";
 
-import { apiClient } from "@src/apiClient/index.js";
+import { testDeleteOne } from "@src/apiClientGenerated/gatlingEnterpriseComponents.js";
 import { ToolCallback } from "../index.js";
 
 export const InputSchema = z.object({
@@ -9,7 +9,7 @@ export const InputSchema = z.object({
 export type InputSchema = z.infer<typeof InputSchema>;
 
 export const callback: ToolCallback<InputSchema> = async ({ testId }: InputSchema) => {
-  await apiClient.tests.deleteOne(testId);
+  await testDeleteOne({ pathParams: { testId } });
   return {
     content: [{ type: "text", text: "Test successfully deleted" }]
   };

@@ -30,7 +30,7 @@ describe("tests.start_one", () => {
       isError: true
     });
   });
-  it.skip("should fail when called within a team that has insufficient credits", async () => {
+  it("should fail when called within a team that has insufficient credits", async () => {
     const result = await mcpToolCall({
       tool: "tests.start_one",
       apiToken: "start",
@@ -65,31 +65,29 @@ describe("tests.start_one", () => {
       isError: true
     });
   });
-  it.skip("should succeed with proper inputs", async () => {
+  it("should succeed with proper inputs", async () => {
     const result = await mcpToolCall({
       tool: "tests.start_one",
       apiToken: "start",
       args: testsStartOneArgs
     });
 
-    expect(result.structuredContent).toEqual(
-      expect.objectContaining({
-        data: expect.objectContaining({
-          _configuration: expect.objectContaining({
-            simulation: "[R&D] dummy test",
-            testId: testsStartOneArgs.testId
-          }),
-          description: testsStartOneArgs.description,
-          title: testsStartOneArgs.title
+    expect(result.structuredContent).toEqual({
+      data: expect.objectContaining({
+        _configuration: expect.objectContaining({
+          simulation: "[R&D] dummy test",
+          testId: testsStartOneArgs.testId
         }),
-        metadata: {
-          urls: {
-            run: expect.stringMatching(
-              `^https://cloud.dev.gatling.io/o/testing-hour-rd/simulations/${testsStartOneArgs.testId}/runs/run_[a-z0-9]+$`
-            )
-          }
+        description: testsStartOneArgs.description,
+        title: testsStartOneArgs.title
+      }),
+      metadata: {
+        urls: {
+          run: expect.stringMatching(
+            `^https://cloud.dev.gatling.io/o/testing-hour-rd/simulations/${testsStartOneArgs.testId}/runs/run_[a-z0-9]+$`
+          )
         }
-      })
-    );
+      }
+    });
   });
 });

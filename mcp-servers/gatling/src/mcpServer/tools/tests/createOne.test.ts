@@ -81,15 +81,13 @@ describe("tests.create_one", () => {
       args: testsCreateOneArgs
     });
 
-    expect(result.structuredContent).toEqual(
-      expect.objectContaining({
-        data: expect.objectContaining({
-          _id: expect.stringMatching("test_[a-z0-9]+"),
-          _type: "test",
-          name: "[R&D] sample test"
-        })
+    expect(result.structuredContent).toEqual({
+      data: expect.objectContaining({
+        _id: expect.stringMatching("test_[a-z0-9]+"),
+        _type: "test",
+        name: "[R&D] sample test"
       })
-    );
+    });
 
     // @ts-ignore
     testId = result.structuredContent.data._id;

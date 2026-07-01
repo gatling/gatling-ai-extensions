@@ -1,8 +1,12 @@
 import * as z from "zod";
 
-import { apiClient } from "@src/apiClient/index.js";
-import { isManagedLocation, isPrivateLocation } from "@src/apiClient/locations.js";
+import { locationReadAll } from "@src/apiClientGenerated/gatlingEnterpriseComponents.js";
 import { ToolCallback } from "../index.js";
+import {
+  LocationItemResponse,
+  ManagedLocationItemResponse,
+  PrivateLocationItemResponse
+} from "@src/apiClientGenerated/gatlingEnterpriseSchemas.js";
 
 export const OutputSchema = z.object({
   managedLocations: z.array(z.string()),
@@ -17,7 +21,7 @@ export const OutputSchema = z.object({
 export type OutputSchema = z.infer<typeof OutputSchema>;
 
 export const callback: ToolCallback<undefined> = async () => {
-  const response = await apiClient.locations.readAll();
+  const response = await locationReadAll({});
   const privateLocations = response.data.flatMap((item) => {
     if (isPrivateLocation(item)) {
       return [
@@ -49,3 +53,11 @@ export const callback: ToolCallback<undefined> = async () => {
     structuredContent
   };
 };
+
+const isPrivateLocation = (
+  location: LocationItemResponse
+): location is PrivateLocationItemResponse => location._type === "private_location";
+
+const isManagedLocation = (
+  location: LocationItemResponse
+): location is ManagedLocationItemResponse => location._type === "managed_location";
