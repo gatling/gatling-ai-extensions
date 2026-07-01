@@ -3,6 +3,7 @@ import { OutgoingHttpHeaders } from "node:http";
 import { HttpClient } from "@actions/http-client";
 
 import { config } from "../config.js";
+import { ErrorContent } from "@src/apiClientGenerated/gatlingEnterpriseSchemas.js";
 
 export type GatlingEnterpriseFetcherExtraProps = {
   /**
@@ -78,12 +79,39 @@ export const gatlingEnterpriseFetch = async <
   } else {
     let errorMessage;
     if (status === 401) {
+      // Unauthorized
       errorMessage = "the API token is invalid";
     } else if (status === 403) {
+      // Forbidden
       errorMessage = "the API token does not have sufficient privileges";
     } else {
+      // {
+      //   "code": "TEST_UPDATE_ERROR",
+      //   "message": "Could not update test 'test_uiphfk8rcfgyzmj3mqa8dnxdco'",
+      //   "reasons": [
+      //      {
+      //        "code": "TEST_INVALID_TOTAL_WEIGHTS_LOCATIONS",
+      //        "message": "Locations sum weight must be 100 (sum: 90)",
+      //        "values": {
+      //          "expected": "100",
+      //          "totalWeight": "90"
+      //        }
+      //      }
+      //    ],
+      //   "values": {
+      //     "testId": "test_uiphfk8rcfgyzmj3mqa8dnxdco"
+      //   }
+      // }
       try {
-        errorMessage = JSON.parse(responseBody).message;
+        const payload = JSON.parse(responseBody);
+        errorMessage = payload.message;
+
+        const reasons: ErrorContent[] | undefined = payload.reasons;
+        if (Array.isArray(reasons)) {
+          for (let reason of payload.reasons) {
+            errorMessage += `\n- ${reason.message}`;
+          }
+        }
       } catch (e) {
         errorMessage = responseBody;
       }
