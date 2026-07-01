@@ -14,6 +14,7 @@ import * as runsReadRunLogs from "./runs/readRunLogs.js";
 import * as teamsReadAll from "./teams/readAll.js";
 import * as testsCreateOne from "./tests/createOne.js";
 import * as testsDeleteOne from "./tests/deleteOne.js";
+import * as testsPatchOne from "./tests/patchOne.js";
 import * as testsReadAll from "./tests/readAll.js";
 import * as testsReadOne from "./tests/readOne.js";
 import * as testsStartOne from "./tests/startOne.js";
@@ -179,7 +180,22 @@ export const tools: Array<Tool<any, any>> = [
     },
     callback: testsDeleteOne.callback
   },
-  // tests.patch_one
+  {
+    name: "tests.patch_one",
+    config: {
+      title: "Patch the details of the specified test",
+      description: "",
+      inputSchema: testsPatchOne.InputSchema,
+      outputSchema: testsPatchOne.OutputSchema,
+      annotations: {
+        readOnlyHint: false,
+        destructiveHint: true,
+        idempotentHint: true,
+        openWorldHint: false
+      }
+    },
+    callback: testsPatchOne.callback
+  },
   {
     name: "tests.read_all",
     config: {

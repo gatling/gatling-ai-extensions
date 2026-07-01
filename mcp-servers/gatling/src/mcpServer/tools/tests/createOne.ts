@@ -90,7 +90,6 @@ export const SourceDetailsSchema = z.discriminatedUnion("type", [
     packageId: z.string(),
     simulation: z.string()
   }),
-
   z.object({
     // FIXME ???
     type: z.literal("no_code"),
@@ -120,7 +119,7 @@ export const callback: ToolCallback<InputSchema> = async (args: InputSchema) => 
     data: {
       ...response.data
     }
-  }
+  };
   return {
     content: [{ type: "text", text: JSON.stringify(structuredContent) }],
     structuredContent
