@@ -1,6 +1,6 @@
 import * as z from "zod";
 
-import { apiClient } from "@src/apiClient/index.js";
+import { teamReadAll } from "@src/apiClientGenerated/gatlingEnterpriseComponents.js";
 import { ToolCallback } from "../index.js";
 
 export const OutputSchema = z.object({
@@ -22,7 +22,7 @@ export const OutputSchema = z.object({
 export type OutputSchema = z.infer<typeof OutputSchema>;
 
 export const callback: ToolCallback<undefined> = async () => {
-  const response = await apiClient.teams.readAll();
+  const response = await teamReadAll();
   const structuredContent: OutputSchema = {
     data: response.data.map((item) => ({
       name: item.name,

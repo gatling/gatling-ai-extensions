@@ -1,6 +1,6 @@
 import * as z from "zod";
 
-import { apiClient } from "@src/apiClient/index.js";
+import { testReadOne } from "@src/apiClientGenerated/gatlingEnterpriseComponents.js";
 import { ToolCallback } from "../index.js";
 
 export const InputSchema = z.object({
@@ -14,7 +14,7 @@ export const OutputSchema = z.object({
 export type OutputSchema = z.infer<typeof OutputSchema>;
 
 export const callback: ToolCallback<InputSchema> = async ({ testId }: InputSchema) => {
-  const response = await apiClient.tests.readOne(testId);
+  const response = await testReadOne({ pathParams: { testId } });
   const structuredContent: OutputSchema = {
     data: {
       ...response.data

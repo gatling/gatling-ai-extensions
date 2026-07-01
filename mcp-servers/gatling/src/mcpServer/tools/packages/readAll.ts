@@ -1,6 +1,6 @@
 import * as z from "zod";
 
-import { apiClient } from "@src/apiClient/index.js";
+import { packageReadAll } from "@src/apiClientGenerated/gatlingEnterpriseComponents.js";
 import { PackageItemResponse } from "@src/apiClientGenerated/gatlingEnterpriseSchemas.js";
 import { ToolCallback } from "../index.js";
 
@@ -19,7 +19,7 @@ export const OutputSchema = z.object({
 export type OutputSchema = z.infer<typeof OutputSchema>;
 
 export const callback: ToolCallback<undefined> = async () => {
-  const response = await apiClient.packages.readAll();
+  const response = await packageReadAll();
   const mapItem = (item: PackageItemResponse): PackageSchema => ({
     name: item.name,
     teamId: item.teamId,
