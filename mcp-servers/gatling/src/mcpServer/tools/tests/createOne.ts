@@ -89,11 +89,6 @@ export const SourceDetailsSchema = z.discriminatedUnion("type", [
     type: z.literal("packaged"),
     packageId: z.string(),
     simulation: z.string()
-  }),
-  z.object({
-    // FIXME ???
-    type: z.literal("no_code"),
-    teamId: z.string()
   })
 ]);
 export type SourceDetailsSchema = z.infer<typeof SourceDetailsSchema>;
