@@ -10,9 +10,9 @@ describe("packages.read_all", () => {
     expect(result.structuredContent).toEqual({
       managedPackages: expect.arrayContaining([
         {
+          name: "Gatling JS demo",
           _format: "js",
           _id: "package_xey3rapg5ifm7d7qor4qs4u1we",
-          name: "Gatling JS demo",
           teamId: "team_iqay6s6s3tnj7kd41tthkfq3kh"
         }
       ]),
