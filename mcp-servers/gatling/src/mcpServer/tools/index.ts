@@ -11,6 +11,8 @@ import * as locationsReadAll from "./locations/readAll.js";
 import * as packagesReadAll from "./packages/readAll.js";
 import * as runsReadReportRequests from "./runs/readReportRequests.js";
 import * as runsReadRunLogs from "./runs/readRunLogs.js";
+import * as sourceRepositoriesCreateOne from "./sourceRepositories/createOne.js";
+import * as sourceRepositoriesDeleteOne from "./sourceRepositories/deleteOne.js";
 import * as sourceRepositoriesReadAll from "./sourceRepositories/readAll.js";
 import * as sourceRepositoriesReadOne from "./sourceRepositories/readOne.js";
 import * as teamsReadAll from "./teams/readAll.js";
@@ -123,8 +125,37 @@ Require the Read role on the run's simulation's team`,
 
   // Source Repositories
 
-  // source_repositories.create_one
-  // source_repositories.delete_one
+  {
+    name: "source_repositories.create_one",
+    config: {
+      title: "Create a new Source Repository",
+      description: "Require the Configure role on the target team",
+      inputSchema: sourceRepositoriesCreateOne.InputSchema,
+      outputSchema: sourceRepositoriesCreateOne.OutputSchema,
+      annotations: {
+        readOnlyHint: false,
+        destructiveHint: false,
+        idempotentHint: false,
+        openWorldHint: false
+      }
+    },
+    callback: sourceRepositoriesCreateOne.callback
+  },
+  {
+    name: "source_repositories.delete_one",
+    config: {
+      title: "Delete the specified Source Repository",
+      description: "Require the Configure role on the source repository's team",
+      inputSchema: sourceRepositoriesDeleteOne.InputSchema,
+      annotations: {
+        readOnlyHint: false,
+        destructiveHint: true,
+        idempotentHint: true,
+        openWorldHint: false
+      }
+    },
+    callback: sourceRepositoriesDeleteOne.callback
+  },
   {
     name: "source_repositories.read_all",
     config: {
@@ -145,7 +176,8 @@ Require the Read role on the run's simulation's team`,
     name: "source_repositories.read_one",
     config: {
       title: "List all the Source Repositories that can be seen by the API token",
-      description: "Require at least the Read role on a team to see its source repositories; others are omitted",
+      description:
+        "Require at least the Read role on a team to see its source repositories; others are omitted",
       inputSchema: sourceRepositoriesReadOne.InputSchema,
       outputSchema: sourceRepositoriesReadOne.OutputSchema,
       annotations: {

@@ -13,7 +13,7 @@ describe("packages.read_all", () => {
           name: "Gatling JS demo",
           _format: "js",
           _id: "package_xey3rapg5ifm7d7qor4qs4u1we",
-          teamId: "team_iqay6s6s3tnj7kd41tthkfq3kh"
+          teamId: "team_i5ofi3qru3d9jfapb1s68m3hao"
         }
       ]),
       privatePackages: []
