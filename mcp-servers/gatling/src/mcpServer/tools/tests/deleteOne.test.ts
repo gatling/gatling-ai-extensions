@@ -25,7 +25,7 @@ const testsCreateOneArgs = {
     stopCriteria: []
   },
   source: {
-    sourceRepositoryId: "source_repository_4a5koo6p8irz3nmug6o9yknwde",
+    sourceRepositoryId: "source_repository_8y9hr9taji848jr8qecdpa9m6w",
     buildTool: {
       type: "maven"
     },
@@ -43,12 +43,14 @@ describe("tests.delete_one", () => {
       args: testsCreateOneArgs
     });
 
-    expect(result.structuredContent).toEqual(
+    expect(result).toEqual(
       expect.objectContaining({
-        data: expect.objectContaining({
-          name: "[R&D] sample test",
-          _id: expect.stringMatching("test_[a-z0-9]+"),
-          _type: "test"
+        structuredContent: expect.objectContaining({
+          data: expect.objectContaining({
+            name: "[R&D] sample test",
+            _id: expect.stringMatching("test_[a-z0-9]+"),
+            _type: "test"
+          })
         })
       })
     );

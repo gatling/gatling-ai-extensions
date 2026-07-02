@@ -11,12 +11,16 @@ describe("source_repositories.read_one", () => {
       }
     });
 
-    expect(result.structuredContent).toEqual({
-      data: expect.objectContaining({
-        name: "Gatling JS demo",
-        _id: sourceRepositoryId,
-        _type: "source_repository"
+    expect(result).toEqual(
+      expect.objectContaining({
+        structuredContent: expect.objectContaining({
+          data: expect.objectContaining({
+            name: "Gatling JS demo",
+            _id: sourceRepositoryId,
+            _type: "source_repository"
+          })
+        })
       })
-    });
+    );
   });
 });

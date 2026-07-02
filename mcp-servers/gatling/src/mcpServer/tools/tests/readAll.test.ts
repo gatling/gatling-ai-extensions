@@ -7,12 +7,16 @@ describe("tests.read_all", () => {
       apiToken: "read"
     });
 
-    expect(result.structuredContent).toEqual({
-      data: expect.arrayContaining([
-        expect.objectContaining({
-          name: "[R&D] dummy test"
+    expect(result).toEqual(
+      expect.objectContaining({
+        structuredContent: expect.objectContaining({
+          data: expect.arrayContaining([
+            expect.objectContaining({
+              name: "[R&D] dummy test"
+            })
+          ])
         })
-      ])
-    });
+      })
+    );
   });
 });

@@ -7,14 +7,18 @@ describe("teams.read_all", () => {
       apiToken: "read"
     });
 
-    expect(result.structuredContent).toEqual({
-      data: expect.arrayContaining([
-        expect.objectContaining({
-          name: "Jest",
-          _id: "team_i5ofi3qru3d9jfapb1s68m3hao",
-          _limits: {}
+    expect(result).toEqual(
+      expect.objectContaining({
+        structuredContent: expect.objectContaining({
+          data: expect.arrayContaining([
+            expect.objectContaining({
+              name: "Jest",
+              _id: "team_i5ofi3qru3d9jfapb1s68m3hao",
+              _limits: {}
+            })
+          ])
         })
-      ])
-    });
+      })
+    );
   });
 });

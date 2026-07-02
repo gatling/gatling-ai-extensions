@@ -7,12 +7,16 @@ describe("source_repositories.read_all", () => {
       apiToken: "read"
     });
 
-    expect(result.structuredContent).toEqual({
-      data: expect.arrayContaining([
-        expect.objectContaining({
-          name: "Gatling JS demo"
+    expect(result).toEqual(
+      expect.objectContaining({
+        structuredContent: expect.objectContaining({
+          data: expect.arrayContaining([
+            expect.objectContaining({
+              name: "Gatling JS demo"
+            })
+          ])
         })
-      ])
-    });
+      })
+    );
   });
 });
