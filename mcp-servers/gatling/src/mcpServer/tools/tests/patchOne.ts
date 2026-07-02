@@ -99,10 +99,6 @@ export const SourceDetailsSchema = z.union([
     type: z.literal("packaged").optional(),
     packageId: z.string().optional(),
     simulation: z.string().optional()
-  }),
-  z.object({
-    type: z.literal("no_code").optional(),
-    teamId: z.string().optional()
   })
 ]);
 export type SourceDetailsSchema = z.infer<typeof SourceDetailsSchema>;
@@ -174,7 +170,6 @@ export const callback: ToolCallback<InputSchema> = async ({ testId, patch }: Inp
       branch: patchField(patch.source?.branch, source.branch)
     };
     // TODO packages
-    // TODO no_code
   } else if (typeof patch.source === "undefined") {
     patchedSource = source;
   } else {
