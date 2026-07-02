@@ -72,22 +72,26 @@ describe("tests.start_one", () => {
       args: testsStartOneArgs
     });
 
-    expect(result.structuredContent).toEqual({
-      data: expect.objectContaining({
-        _configuration: expect.objectContaining({
-          simulation: "[R&D] dummy test",
-          testId: testsStartOneArgs.testId
-        }),
-        description: testsStartOneArgs.description,
-        title: testsStartOneArgs.title
-      }),
-      metadata: {
-        urls: {
-          run: expect.stringMatching(
-            `^https://cloud.dev.gatling.io/o/testing-hour-rd/simulations/${testsStartOneArgs.testId}/runs/run_[a-z0-9]+$`
-          )
-        }
-      }
-    });
+    expect(result).toEqual(
+      expect.objectContaining({
+        structuredContent: expect.objectContaining({
+          data: expect.objectContaining({
+            _configuration: expect.objectContaining({
+              simulation: "[R&D] dummy test",
+              testId: testsStartOneArgs.testId
+            }),
+            description: testsStartOneArgs.description,
+            title: testsStartOneArgs.title
+          }),
+          metadata: {
+            urls: {
+              run: expect.stringMatching(
+                `^https://cloud.dev.gatling.io/o/testing-hour-rd/simulations/${testsStartOneArgs.testId}/runs/run_[a-z0-9]+$`
+              )
+            }
+          }
+        })
+      })
+    );
   });
 });

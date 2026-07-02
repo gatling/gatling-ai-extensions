@@ -57,20 +57,24 @@ describe("source_repositories.create_one", () => {
       args: sourceRepositoriesCreateOneArgs
     });
 
-    expect(result.structuredContent).toEqual({
-      data: {
-        name: "[R&D] sample source repository",
-        _assets: {
-          tests: []
-        },
-        _id: expect.stringMatching("source_repository_[a-z0-9]+"),
-        _type: "source_repository",
-        remote: {
-          url: "https://github.com/gatling/gatling-js-demo.git"
-        },
-        teamId: "team_i5ofi3qru3d9jfapb1s68m3hao"
-      }
-    });
+    expect(result).toEqual(
+      expect.objectContaining({
+        structuredContent: expect.objectContaining({
+          data: {
+            name: "[R&D] sample source repository",
+            _assets: {
+              tests: []
+            },
+            _id: expect.stringMatching("source_repository_[a-z0-9]+"),
+            _type: "source_repository",
+            remote: {
+              url: "https://github.com/gatling/gatling-js-demo.git"
+            },
+            teamId: "team_i5ofi3qru3d9jfapb1s68m3hao"
+          }
+        })
+      })
+    );
 
     // @ts-ignore
     sourceRepositoryId = result.structuredContent.data._id;

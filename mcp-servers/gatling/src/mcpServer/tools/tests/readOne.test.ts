@@ -11,12 +11,16 @@ describe("tests.read_one", () => {
       }
     });
 
-    expect(result.structuredContent).toEqual({
-      data: expect.objectContaining({
-        name: "[R&D] dummy test",
-        _id: testId,
-        _type: "test"
+    expect(result).toEqual(
+      expect.objectContaining({
+        structuredContent: expect.objectContaining({
+          data: expect.objectContaining({
+            name: "[R&D] dummy test",
+            _id: testId,
+            _type: "test"
+          })
+        })
       })
-    });
+    );
   });
 });

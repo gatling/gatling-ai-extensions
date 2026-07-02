@@ -18,20 +18,22 @@ describe("source_repositories.delete_one", () => {
       args: sourceRepositoriesCreateOneArgs
     });
 
-    expect(result.structuredContent).toEqual(
+    expect(result).toEqual(
       expect.objectContaining({
-        data: {
-          name: "[R&D] sample source repository",
-          _assets: {
-            tests: []
-          },
-          _id: expect.stringMatching("source_repository_[a-z0-9]+"),
-          _type: "source_repository",
-          remote: {
-            url: "https://github.com/gatling/gatling-js-demo.git"
-          },
-          teamId: "team_i5ofi3qru3d9jfapb1s68m3hao"
-        }
+        structuredContent: expect.objectContaining({
+          data: {
+            name: "[R&D] sample source repository",
+            _assets: {
+              tests: []
+            },
+            _id: expect.stringMatching("source_repository_[a-z0-9]+"),
+            _type: "source_repository",
+            remote: {
+              url: "https://github.com/gatling/gatling-js-demo.git"
+            },
+            teamId: "team_i5ofi3qru3d9jfapb1s68m3hao"
+          }
+        })
       })
     );
 

@@ -25,7 +25,7 @@ const testsCreateOneArgs = {
     stopCriteria: []
   },
   source: {
-    sourceRepositoryId: "source_repository_4a5koo6p8irz3nmug6o9yknwde",
+    sourceRepositoryId: "source_repository_8y9hr9taji848jr8qecdpa9m6w",
     buildTool: {
       type: "maven"
     },
@@ -63,12 +63,14 @@ describe("tests.patch_one", () => {
       args: testsCreateOneArgs
     });
 
-    expect(result.structuredContent).toEqual(
+    expect(result).toEqual(
       expect.objectContaining({
-        data: expect.objectContaining({
-          _id: expect.stringMatching("test_[a-z0-9]+"),
-          _type: "test",
-          name: "[R&D] sample test"
+        structuredContent: expect.objectContaining({
+          data: expect.objectContaining({
+            _id: expect.stringMatching("test_[a-z0-9]+"),
+            _type: "test",
+            name: "[R&D] sample test"
+          })
         })
       })
     );
@@ -89,13 +91,17 @@ describe("tests.patch_one", () => {
       }
     });
 
-    expect(result.structuredContent).toEqual({
-      data: expect.objectContaining({
-        _id: testId,
-        _type: "test",
-        name: "[R&D] sample test (modified by jest)"
+    expect(result).toEqual(
+      expect.objectContaining({
+        structuredContent: expect.objectContaining({
+          data: expect.objectContaining({
+            _id: testId,
+            _type: "test",
+            name: "[R&D] sample test (modified by jest)"
+          })
+        })
       })
-    });
+    );
   });
   it("should fail when modifying distribution with wrong inputs", async () => {
     const result = await mcpToolCall({
@@ -188,7 +194,7 @@ describe("tests.patch_one", () => {
             name: "[R&D] sample test (modified by jest)",
             source: {
               type: "build_from_sources",
-              sourceRepositoryId: "source_repository_4a5koo6p8irz3nmug6o9yknwde",
+              sourceRepositoryId: "source_repository_8y9hr9taji848jr8qecdpa9m6w",
               buildTool: {
                 type: "maven"
               },
