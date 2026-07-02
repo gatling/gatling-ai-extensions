@@ -36,7 +36,7 @@ export const tools: Array<Tool<any, any>> = [
     name: "locations.read_all",
     config: {
       title: "List all the locations that can bee seen by the API token",
-      description: "",
+      description: "Require at least the Read role on any team",
       outputSchema: locationsReadAll.OutputSchema,
       annotations: {
         readOnlyHint: true,
@@ -57,7 +57,8 @@ export const tools: Array<Tool<any, any>> = [
     name: "packages.read_all",
     config: {
       title: "List all the packages that can be seen by the API token",
-      description: "",
+      description:
+        "Require at least the Read role on a team to see its packages; others are omitted",
       outputSchema: packagesReadAll.OutputSchema,
       annotations: {
         readOnlyHint: true,
@@ -81,7 +82,8 @@ export const tools: Array<Tool<any, any>> = [
     name: "runs.read_report_requests",
     config: {
       title: "Get per-request performance statistic for the specified Run",
-      description: "",
+      description: `Returns a tree: the root aggregates all requests, intermediate nodes are groups, and leaf nodes are individual requests. Stats cover the full run unless from and to are specified as offsets in seconds from the run start.
+Require the Read role on the run's simulation's team`,
       inputSchema: runsReadReportRequests.InputSchema,
       outputSchema: runsReadReportRequests.OutputSchema,
       annotations: {
@@ -97,7 +99,7 @@ export const tools: Array<Tool<any, any>> = [
     name: "runs.read_run_logs",
     config: {
       title: "Get the logs of the specified Run",
-      description: "",
+      description: "Require the Read role on the run's simulation's team",
       inputSchema: runsReadRunLogs.InputSchema,
       outputSchema: runsReadRunLogs.OutputSchema,
       annotations: {
@@ -127,7 +129,8 @@ export const tools: Array<Tool<any, any>> = [
     name: "source_repositories.read_all",
     config: {
       title: "List all the Source Repositories that can be seen by the API token",
-      description: "",
+      description:
+        "Require at least the Read role on a team to see its source repositories; other are omitted",
       outputSchema: sourceRepositoriesReadAll.OutputSchema,
       annotations: {
         readOnlyHint: true,
@@ -142,7 +145,7 @@ export const tools: Array<Tool<any, any>> = [
     name: "source_repositories.read_one",
     config: {
       title: "List all the Source Repositories that can be seen by the API token",
-      description: "",
+      description: "Require at least the Read role on a team to see its source repositories; others are omitted",
       inputSchema: sourceRepositoriesReadOne.InputSchema,
       outputSchema: sourceRepositoriesReadOne.OutputSchema,
       annotations: {
@@ -163,7 +166,7 @@ export const tools: Array<Tool<any, any>> = [
     name: "teams.read_all",
     config: {
       title: "List all the teams that can be seen by the API token",
-      description: "",
+      description: "Require at least the Read role on a team to see it; others are omitted",
       outputSchema: teamsReadAll.OutputSchema,
       annotations: {
         readOnlyHint: true,
@@ -184,7 +187,8 @@ export const tools: Array<Tool<any, any>> = [
     name: "tests.create_one",
     config: {
       title: "Create a new test",
-      description: "",
+      description:
+        "Require the Configure role on the team of the referenced package or source repository",
       inputSchema: testsCreateOne.InputSchema,
       outputSchema: testsCreateOne.OutputSchema,
       annotations: {
@@ -200,7 +204,8 @@ export const tools: Array<Tool<any, any>> = [
     name: "tests.delete_one",
     config: {
       title: "Delete the specified test",
-      description: "",
+      description:
+        "Require the Configure role on the team of the test's package or source repository",
       inputSchema: testsDeleteOne.InputSchema,
       annotations: {
         readOnlyHint: false,
@@ -215,7 +220,8 @@ export const tools: Array<Tool<any, any>> = [
     name: "tests.patch_one",
     config: {
       title: "Patch the details of the specified test",
-      description: "",
+      description:
+        "Require the Configure role on the team of the test's package or source repository",
       inputSchema: testsPatchOne.InputSchema,
       outputSchema: testsPatchOne.OutputSchema,
       annotations: {
@@ -231,7 +237,8 @@ export const tools: Array<Tool<any, any>> = [
     name: "tests.read_all",
     config: {
       title: "List all the tests that can be seen by the API token",
-      description: "",
+      description:
+        "Require at least the Read role on the team of the test's package or source repository; others are omitted",
       outputSchema: testsReadAll.OutputSchema,
       annotations: {
         readOnlyHint: true,
@@ -246,7 +253,8 @@ export const tools: Array<Tool<any, any>> = [
     name: "tests.read_one",
     config: {
       title: "Get the details of the specified test",
-      description: "",
+      description:
+        "Require the Configure role on the team of the referenced package or source repository",
       inputSchema: testsReadOne.InputSchema,
       outputSchema: testsReadOne.OutputSchema,
       annotations: {
@@ -262,7 +270,7 @@ export const tools: Array<Tool<any, any>> = [
     name: "tests.start_one",
     config: {
       title: "Start a run for the specified test",
-      description: "",
+      description: "Require the Start role on the team of the test's package or source repository",
       inputSchema: testsStartOne.InputSchema,
       outputSchema: testsStartOne.OutputSchema,
       annotations: {
