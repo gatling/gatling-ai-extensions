@@ -46,9 +46,9 @@ describe("tests.delete_one", () => {
     expect(result.structuredContent).toEqual(
       expect.objectContaining({
         data: expect.objectContaining({
+          name: "[R&D] sample test",
           _id: expect.stringMatching("test_[a-z0-9]+"),
-          _type: "test",
-          name: "[R&D] sample test"
+          _type: "test"
         })
       })
     );

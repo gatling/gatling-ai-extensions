@@ -10,9 +10,9 @@ describe("teams.read_all", () => {
     expect(result.structuredContent).toEqual({
       data: expect.arrayContaining([
         expect.objectContaining({
+          name: "Default team",
           _id: "team_iqay6s6s3tnj7kd41tthkfq3kh",
-          _limits: {},
-          name: "Default team"
+          _limits: {}
         })
       ])
     });

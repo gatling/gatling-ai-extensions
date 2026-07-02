@@ -13,9 +13,9 @@ describe("tests.read_one", () => {
 
     expect(result.structuredContent).toEqual({
       data: expect.objectContaining({
+        name: "[R&D] dummy test",
         _id: testId,
-        _type: "test",
-        name: "[R&D] dummy test"
+        _type: "test"
       })
     });
   });
