@@ -11,6 +11,8 @@ import * as locationsReadAll from "./locations/readAll.js";
 import * as packagesReadAll from "./packages/readAll.js";
 import * as runsReadReportRequests from "./runs/readReportRequests.js";
 import * as runsReadRunLogs from "./runs/readRunLogs.js";
+import * as sourceRepositoriesReadAll from "./sourceRepositories/readAll.js";
+import * as sourceRepositoriesReadOne from "./sourceRepositories/readOne.js";
 import * as teamsReadAll from "./teams/readAll.js";
 import * as testsCreateOne from "./tests/createOne.js";
 import * as testsDeleteOne from "./tests/deleteOne.js";
@@ -121,8 +123,37 @@ export const tools: Array<Tool<any, any>> = [
 
   // source_repositories.create_one
   // source_repositories.delete_one
-  // source_repositories.read_all
-  // source_repositories.read_one
+  {
+    name: "source_repositories.read_all",
+    config: {
+      title: "List all the Source Repositories that can be seen by the API token",
+      description: "",
+      outputSchema: sourceRepositoriesReadAll.OutputSchema,
+      annotations: {
+        readOnlyHint: true,
+        destructiveHint: false,
+        idempotentHint: false,
+        openWorldHint: false
+      }
+    },
+    callback: sourceRepositoriesReadAll.callback
+  },
+  {
+    name: "source_repositories.read_one",
+    config: {
+      title: "List all the Source Repositories that can be seen by the API token",
+      description: "",
+      inputSchema: sourceRepositoriesReadOne.InputSchema,
+      outputSchema: sourceRepositoriesReadOne.OutputSchema,
+      annotations: {
+        readOnlyHint: true,
+        destructiveHint: false,
+        idempotentHint: false,
+        openWorldHint: false
+      }
+    },
+    callback: sourceRepositoriesReadOne.callback
+  },
 
   // Teams
 
