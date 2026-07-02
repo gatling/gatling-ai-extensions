@@ -173,7 +173,6 @@ describe("tests.patch_one", () => {
         testId,
         patch: {
           source: {
-            type: "build_from_sources",
             workingDirectory: null
           }
         }
@@ -200,7 +199,7 @@ describe("tests.patch_one", () => {
       })
     );
   });
-  /*afterAll(async () => {
+  afterAll(async () => {
     const result = await mcpToolCall({
       tool: "tests.delete_one",
       apiToken: "configure",
@@ -217,5 +216,5 @@ describe("tests.patch_one", () => {
         }
       ]
     });
-  });*/
+  });
 });

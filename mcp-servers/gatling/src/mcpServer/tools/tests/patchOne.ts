@@ -86,22 +86,33 @@ export const BuildCommandSchema = z.discriminatedUnion("type", [
 ]);
 export type BuildCommandSchema = z.infer<typeof BuildCommandSchema>;
 
+export const SourceDetailsBuildFromSourcesSchema = z.object({
+  type: z.literal("build_from_sources").optional(),
+  sourceRepositoryId: z.string().optional(),
+  buildTool: BuildCommandSchema.optional(),
+  simulation: z.string().optional(),
+  workingDirectory: z.string().nullable().optional(),
+  branch: z.string().nullable().optional()
+});
+export type SourceDetailsBuildFromSourcesSchema = z.infer<
+  typeof SourceDetailsBuildFromSourcesSchema
+>;
+
+export const SourceDetailsPackagedSchema = z.object({
+  type: z.literal("packaged").optional(),
+  packageId: z.string().optional(),
+  simulation: z.string().optional()
+});
+export type SourceDetailsPackagedSchema = z.infer<typeof SourceDetailsPackagedSchema>;
+
 export const SourceDetailsSchema = z.union([
-  z.object({
-    type: z.literal("build_from_sources").optional(),
-    sourceRepositoryId: z.string().optional(),
-    buildTool: BuildCommandSchema.optional(),
-    simulation: z.string().optional(),
-    workingDirectory: z.string().nullable().optional(),
-    branch: z.string().nullable().optional()
-  }),
-  z.object({
-    type: z.literal("packaged").optional(),
-    packageId: z.string().optional(),
-    simulation: z.string().optional()
-  })
+  SourceDetailsBuildFromSourcesSchema,
+  SourceDetailsPackagedSchema
 ]);
 export type SourceDetailsSchema = z.infer<typeof SourceDetailsSchema>;
+
+const SourceTypeChanged = "Test source type cannot be changed";
+const SourceTypeNotSupported = "Test source type not supported by the MCP server";
 
 export const TestSchema = z.object({
   name: z.string().optional(),
@@ -160,20 +171,36 @@ export const callback: ToolCallback<InputSchema> = async ({ testId, patch }: Inp
 
   const source: SourceDetails = readOneResponse.data.source;
   let patchedSource: SourceDetails;
-  if (patch.source?.type === "build_from_sources" && source.type === "build_from_sources") {
-    patchedSource = {
-      type: "build_from_sources",
-      sourceRepositoryId: patch.source?.sourceRepositoryId ?? source.sourceRepositoryId,
-      buildTool: patch.source?.buildTool ?? source.buildTool,
-      simulation: patch.source?.simulation ?? source.simulation,
-      workingDirectory: patchField(patch.source?.workingDirectory, source.workingDirectory),
-      branch: patchField(patch.source?.branch, source.branch)
-    };
-    // TODO packages
-  } else if (typeof patch.source === "undefined") {
-    patchedSource = source;
+  if (source.type === "build_from_sources") {
+    if (typeof patch.source?.type === "undefined" || patch.source?.type === "build_from_sources") {
+      const buildFromSourcePatch = patch.source as SourceDetailsBuildFromSourcesSchema;
+      patchedSource = {
+        type: "build_from_sources",
+        sourceRepositoryId: buildFromSourcePatch?.sourceRepositoryId ?? source.sourceRepositoryId,
+        buildTool: buildFromSourcePatch?.buildTool ?? source.buildTool,
+        simulation: buildFromSourcePatch?.simulation ?? source.simulation,
+        workingDirectory: patchField(
+          buildFromSourcePatch?.workingDirectory,
+          source.workingDirectory
+        ),
+        branch: patchField(buildFromSourcePatch?.branch, source.branch)
+      };
+    } else {
+      throw Error(SourceTypeChanged);
+    }
+  } else if (source.type === "packaged") {
+    if (typeof patch.source?.type === "undefined" || patch.source?.type === "packaged") {
+      const packagedPatch = patch.source as SourceDetailsPackagedSchema;
+      patchedSource = {
+        type: "packaged",
+        packageId: packagedPatch?.packageId ?? source.packageId,
+        simulation: packagedPatch?.simulation ?? source.simulation
+      };
+    } else {
+      throw Error(SourceTypeChanged);
+    }
   } else {
-    throw Error("don't do that");
+    throw Error(SourceTypeNotSupported);
   }
 
   const body: TestRequest = {
