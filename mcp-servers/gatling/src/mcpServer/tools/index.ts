@@ -286,7 +286,7 @@ Require the Read role on the run's simulation's team`,
     config: {
       title: "Get the details of the specified test",
       description:
-        "Require the Configure role on the team of the referenced package or source repository",
+        "Require the Read role on the team of the test's package or source repository",
       inputSchema: testsReadOne.InputSchema,
       outputSchema: testsReadOne.OutputSchema,
       annotations: {
