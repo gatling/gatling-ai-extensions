@@ -10,7 +10,7 @@ import {
 import { ToolCallback } from "../index.js";
 
 export const LoadGeneratorSchema = z.object({
-  locationId: z.string(),
+  locationId: z.string().describe("Managed location name or private location ID"),
   instance: z.object({
     count: z.number().gte(1)
   }),
@@ -61,22 +61,7 @@ export type ExecutionSchema = z.infer<typeof ExecutionSchema>;
 
 export const BuildCommandSchema = z.discriminatedUnion("type", [
   z.object({
-    type: z.literal("maven")
-  }),
-  z.object({
-    type: z.literal("maven-wrapper")
-  }),
-  z.object({
-    type: z.literal("gradle")
-  }),
-  z.object({
-    type: z.literal("gradle-wrapper")
-  }),
-  z.object({
-    type: z.literal("sbt")
-  }),
-  z.object({
-    type: z.literal("npm")
+    type: z.literal(["maven", "maven-wrapper", "gradle", "gradle-wrapper", "sbt", "npm"])
   }),
   z.object({
     type: z.literal("custom"),

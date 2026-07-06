@@ -8,7 +8,7 @@ export const PackageSchema = z.object({
   name: z.string(),
   teamId: z.string(),
   _id: z.string(),
-  _format: z.string().optional()
+  _format: z.literal(["jvm", "js"]).optional()
 });
 export type PackageSchema = z.infer<typeof PackageSchema>;
 
@@ -24,7 +24,7 @@ export const callback: ToolCallback<undefined> = async () => {
     name: item.name,
     teamId: item.teamId,
     _id: item._id,
-    _format: item._storage.artifact?.format
+    _format: item._storage.artifact?.format as any
   });
   const structuredContent: OutputSchema = {
     managedPackages: response.data.filter((item) => item._storage.type === "managed").map(mapItem),
