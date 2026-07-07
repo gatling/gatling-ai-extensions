@@ -13,6 +13,7 @@ import * as runsReadAll from "./runs/readAll.js";
 import * as runsReadOne from "./runs/readOne.js";
 import * as runsReadReportRequests from "./runs/readReportRequests.js";
 import * as runsReadRunLogs from "./runs/readRunLogs.js";
+import * as runsStopOne from "./runs/stopOne.js";
 import * as sourceRepositoriesCreateOne from "./sourceRepositories/createOne.js";
 import * as sourceRepositoriesDeleteOne from "./sourceRepositories/deleteOne.js";
 import * as sourceRepositoriesReadAll from "./sourceRepositories/readAll.js";
@@ -146,7 +147,21 @@ Require the Read role on the run's simulation's team`,
     },
     callback: runsReadRunLogs.callback
   },
-  // runs.stop_one?
+  {
+    name: "runs.stop_one",
+    config: {
+      title: "Stop the specified Run",
+      description: "Require the Start role on the run's simulation's team",
+      inputSchema: runsStopOne.InputSchema,
+      annotations: {
+        readOnlyHint: false,
+        destructiveHint: false,
+        idempotentHint: false,
+        openWorldHint: true
+      }
+    },
+    callback: runsStopOne.callback
+  },
 
   // SSO Groups
 
