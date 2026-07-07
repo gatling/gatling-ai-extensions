@@ -9,6 +9,8 @@ import {
 
 import * as locationsReadAll from "./locations/readAll.js";
 import * as packagesReadAll from "./packages/readAll.js";
+import * as runsReadAll from "./runs/readAll.js";
+import * as runsReadOne from "./runs/readOne.js";
 import * as runsReadReportRequests from "./runs/readReportRequests.js";
 import * as runsReadRunLogs from "./runs/readRunLogs.js";
 import * as sourceRepositoriesCreateOne from "./sourceRepositories/createOne.js";
@@ -78,8 +80,39 @@ export const tools: Array<Tool<any, any>> = [
 
   // runs.create_public_link
   // runs.patch_one
-  // runs.read_all
-  // runs.read_one
+  {
+    name: "runs.read_all",
+    config: {
+      title: "List all the Runs updated since the provided timestamp",
+      description:
+        "Require at least the Read role on the run's simulation's team; others are omitted",
+      inputSchema: runsReadAll.InputSchema,
+      outputSchema: runsReadAll.OutputSchema,
+      annotations: {
+        readOnlyHint: true,
+        destructiveHint: false,
+        idempotentHint: false,
+        openWorldHint: false
+      }
+    },
+    callback: runsReadAll.callback
+  },
+  {
+    name: "runs.read_one",
+    config: {
+      title: "Get the details of the specified Run",
+      description: "Require the Read role on the run's simulation's team",
+      inputSchema: runsReadOne.InputSchema,
+      outputSchema: runsReadOne.OutputSchema,
+      annotations: {
+        readOnlyHint: true,
+        destructiveHint: false,
+        idempotentHint: false,
+        openWorldHint: false
+      }
+    },
+    callback: runsReadOne.callback
+  },
   {
     name: "runs.read_report_requests",
     config: {
@@ -285,8 +318,7 @@ Require the Read role on the run's simulation's team`,
     name: "tests.read_one",
     config: {
       title: "Get the details of the specified test",
-      description:
-        "Require the Read role on the team of the test's package or source repository",
+      description: "Require the Read role on the team of the test's package or source repository",
       inputSchema: testsReadOne.InputSchema,
       outputSchema: testsReadOne.OutputSchema,
       annotations: {
