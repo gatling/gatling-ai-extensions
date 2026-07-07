@@ -12,6 +12,7 @@ import * as packagesReadAll from "./packages/readAll.js";
 import * as runsReadAll from "./runs/readAll.js";
 import * as runsReadOne from "./runs/readOne.js";
 import * as runsReadReportRequests from "./runs/readReportRequests.js";
+import * as runsReadReportGroups from "./runs/readReportGroups.js";
 import * as runsReadRunLogs from "./runs/readRunLogs.js";
 import * as runsStopOne from "./runs/stopOne.js";
 import * as sourceRepositoriesCreateOne from "./sourceRepositories/createOne.js";
@@ -115,11 +116,30 @@ export const tools: Array<Tool<any, any>> = [
     callback: runsReadOne.callback
   },
   {
+    name: "runs.read_report_groups",
+    config: {
+      title: "Get per-group performance statistics for the specified Run",
+      description: `Returns the run's top-level groups; each group nests its sub-groups in children. Stats cover the full run unless from and to are specified as offsets in seconds from the run start.
+Require the Read role on the run's simulation's team.
+It will return 404 if the run has no groups.`,
+      inputSchema: runsReadReportGroups.InputSchema,
+      outputSchema: runsReadReportGroups.OutputSchema,
+      annotations: {
+        readOnlyHint: true,
+        destructiveHint: false,
+        idempotentHint: false,
+        openWorldHint: false
+      }
+    },
+    callback: runsReadReportGroups.callback
+  },
+  {
     name: "runs.read_report_requests",
     config: {
       title: "Get per-request performance statistic for the specified Run",
       description: `Returns a tree: the root aggregates all requests, intermediate nodes are groups, and leaf nodes are individual requests. Stats cover the full run unless from and to are specified as offsets in seconds from the run start.
-Require the Read role on the run's simulation's team`,
+Require the Read role on the run's simulation's team.
+It will return 404 if the run has no metrics.`,
       inputSchema: runsReadReportRequests.InputSchema,
       outputSchema: runsReadReportRequests.OutputSchema,
       annotations: {
