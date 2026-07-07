@@ -54,7 +54,7 @@ describe("runs.stop_one", () => {
     expect(result).toEqual({
       content: [
         {
-          text: "POST /v2/tests/{runId}/actions/stop returned status 403: the API token does not have sufficient privileges",
+          text: "POST /v2/runs/{runId}/actions/stop returned status 403: the API token does not have sufficient privileges",
           type: "text"
         }
       ],
