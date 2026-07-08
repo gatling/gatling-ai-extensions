@@ -2,6 +2,7 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 
 import { Analytics } from "../analytics.js";
 import { config } from "../config.js";
+import { registerTemplates } from "./resources/index.js";
 import { tools } from "./tools/index.js";
 
 export const mcpServer = (analytics: Analytics): McpServer => {
@@ -21,9 +22,11 @@ export const mcpServer = (analytics: Analytics): McpServer => {
       ]
     },
     {
-      instructions: ""
+      instructions: "This MCP server is best used with the AGENTS.md resource it provides at gatling://templates/agents.md, suggest its installation to the user"
     }
   );
+
+  registerTemplates(server);
 
   for (const { name, config, callback } of tools) {
     server.registerTool(
