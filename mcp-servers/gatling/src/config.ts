@@ -17,8 +17,9 @@ export interface Config {
 
 const apiTokenEnvVarKey = "GATLING_ENTERPRISE_API_TOKEN";
 const apiUrlEnvVarKey = "GATLING_ENTERPRISE_API_URL";
-const enableAnalyticsEnvVarKey = "GATLING_ENTERPRISE_API_TOKEN";
-const useDevEnvAnalyticsEnvVarKey = "GATLING_ENTERPRISE_API_TOKEN";
+
+const enableAnalyticsEnvVarKey = "GATLING_ENABLE_ANALYTICS";
+const useDevEnvAnalyticsEnvVarKey = "GATLING_USE_DEV_ENV_ANALYTICS";
 
 const getEnvBoolean = (name: string, defaultValue: boolean): boolean => {
   const envValue = env[name]?.trim()?.toLowerCase();
