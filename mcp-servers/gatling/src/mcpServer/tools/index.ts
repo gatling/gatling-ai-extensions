@@ -45,10 +45,7 @@ export const tools: Array<Tool<any, any>> = [
       description: "Require at least the Read role on any team",
       outputSchema: locationsReadAll.OutputSchema,
       annotations: {
-        readOnlyHint: true,
-        destructiveHint: false,
-        idempotentHint: false,
-        openWorldHint: false
+        readOnlyHint: true
       }
     },
     callback: locationsReadAll.callback
@@ -67,10 +64,7 @@ export const tools: Array<Tool<any, any>> = [
         "Require at least the Read role on a team to see its packages; others are omitted",
       outputSchema: packagesReadAll.OutputSchema,
       annotations: {
-        readOnlyHint: true,
-        destructiveHint: false,
-        idempotentHint: false,
-        openWorldHint: false
+        readOnlyHint: true
       }
     },
     callback: packagesReadAll.callback
@@ -91,10 +85,7 @@ export const tools: Array<Tool<any, any>> = [
       inputSchema: runsReadAll.InputSchema,
       outputSchema: runsReadAll.OutputSchema,
       annotations: {
-        readOnlyHint: true,
-        destructiveHint: false,
-        idempotentHint: false,
-        openWorldHint: false
+        readOnlyHint: true
       }
     },
     callback: runsReadAll.callback
@@ -107,10 +98,7 @@ export const tools: Array<Tool<any, any>> = [
       inputSchema: runsReadOne.InputSchema,
       outputSchema: runsReadOne.OutputSchema,
       annotations: {
-        readOnlyHint: true,
-        destructiveHint: false,
-        idempotentHint: false,
-        openWorldHint: false
+        readOnlyHint: true
       }
     },
     callback: runsReadOne.callback
@@ -125,10 +113,7 @@ It will return 404 if the run has no groups.`,
       inputSchema: runsReadReportGroups.InputSchema,
       outputSchema: runsReadReportGroups.OutputSchema,
       annotations: {
-        readOnlyHint: true,
-        destructiveHint: false,
-        idempotentHint: false,
-        openWorldHint: false
+        readOnlyHint: true
       }
     },
     callback: runsReadReportGroups.callback
@@ -143,10 +128,7 @@ It will return 404 if the run has no metrics.`,
       inputSchema: runsReadReportRequests.InputSchema,
       outputSchema: runsReadReportRequests.OutputSchema,
       annotations: {
-        readOnlyHint: true,
-        destructiveHint: false,
-        idempotentHint: false,
-        openWorldHint: false
+        readOnlyHint: true
       }
     },
     callback: runsReadReportRequests.callback
@@ -159,10 +141,7 @@ It will return 404 if the run has no metrics.`,
       inputSchema: runsReadRunLogs.InputSchema,
       outputSchema: runsReadRunLogs.OutputSchema,
       annotations: {
-        readOnlyHint: true,
-        destructiveHint: false,
-        idempotentHint: false,
-        openWorldHint: false
+        readOnlyHint: true
       }
     },
     callback: runsReadRunLogs.callback
@@ -174,9 +153,6 @@ It will return 404 if the run has no metrics.`,
       description: "Require the Start role on the run's simulation's team",
       inputSchema: runsStopOne.InputSchema,
       annotations: {
-        readOnlyHint: false,
-        destructiveHint: false,
-        idempotentHint: false,
         openWorldHint: true
       }
     },
@@ -199,13 +175,7 @@ It will return 404 if the run has no metrics.`,
       title: "Create a new Source Repository",
       description: "Require the Configure role on the target team",
       inputSchema: sourceRepositoriesCreateOne.InputSchema,
-      outputSchema: sourceRepositoriesCreateOne.OutputSchema,
-      annotations: {
-        readOnlyHint: false,
-        destructiveHint: false,
-        idempotentHint: false,
-        openWorldHint: false
-      }
+      outputSchema: sourceRepositoriesCreateOne.OutputSchema
     },
     callback: sourceRepositoriesCreateOne.callback
   },
@@ -216,10 +186,8 @@ It will return 404 if the run has no metrics.`,
       description: "Require the Configure role on the source repository's team",
       inputSchema: sourceRepositoriesDeleteOne.InputSchema,
       annotations: {
-        readOnlyHint: false,
         destructiveHint: true,
-        idempotentHint: true,
-        openWorldHint: false
+        idempotentHint: true
       }
     },
     callback: sourceRepositoriesDeleteOne.callback
@@ -232,10 +200,7 @@ It will return 404 if the run has no metrics.`,
         "Require at least the Read role on a team to see its source repositories; other are omitted",
       outputSchema: sourceRepositoriesReadAll.OutputSchema,
       annotations: {
-        readOnlyHint: true,
-        destructiveHint: false,
-        idempotentHint: false,
-        openWorldHint: false
+        readOnlyHint: true
       }
     },
     callback: sourceRepositoriesReadAll.callback
@@ -249,10 +214,7 @@ It will return 404 if the run has no metrics.`,
       inputSchema: sourceRepositoriesReadOne.InputSchema,
       outputSchema: sourceRepositoriesReadOne.OutputSchema,
       annotations: {
-        readOnlyHint: true,
-        destructiveHint: false,
-        idempotentHint: false,
-        openWorldHint: false
+        readOnlyHint: true
       }
     },
     callback: sourceRepositoriesReadOne.callback
@@ -269,10 +231,7 @@ It will return 404 if the run has no metrics.`,
       description: "Require at least the Read role on a team to see it; others are omitted",
       outputSchema: teamsReadAll.OutputSchema,
       annotations: {
-        readOnlyHint: true,
-        destructiveHint: false,
-        idempotentHint: false,
-        openWorldHint: false
+        readOnlyHint: true
       }
     },
     callback: teamsReadAll.callback
@@ -290,13 +249,7 @@ It will return 404 if the run has no metrics.`,
       description:
         "Require the Configure role on the team of the referenced package or source repository",
       inputSchema: testsCreateOne.InputSchema,
-      outputSchema: testsCreateOne.OutputSchema,
-      annotations: {
-        readOnlyHint: false,
-        destructiveHint: false,
-        idempotentHint: false,
-        openWorldHint: false
-      }
+      outputSchema: testsCreateOne.OutputSchema
     },
     callback: testsCreateOne.callback
   },
@@ -308,10 +261,8 @@ It will return 404 if the run has no metrics.`,
         "Require the Configure role on the team of the test's package or source repository",
       inputSchema: testsDeleteOne.InputSchema,
       annotations: {
-        readOnlyHint: false,
         destructiveHint: true,
-        idempotentHint: true,
-        openWorldHint: false
+        idempotentHint: true
       }
     },
     callback: testsDeleteOne.callback
@@ -325,10 +276,8 @@ It will return 404 if the run has no metrics.`,
       inputSchema: testsPatchOne.InputSchema,
       outputSchema: testsPatchOne.OutputSchema,
       annotations: {
-        readOnlyHint: false,
         destructiveHint: true,
-        idempotentHint: true,
-        openWorldHint: false
+        idempotentHint: true
       }
     },
     callback: testsPatchOne.callback
@@ -341,10 +290,7 @@ It will return 404 if the run has no metrics.`,
         "Require at least the Read role on the team of the test's package or source repository; others are omitted",
       outputSchema: testsReadAll.OutputSchema,
       annotations: {
-        readOnlyHint: true,
-        destructiveHint: false,
-        idempotentHint: false,
-        openWorldHint: false
+        readOnlyHint: true
       }
     },
     callback: testsReadAll.callback
@@ -357,10 +303,7 @@ It will return 404 if the run has no metrics.`,
       inputSchema: testsReadOne.InputSchema,
       outputSchema: testsReadOne.OutputSchema,
       annotations: {
-        readOnlyHint: true,
-        destructiveHint: false,
-        idempotentHint: false,
-        openWorldHint: false
+        readOnlyHint: true
       }
     },
     callback: testsReadOne.callback
@@ -373,9 +316,6 @@ It will return 404 if the run has no metrics.`,
       inputSchema: testsStartOne.InputSchema,
       outputSchema: testsStartOne.OutputSchema,
       annotations: {
-        readOnlyHint: false,
-        destructiveHint: false,
-        idempotentHint: false,
         openWorldHint: true
       }
     },
