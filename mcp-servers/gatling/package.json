@@ -35,7 +35,7 @@
   "main": "target/index.js",
   "scripts": {
     "clean": "rimraf target",
-    "build": "tsc --project tsconfig.build.json && tsc-alias --project tsconfig.build.json && chmod +x target/index.js",
+    "build": "tsc --project tsconfig.build.json && tsc-alias --project tsconfig.build.json && chmod +x target/index.js && cp -f ../../plugins/gatling/AGENTS.md target/AGENTS.md",
     "format": "prettier --write '**/*.ts'",
     "format-check": "prettier --check '**/*.ts'",
     "start": "npm run build && GATLING_USE_DEV_ENV_ANALYTICS=true ./target/index.js",

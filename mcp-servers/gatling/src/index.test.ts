@@ -37,7 +37,6 @@ const messages = {
   }),
   notificationsInitialized: jsonRpcMessage({ method: "notifications/initialized" }),
   toolsList: jsonRpcMessage({ method: "tools/list", id: 1, params: {} }),
-  // TODO z schema?
   toolCall: (name: string, args?: Record<string, any>) => {
     return jsonRpcMessage({
       method: "tools/call",
