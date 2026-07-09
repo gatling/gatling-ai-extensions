@@ -9,6 +9,7 @@ import {
 
 import * as locationsReadAll from "./locations/readAll.js";
 import * as packagesReadAll from "./packages/readAll.js";
+import * as runsCreatePublicLink from "./runs/createPublicLink.js";
 import * as runsPatchOne from "./runs/patchOne.js";
 import * as runsReadAll from "./runs/readAll.js";
 import * as runsReadOne from "./runs/readOne.js";
@@ -75,7 +76,17 @@ export const tools: Array<Tool<any, any>> = [
 
   // Runs
 
-  // runs.create_public_link
+  {
+    name: "runs.create_public_link",
+    config: {
+      title: "Create a public link for the specified Run",
+      description:
+        "The link allows unauthenticated access to the run's dashboard until it expires. Require the Start role on the run's simulation's team.",
+      inputSchema: runsCreatePublicLink.InputSchema,
+      outputSchema: runsCreatePublicLink.OutputSchema
+    },
+    callback: runsCreatePublicLink.callback
+  },
   {
     name: "runs.patch_one",
     config: {
