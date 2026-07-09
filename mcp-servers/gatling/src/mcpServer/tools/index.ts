@@ -9,6 +9,7 @@ import {
 
 import * as locationsReadAll from "./locations/readAll.js";
 import * as packagesReadAll from "./packages/readAll.js";
+import * as runsPatchOne from "./runs/patchOne.js";
 import * as runsReadAll from "./runs/readAll.js";
 import * as runsReadOne from "./runs/readOne.js";
 import * as runsReadReportRequests from "./runs/readReportRequests.js";
@@ -75,7 +76,20 @@ export const tools: Array<Tool<any, any>> = [
   // Runs
 
   // runs.create_public_link
-  // runs.patch_one
+  {
+    name: "runs.patch_one",
+    config: {
+      title: "Update the details of the specified Run",
+      description: "Require the Start role on the run's simulation's team",
+      inputSchema: runsPatchOne.InputSchema,
+      outputSchema: runsPatchOne.OutputSchema,
+      annotations: {
+        destructiveHint: true,
+        idempotentHint: true
+      }
+    },
+    callback: runsPatchOne.callback
+  },
   {
     name: "runs.read_all",
     config: {
