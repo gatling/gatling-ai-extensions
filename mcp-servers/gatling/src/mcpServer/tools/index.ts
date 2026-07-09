@@ -16,6 +16,7 @@ import * as runsReadOne from "./runs/readOne.js";
 import * as runsReadReportRequests from "./runs/readReportRequests.js";
 import * as runsReadReportGroups from "./runs/readReportGroups.js";
 import * as runsReadRunLogs from "./runs/readRunLogs.js";
+import * as runsReadStatus from "./runs/readStatus.js";
 import * as runsStopOne from "./runs/stopOne.js";
 import * as sourceRepositoriesCreateOne from "./sourceRepositories/createOne.js";
 import * as sourceRepositoriesDeleteOne from "./sourceRepositories/deleteOne.js";
@@ -170,6 +171,19 @@ It will return 404 if the run has no metrics.`,
       }
     },
     callback: runsReadRunLogs.callback
+  },
+  {
+    name: "runs.read_status",
+    config: {
+      title: "Get the status of the specified Run",
+      description:
+        "Efficient way to get the status of a Run. Require the Read role on the run's simulation's team.",
+      inputSchema: runsReadStatus.InputSchema,
+      annotations: {
+        readOnlyHint: true
+      }
+    },
+    callback: runsReadStatus.callback
   },
   {
     name: "runs.stop_one",
