@@ -64,7 +64,16 @@ describe("tests.create_one", () => {
     expect(result).toEqual({
       content: [
         {
-          text: 'MCP error -32602: Input validation error: Invalid arguments for tool tests.create_one: [\n  {\n    "expected": "object",\n    "code": "invalid_type",\n    "path": [\n      "execution"\n    ],\n    "message": "Invalid input: expected object, received undefined"\n  }\n]',
+          text: `MCP error -32602: Input validation error: Invalid arguments for tool tests.create_one: [
+  {
+    "expected": "object",
+    "code": "invalid_type",
+    "path": [
+      "execution"
+    ],
+    "message": "Invalid input: expected object, received undefined"
+  }
+]`,
           type: "text"
         }
       ],
