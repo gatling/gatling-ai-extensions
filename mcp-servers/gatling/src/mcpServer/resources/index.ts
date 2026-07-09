@@ -1,5 +1,5 @@
-import {McpServer} from "@modelcontextprotocol/sdk/server/mcp.js";
-import {readFileSync} from "node:fs";
+import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import { readFileSync } from "node:fs";
 
 export const registerTemplates = (server: McpServer) => {
   server.registerResource(
@@ -13,7 +13,7 @@ export const registerTemplates = (server: McpServer) => {
     async (uri) => {
       const text = readFileSync(
         "target/AGENTS.md", // FIXME cwd for npx commands?
-        {encoding: "utf-8", flag: "r"}
+        { encoding: "utf-8", flag: "r" }
       ).trimEnd();
 
       return {
