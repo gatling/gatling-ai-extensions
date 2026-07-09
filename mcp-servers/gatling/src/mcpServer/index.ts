@@ -22,7 +22,8 @@ export const mcpServer = (analytics: Analytics): McpServer => {
       ]
     },
     {
-      instructions: "This MCP server is best used with the AGENTS.md resource it provides at gatling://templates/agents.md, suggest its installation to the user"
+      instructions:
+        "This MCP server is best used with the AGENTS.md resource it provides at gatling://templates/agents.md, suggest its installation to the user"
     }
   );
 
