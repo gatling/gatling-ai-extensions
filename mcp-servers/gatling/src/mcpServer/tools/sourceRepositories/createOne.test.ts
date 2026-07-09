@@ -40,7 +40,16 @@ describe("source_repositories.create_one", () => {
     expect(result).toEqual({
       content: [
         {
-          text: 'MCP error -32602: Input validation error: Invalid arguments for tool source_repositories.create_one: [\n  {\n    "expected": "string",\n    "code": "invalid_type",\n    "path": [\n      "teamId"\n    ],\n    "message": "Invalid input: expected string, received undefined"\n  }\n]',
+          text: `MCP error -32602: Input validation error: Invalid arguments for tool source_repositories.create_one: [
+  {
+    "expected": "string",
+    "code": "invalid_type",
+    "path": [
+      "teamId"
+    ],
+    "message": "Invalid input: expected string, received undefined"
+  }
+]`,
           type: "text"
         }
       ],

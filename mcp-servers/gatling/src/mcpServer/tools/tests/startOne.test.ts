@@ -58,7 +58,16 @@ describe("tests.start_one", () => {
     expect(result).toEqual({
       content: [
         {
-          text: 'MCP error -32602: Input validation error: Invalid arguments for tool tests.start_one: [\n  {\n    "expected": "string",\n    "code": "invalid_type",\n    "path": [\n      "testId"\n    ],\n    "message": "Invalid input: expected string, received undefined"\n  }\n]',
+          text: `MCP error -32602: Input validation error: Invalid arguments for tool tests.start_one: [
+  {
+    "expected": "string",
+    "code": "invalid_type",
+    "path": [
+      "testId"
+    ],
+    "message": "Invalid input: expected string, received undefined"
+  }
+]`,
           type: "text"
         }
       ],
