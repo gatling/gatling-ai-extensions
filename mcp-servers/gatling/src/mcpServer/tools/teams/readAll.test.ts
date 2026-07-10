@@ -12,7 +12,7 @@ describe("teams.read_all", () => {
         structuredContent: expect.objectContaining({
           data: expect.arrayContaining([
             expect.objectContaining({
-              name: "Jest",
+              name: "CI",
               _id: "team_i5ofi3qru3d9jfapb1s68m3hao",
               _limits: {}
             })
