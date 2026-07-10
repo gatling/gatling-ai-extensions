@@ -65,8 +65,7 @@ export interface McpToolCallFunction {
 }
 
 enum McpClientState {
-  Uninitialized = -1,
-  Start = 0,
+  Uninitialized = 0,
   Initialized = 1,
   ToolsListed = 2,
   ToolCalled = 3
@@ -88,7 +87,7 @@ export const mcpToolCall: McpToolCallFunction = ({ tool, apiToken, args }) => {
       GATLING_ENTERPRISE_API_TOKEN: effectiveApiToken
     };
 
-    const child = spawn("npm", ["run", "start"], {
+    const child = spawn("npm", ["--loglevel=warn", "run", "start"], {
       env,
       detached: true
     });
@@ -108,9 +107,8 @@ export const mcpToolCall: McpToolCallFunction = ({ tool, apiToken, args }) => {
 
     child.stderr.on("data", (data: any) => {
       if (debug) {
-        console.error("stderr.data", data.toString());
+        console.log("stderr.data", data.toString());
       }
-
       resolve(data);
     });
 
@@ -120,9 +118,7 @@ export const mcpToolCall: McpToolCallFunction = ({ tool, apiToken, args }) => {
         console.log("stdout.data", data.toString());
       }
 
-      if (state === McpClientState.Start) {
-        send(messages.initialize);
-      } else if (state === McpClientState.Initialized) {
+      if (state === McpClientState.Initialized) {
         send(messages.notificationsInitialized);
         send(messages.toolsList);
       } else if (state === McpClientState.ToolsListed) {
@@ -140,5 +136,8 @@ export const mcpToolCall: McpToolCallFunction = ({ tool, apiToken, args }) => {
 
       state++;
     });
+
+    send(messages.initialize);
+    state = McpClientState.Initialized;
   });
 };
