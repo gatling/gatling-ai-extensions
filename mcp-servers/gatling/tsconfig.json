@@ -13,7 +13,7 @@
     "target": "es2024",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-    "module": "nodenext",
+    "module": "esnext",
     "moduleResolution": "node16",
     "noImplicitReturns": true,
     "noUnusedLocals": true,
@@ -24,7 +24,8 @@
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "strict": true,
-    "types": ["jest", "node"]
+    "types": ["jest", "node"],
+    "isolatedModules": true
   },
   "include": ["src/**/*.ts"],
   "exclude": ["node_modules"]
