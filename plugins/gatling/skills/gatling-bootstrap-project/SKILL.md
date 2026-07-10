@@ -34,10 +34,10 @@ IF language is TypeScript or JavaScript:
 
 Once build tool and language are identified, read the corresponding file and follow its instructions:
 
-- Maven: ./resources/maven.md
-- Gradle: ./resources/gradle.md
-- sbt: ./resources/sbt.md
-- npm: ./resources/npm.md
+- Maven: ./references/maven.md
+- Gradle: ./references/gradle.md
+- sbt: ./references/sbt.md
+- npm: ./references/npm.md
 
 ## Suggest next steps
 
