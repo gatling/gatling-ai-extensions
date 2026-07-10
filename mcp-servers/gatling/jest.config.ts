@@ -1,7 +1,7 @@
 import type { Config } from "jest";
-import { createJsWithTsPreset } from "ts-jest";
+import { createJsWithBabelEsmPreset, createJsWithTsPreset } from "ts-jest";
 
-const tsJestTransformCfg = createJsWithTsPreset({
+const tsJestTransformCfg = createJsWithBabelEsmPreset({
   diagnostics: {
     ignoreCodes: [151002]
   }

@@ -1,7 +1,10 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "types": ["node"]
+    "types": ["node"],
+    "module": "nodenext",
+    "moduleResolution": "node16",
+    "isolatedModules": false
   },
   "exclude": ["src/**/*.test.ts","node_modules"]
 }
