@@ -1,7 +1,9 @@
 import { mcpToolCall } from "@src/index.test.js";
 
-const testId = "test_85oi617ymtnz3ctq76thr9pyey";
-const runId = "run_mj5dgse66jd1xd6thggogooknr";
+import tests from "@src/__tests__/fixtures/tests.js";
+
+const testId = tests.dummy._id;
+const runId = tests.dummy.runs.read._id;
 
 describe("runs.create_public_link", () => {
   it("should fail when called with an api token with insufficient permissions", async () => {

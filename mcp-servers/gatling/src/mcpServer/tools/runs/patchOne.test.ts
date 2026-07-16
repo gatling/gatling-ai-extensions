@@ -1,12 +1,18 @@
 import { mcpToolCall } from "@src/index.test.js";
 
+import runs from "@src/__tests__/fixtures/runs.js";
+import tests from "@src/__tests__/fixtures/tests.js";
+
+const metadata = runs.metadata.dynamic;
+const run = tests.dummy.runs.patch;
+
 describe("runs.patch_one", () => {
   it("should fail when called with an api token with insufficient permissions", async () => {
     const result = await mcpToolCall({
       tool: "runs.patch_one",
       apiToken: "read",
       args: {
-        runId: "run_mj5dgse66jd1xd6thggogooknr"
+        runId: run._id
       }
     });
 
@@ -21,13 +27,12 @@ describe("runs.patch_one", () => {
     });
   });
   it("should succeed when modifying only the title field", async () => {
-    const hash = Math.floor(Math.random() * Math.pow(2, 32)).toString(16);
-    const title = `run title from jest (${hash})`;
+    const title = metadata.title();
     const result = await mcpToolCall({
       tool: "runs.patch_one",
       apiToken: "start",
       args: {
-        runId: "run_mj5dgse66jd1xd6thggogooknr",
+        runId: run._id,
         patch: {
           title
         }
@@ -38,7 +43,7 @@ describe("runs.patch_one", () => {
       expect.objectContaining({
         structuredContent: expect.objectContaining({
           data: expect.objectContaining({
-            _id: "run_mj5dgse66jd1xd6thggogooknr",
+            _id: run._id,
             _type: "run",
             title
           })
@@ -47,13 +52,12 @@ describe("runs.patch_one", () => {
     );
   });
   it("should succeed when modifying only the description field", async () => {
-    const hash = Math.floor(Math.random() * Math.pow(2, 32)).toString(16);
-    const description = `run description from jest (${hash})`;
+    const description = metadata.description();
     const result = await mcpToolCall({
       tool: "runs.patch_one",
       apiToken: "start",
       args: {
-        runId: "run_mj5dgse66jd1xd6thggogooknr",
+        runId: run._id,
         patch: {
           description
         }
@@ -64,7 +68,7 @@ describe("runs.patch_one", () => {
       expect.objectContaining({
         structuredContent: expect.objectContaining({
           data: expect.objectContaining({
-            _id: "run_mj5dgse66jd1xd6thggogooknr",
+            _id: run._id,
             _type: "run",
             description
           })

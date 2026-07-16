@@ -1,13 +1,14 @@
 import { mcpToolCall } from "@src/index.test.js";
 
+import tests from "@src/__tests__/fixtures/tests.js";
+
 describe("runs.read_report_requests", () => {
   it("should 404 when report has no metrics", async () => {
-    const runId = "run_d6s4akhk47n3j8ehfjehompebe";
     const result = await mcpToolCall({
       tool: "runs.read_report_requests",
       apiToken: "read",
       args: {
-        runId
+        runId: tests.creditless.runs.read._id
       }
     });
 
@@ -22,12 +23,11 @@ describe("runs.read_report_requests", () => {
     });
   });
   it("should read report requests", async () => {
-    const runId = "run_g3b47zg19fn19cjfk7kbax1hzc";
     const result = await mcpToolCall({
       tool: "runs.read_report_requests",
       apiToken: "read",
       args: {
-        runId
+        runId: tests.dummy.runs.reports._id
       }
     });
 

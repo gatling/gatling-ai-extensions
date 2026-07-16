@@ -1,13 +1,14 @@
 import { mcpToolCall } from "@src/index.test.js";
 
+import tests from "@src/__tests__/fixtures/tests.js";
+
 describe("runs.read_report_groups", () => {
   it("should 404 when report has no groups", async () => {
-    const runId = "run_g3b47zg19fn19cjfk7kbax1hzc";
     const result = await mcpToolCall({
       tool: "runs.read_report_groups",
       apiToken: "read",
       args: {
-        runId
+        runId: tests.dummy.runs.reports._id
       }
     });
 
@@ -22,12 +23,11 @@ describe("runs.read_report_groups", () => {
     });
   });
   it("should read report groups", async () => {
-    const runId = "run_jtpid9qgiff9786dprmhosa5uc";
     const result = await mcpToolCall({
       tool: "runs.read_report_groups",
       apiToken: "read",
       args: {
-        runId
+        runId: tests.ecomm.runs.reports._id
       }
     });
 

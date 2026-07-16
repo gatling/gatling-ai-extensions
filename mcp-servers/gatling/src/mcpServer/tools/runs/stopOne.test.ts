@@ -1,23 +1,15 @@
 import { mcpToolCall } from "@src/index.test.js";
 
+import { startOneArgs } from "@src/__tests__/fixtures/tests.js";
+
 let runId: string;
-const testsStartOneArgs = {
-  testId: "test_85oi617ymtnz3ctq76thr9pyey",
-  title: "stoppable run title from jest",
-  description: "stoppable run description from jest",
-  extra: {
-    systemProperties: {
-      duration: "60"
-    }
-  }
-};
 
 describe("runs.stop_one", () => {
   beforeAll(async () => {
     const result = await mcpToolCall({
       tool: "tests.start_one",
       apiToken: "start",
-      args: testsStartOneArgs
+      args: startOneArgs
     });
 
     expect(result).toEqual(
@@ -26,13 +18,13 @@ describe("runs.stop_one", () => {
           data: expect.objectContaining({
             _configuration: expect.objectContaining({
               systemProperties: {
-                duration: "60"
+                duration: startOneArgs.extra.systemProperties.duration
               }
             }),
             _id: expect.stringMatching("run_[a-z0-9]+"),
             _type: "run",
-            description: "stoppable run description from jest",
-            title: "stoppable run title from jest"
+            description: startOneArgs.description,
+            title: startOneArgs.title
           })
         })
       })

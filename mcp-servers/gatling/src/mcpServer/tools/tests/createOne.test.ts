@@ -1,46 +1,15 @@
 import { mcpToolCall } from "@src/index.test.js";
 
-let testId: string;
+import { createOneArgs } from "@src/__tests__/fixtures/tests.js";
 
-const testsCreateOneArgs = {
-  name: "[R&D] sample test",
-  distribution: {
-    loadGenerators: [
-      {
-        locationId: "prl_rnd_x86_zulu25",
-        instance: {
-          count: 1
-        }
-      }
-    ]
-  },
-  execution: {
-    meaningfulTimeWindow: {
-      rampUpSeconds: 0,
-      rampDownSeconds: 0
-    },
-    systemProperties: {},
-    environmentVariables: {},
-    ignoreGlobalProperties: false,
-    stopCriteria: []
-  },
-  source: {
-    sourceRepositoryId: "source_repository_8y9hr9taji848jr8qecdpa9m6w",
-    buildTool: {
-      type: "maven"
-    },
-    workingDirectory: "simulations/dummy",
-    simulation: "example.BasicSimulation",
-    type: "build_from_sources"
-  }
-};
+let testId: string;
 
 describe("tests.create_one", () => {
   it("should fail when called with an api token with insufficient permissions", async () => {
     const result = await mcpToolCall({
       tool: "tests.create_one",
       apiToken: "start",
-      args: testsCreateOneArgs
+      args: createOneArgs
     });
 
     expect(result).toEqual({
@@ -54,11 +23,11 @@ describe("tests.create_one", () => {
     });
   });
   it("should fail when called with partial inputs", async () => {
-    const { execution: _, ...partialTestsCreateOneArgs } = testsCreateOneArgs;
+    const { execution: _, ...partialCreateOneArgs } = createOneArgs;
     const result = await mcpToolCall({
       tool: "tests.create_one",
       apiToken: "configure",
-      args: partialTestsCreateOneArgs
+      args: partialCreateOneArgs
     });
 
     expect(result).toEqual({
@@ -87,14 +56,14 @@ describe("tests.create_one", () => {
     const result = await mcpToolCall({
       tool: "tests.create_one",
       apiToken: "configure",
-      args: testsCreateOneArgs
+      args: createOneArgs
     });
 
     expect(result).toEqual(
       expect.objectContaining({
         structuredContent: expect.objectContaining({
           data: expect.objectContaining({
-            name: "[R&D] sample test",
+            name: createOneArgs.name,
             _id: expect.stringMatching("test_[a-z0-9]+"),
             _type: "test"
           })

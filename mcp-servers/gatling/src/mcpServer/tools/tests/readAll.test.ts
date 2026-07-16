@@ -1,5 +1,7 @@
 import { mcpToolCall } from "@src/index.test.js";
 
+import tests from "@src/__tests__/fixtures/tests.js";
+
 describe("tests.read_all", () => {
   it("should list all tests", async () => {
     const result = await mcpToolCall({
@@ -12,7 +14,7 @@ describe("tests.read_all", () => {
         structuredContent: expect.objectContaining({
           data: expect.arrayContaining([
             expect.objectContaining({
-              name: "[R&D] dummy test"
+              name: tests.dummy.name
             })
           ])
         })

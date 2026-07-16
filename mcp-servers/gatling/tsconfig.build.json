@@ -6,5 +6,9 @@
     "moduleResolution": "node16",
     "isolatedModules": false
   },
-  "exclude": ["src/**/*.test.ts","node_modules"]
+  "exclude": [
+    "src/**/*.test.ts",
+    "src/__tests__/**/*.ts",
+    "node_modules"
+  ]
 }

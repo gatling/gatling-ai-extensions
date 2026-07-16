@@ -1,13 +1,14 @@
 import { mcpToolCall } from "@src/index.test.js";
 
+import tests from "@src/__tests__/fixtures/tests.js";
+
 describe("runs.read_run_logs", () => {
   it("should read run logs", async () => {
-    const runId = "run_g3b47zg19fn19cjfk7kbax1hzc";
     const result = await mcpToolCall({
       tool: "runs.read_run_logs",
       apiToken: "read",
       args: {
-        runId
+        runId: tests.dummy.runs.reports._id
       }
     });
 

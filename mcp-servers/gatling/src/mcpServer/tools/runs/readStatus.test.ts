@@ -1,20 +1,23 @@
 import { mcpToolCall } from "@src/index.test.js";
 
+import tests from "@src/__tests__/fixtures/tests.js";
+
+const run = tests.ecomm.runs.read;
+
 describe("runs.read_status", () => {
   it("should only return the status of a run", async () => {
-    const runId = "run_abs1seqxxpb6dm11bxab7beipw";
     const result = await mcpToolCall({
       tool: "runs.read_status",
       apiToken: "read",
       args: {
-        runId
+        runId: run._id
       }
     });
 
     expect(result).toEqual({
       content: [
         {
-          text: "assertions_successful",
+          text: run.status,
           type: "text"
         }
       ]
