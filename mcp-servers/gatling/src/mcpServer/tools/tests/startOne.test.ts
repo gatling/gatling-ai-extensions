@@ -1,15 +1,16 @@
 import { mcpToolCall } from "@src/index.test.js";
 
-const testsStartOneArgs = {
-  testId: "test_85oi617ymtnz3ctq76thr9pyey",
-  title: "run title from jest",
-  description: "run description from jest"
+import runs from "@src/__tests__/fixtures/runs.js";
+import tests from "@src/__tests__/fixtures/tests.js";
+
+const startOneArgs = {
+  testId: tests.dummy._id,
+  ...runs.metadata.static
 };
 
-const insufficientCreditsTestsStartOneArgs = {
-  testId: "test_i1trqrufttbajk335nmi3kzd1w",
-  title: "run title from jest",
-  description: "run description from jest"
+const insufficientCreditsStartOneArgs = {
+  testId: tests.creditless._id,
+  ...runs.metadata.static
 };
 
 describe("tests.start_one", () => {
@@ -17,7 +18,7 @@ describe("tests.start_one", () => {
     const result = await mcpToolCall({
       tool: "tests.start_one",
       apiToken: "read",
-      args: testsStartOneArgs
+      args: startOneArgs
     });
 
     expect(result).toEqual({
@@ -34,7 +35,7 @@ describe("tests.start_one", () => {
     const result = await mcpToolCall({
       tool: "tests.start_one",
       apiToken: "start",
-      args: insufficientCreditsTestsStartOneArgs
+      args: insufficientCreditsStartOneArgs
     });
 
     expect(result).toEqual({
@@ -48,11 +49,11 @@ describe("tests.start_one", () => {
     });
   });
   it("should fail when called with partial inputs", async () => {
-    const { testId: _, ...partialTestsStartOneArgs } = testsStartOneArgs;
+    const { testId: _, ...partialStartOneArgs } = startOneArgs;
     const result = await mcpToolCall({
       tool: "tests.start_one",
       apiToken: "start",
-      args: partialTestsStartOneArgs
+      args: partialStartOneArgs
     });
 
     expect(result).toEqual({
@@ -78,7 +79,7 @@ describe("tests.start_one", () => {
     const result = await mcpToolCall({
       tool: "tests.start_one",
       apiToken: "start",
-      args: testsStartOneArgs
+      args: startOneArgs
     });
 
     expect(result).toEqual(
@@ -86,16 +87,16 @@ describe("tests.start_one", () => {
         structuredContent: expect.objectContaining({
           data: expect.objectContaining({
             _configuration: expect.objectContaining({
-              simulation: "[R&D] dummy test",
-              testId: testsStartOneArgs.testId
+              simulation: tests.dummy.name,
+              testId: startOneArgs.testId
             }),
-            description: testsStartOneArgs.description,
-            title: testsStartOneArgs.title
+            description: startOneArgs.description,
+            title: startOneArgs.title
           }),
           metadata: {
             urls: {
               run: expect.stringMatching(
-                `^https://cloud.dev.gatling.io/o/testing-hour-rd/simulations/${testsStartOneArgs.testId}/runs/run_[a-z0-9]+$`
+                `^https://cloud.dev.gatling.io/o/testing-hour-rd/simulations/${startOneArgs.testId}/runs/run_[a-z0-9]+$`
               )
             }
           }

@@ -1,13 +1,16 @@
 import { mcpToolCall } from "@src/index.test.js";
 
+import tests from "@src/__tests__/fixtures/tests.js";
+
+const test = tests.dummy;
+
 describe("tests.read_one", () => {
   it("should read one test", async () => {
-    const testId = "test_85oi617ymtnz3ctq76thr9pyey";
     const result = await mcpToolCall({
       tool: "tests.read_one",
       apiToken: "read",
       args: {
-        testId
+        testId: test._id
       }
     });
 
@@ -15,8 +18,8 @@ describe("tests.read_one", () => {
       expect.objectContaining({
         structuredContent: expect.objectContaining({
           data: expect.objectContaining({
-            name: "[R&D] dummy test",
-            _id: testId,
+            name: test.name,
+            _id: test._id,
             _type: "test"
           })
         })

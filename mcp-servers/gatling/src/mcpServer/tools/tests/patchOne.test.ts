@@ -1,46 +1,15 @@
 import { mcpToolCall } from "@src/index.test.js";
 
-let testId: string;
+import { createOneArgs, patchOneName } from "@src/__tests__/fixtures/tests.js";
 
-const testsCreateOneArgs = {
-  name: "[R&D] sample test",
-  distribution: {
-    loadGenerators: [
-      {
-        locationId: "prl_rnd_x86_zulu25",
-        instance: {
-          count: 1
-        }
-      }
-    ]
-  },
-  execution: {
-    meaningfulTimeWindow: {
-      rampUpSeconds: 0,
-      rampDownSeconds: 0
-    },
-    systemProperties: {},
-    environmentVariables: {},
-    ignoreGlobalProperties: false,
-    stopCriteria: []
-  },
-  source: {
-    sourceRepositoryId: "source_repository_8y9hr9taji848jr8qecdpa9m6w",
-    buildTool: {
-      type: "maven"
-    },
-    workingDirectory: "simulations/dummy",
-    simulation: "example.BasicSimulation",
-    type: "build_from_sources"
-  }
-};
+let testId: string;
 
 describe("tests.patch_one", () => {
   it("should fail when called with an api token with insufficient permissions", async () => {
     const result = await mcpToolCall({
       tool: "tests.create_one",
       apiToken: "start",
-      args: testsCreateOneArgs
+      args: createOneArgs
     });
 
     expect(result).toEqual({
@@ -60,16 +29,16 @@ describe("tests.patch_one", () => {
     const result = await mcpToolCall({
       tool: "tests.create_one",
       apiToken: "configure",
-      args: testsCreateOneArgs
+      args: createOneArgs
     });
 
     expect(result).toEqual(
       expect.objectContaining({
         structuredContent: expect.objectContaining({
           data: expect.objectContaining({
+            name: createOneArgs.name,
             _id: expect.stringMatching("test_[a-z0-9]+"),
-            _type: "test",
-            name: "[R&D] sample test"
+            _type: "test"
           })
         })
       })
@@ -86,7 +55,7 @@ describe("tests.patch_one", () => {
       args: {
         testId,
         patch: {
-          name: "[R&D] sample test (modified by jest)"
+          name: patchOneName
         }
       }
     });
@@ -95,9 +64,9 @@ describe("tests.patch_one", () => {
       expect.objectContaining({
         structuredContent: expect.objectContaining({
           data: expect.objectContaining({
+            name: patchOneName,
             _id: testId,
-            _type: "test",
-            name: "[R&D] sample test (modified by jest)"
+            _type: "test"
           })
         })
       })
@@ -157,9 +126,9 @@ describe("tests.patch_one", () => {
       expect.objectContaining({
         structuredContent: expect.objectContaining({
           data: expect.objectContaining({
+            name: patchOneName,
             _id: testId,
             _type: "test",
-            name: "[R&D] sample test (modified by jest)",
             execution: expect.objectContaining({
               meaningfulTimeWindow: {
                 rampUpSeconds: 10,
@@ -185,21 +154,17 @@ describe("tests.patch_one", () => {
       }
     });
 
+    const { workingDirectory: _, ...createOneArgsSourceWithoutWorkingDirectory } =
+      createOneArgs.source;
+
     expect(result).toEqual(
       expect.objectContaining({
         structuredContent: expect.objectContaining({
           data: expect.objectContaining({
+            name: patchOneName,
             _id: testId,
             _type: "test",
-            name: "[R&D] sample test (modified by jest)",
-            source: {
-              type: "build_from_sources",
-              sourceRepositoryId: "source_repository_8y9hr9taji848jr8qecdpa9m6w",
-              buildTool: {
-                type: "maven"
-              },
-              simulation: "example.BasicSimulation"
-            }
+            source: createOneArgsSourceWithoutWorkingDirectory
           })
         })
       })

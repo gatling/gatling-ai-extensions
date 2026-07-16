@@ -39,7 +39,7 @@ export const mcpServer = (analytics: Analytics): McpServer => {
           readOnlyHint: config.annotations?.readOnlyHint || false, // defaults to false
           destructiveHint: config.annotations?.destructiveHint || false, // defaults to true
           idempotentHint: config.annotations?.idempotentHint || false, // defaults to false
-          openWorldHint: config.annotations?.openWorldHint || false, // defaults to true
+          openWorldHint: config.annotations?.openWorldHint || false // defaults to true
         }
       },
       // @ts-ignore

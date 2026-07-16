@@ -1,5 +1,7 @@
 import { mcpToolCall } from "@src/index.test.js";
 
+import sourceRepositories from "@src/__tests__/fixtures/sourceRepositories.js";
+
 describe("source_repositories.read_all", () => {
   it("should list all source repositories", async () => {
     const result = await mcpToolCall({
@@ -12,7 +14,7 @@ describe("source_repositories.read_all", () => {
         structuredContent: expect.objectContaining({
           data: expect.arrayContaining([
             expect.objectContaining({
-              name: "Gatling JS demo"
+              name: sourceRepositories.js.name
             })
           ])
         })

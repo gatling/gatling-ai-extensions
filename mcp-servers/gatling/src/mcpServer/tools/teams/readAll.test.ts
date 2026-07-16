@@ -1,5 +1,9 @@
 import { mcpToolCall } from "@src/index.test.js";
 
+import teams from "@src/__tests__/fixtures/teams.js";
+
+const team = teams.ci;
+
 describe("teams.read_all", () => {
   it("should list all teams", async () => {
     const result = await mcpToolCall({
@@ -12,8 +16,8 @@ describe("teams.read_all", () => {
         structuredContent: expect.objectContaining({
           data: expect.arrayContaining([
             expect.objectContaining({
-              name: "CI",
-              _id: "team_i5ofi3qru3d9jfapb1s68m3hao",
+              name: team.name,
+              _id: team._id,
               _limits: {}
             })
           ])
