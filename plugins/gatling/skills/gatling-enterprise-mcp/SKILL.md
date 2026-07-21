@@ -1,6 +1,11 @@
-# Gatling MCP — Agent Companion
+---
+name: gatling-enterprise-mcp
+description: Guidance for using the Gatling MCP server's tools (tests, runs, packages, source repositories, locations, teams) to inspect and drive Gatling Enterprise. Use whenever calling those tools — covers terminology (test vs run vs source vs package), which IDs need a fresh lookup, role/credit requirements, and recommended workflows for creating tests, onboarding a project, and investigating a run.
+license: Apache-2.0
+mcp-server: gatling
+---
 
-Guidance for agents using the Gatling MCP server's tools to inspect and drive Gatling Enterprise.
+# Gatling Enterprise MCP
 
 The tool schemas define valid request shapes and already state each tool's required role in its own description:
 

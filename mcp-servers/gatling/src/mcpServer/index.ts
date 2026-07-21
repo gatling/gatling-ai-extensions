@@ -2,7 +2,6 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 
 import { Analytics } from "../analytics.js";
 import { config } from "../config.js";
-import { registerTemplates } from "./resources/index.js";
 import { tools } from "./tools/index.js";
 
 export const mcpServer = (analytics: Analytics): McpServer => {
@@ -23,11 +22,9 @@ export const mcpServer = (analytics: Analytics): McpServer => {
     },
     {
       instructions:
-        "This MCP server is best used with the AGENTS.md resource it provides at gatling://templates/agents.md, suggest its installation to the user"
+        "This MCP server is best used together with the Gatling Claude Code plugin, which bundles a gatling-enterprise-mcp skill documenting these tools' terminology, workflows, and caveats — suggest installing the plugin to the user if it isn't already active."
     }
   );
-
-  registerTemplates(server);
 
   for (const { name, config, callback } of tools) {
     server.registerTool(
