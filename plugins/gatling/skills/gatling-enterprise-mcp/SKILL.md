@@ -1,21 +1,15 @@
 ---
 name: gatling-enterprise-mcp
-description: Guidance for using the Gatling MCP server's tools (tests, runs, packages, source repositories, locations, teams) to inspect and drive Gatling Enterprise. Use whenever calling those tools — covers terminology (test vs run vs source vs package), which IDs need a fresh lookup, role/credit requirements, and recommended workflows for creating tests, onboarding a project, and investigating a run.
+description: Guidance for using the Gatling MCP server's tools (tests, runs, packages, source repositories, locations, teams) to inspect and drive Gatling Enterprise. Use whenever calling those tools, before assuming an ID, role, or format that isn't spelled out in the tool's own description.
 license: Apache-2.0
 mcp-server: gatling
 ---
 
 # Gatling Enterprise MCP
 
-The tool schemas define valid request shapes and already state each tool's required role in its own description:
-
-- which IDs are real only after a lookup
-- which resource types can and can't be created through these tools
-- capabilities of a location that its own listing doesn't expose
+The tool schemas define valid request shapes — check each tool's own description directly rather than assuming from a sibling (e.g. read vs. write variants of the same resource aren't guaranteed to share a role floor, and a location's listing doesn't expose all of its capabilities).
 
 ## Tools
-
-Each tool's required role is stated in its own description — check that directly rather than assuming from a sibling tool (e.g. read vs. write variants of the same resource aren't guaranteed to share a role floor).
 
 There is no `packages.create_one` / `packages.delete_one` — packages can only be produced by actually building and uploading an artifact, never through this MCP.
 If a build-tool skill/integration for packaging (e.g. one that drives the Enterprise Maven/Gradle/sbt/npm plugin's package goal) is available in the environment, prefer it over telling the user to do this by hand — and this holds even if a hypothetical `packages.create_one` existed, since packaging is fundamentally a build step an API call can't substitute for.
@@ -55,4 +49,4 @@ Investigate a run: `runs.read_run_logs` for what happened during execution (buil
 - Build tool / format must match the actual project. A Java/Maven project needs `buildTool.type: "maven"` (or `maven-wrapper`) against a repo that's actually that Maven project, or a `packaged` source whose `_format` is `jvm`. If the only registered source/package doesn't match the project you're actually being asked about, don't substitute it silently — a mismatch fails the build/run, it doesn't degrade gracefully. Say there's no matching source and ask how to proceed (register the real one via `source_repositories.create_one`, or confirm the mismatch is intentional).
 - `tests.create_one`'s `execution` object is fully required, even fields that are logically optional in spirit — `systemProperties`, `environmentVariables`, `stopCriteria` must be present (empty object/array is fine), unlike `tests.patch_one` where the same fields are optional.
 - `locationId` is overloaded: a managed location is matched by name string, a private location by its `prl_...`-style id. Don't assume one format for both.
-- A `build_from_sources` test needs a Control Plane Builder if it runs on a private location. Only a private location whose Control Plane is deployed in Builder mode can build from git — a plain (load-generator-only) Control Plane can only run pre-packaged artifacts. `locations.read_all` doesn't expose this: a private location's entry is just `{id, artifactFormats, description}`, with nothing indicating whether it can build. Don't assume a private location supports `build_from_sources` just because its `artifactFormats` matches — confirm with the user or point them at [Build from Git on private locations](https://docs.gatling.io/reference/deploy/private-locations/build-from-git/) before wiring one up. Managed (public) locations aren't affected are packages are already built.
+- A `build_from_sources` test needs a Control Plane Builder if it runs on a private location. Only a private location whose Control Plane is deployed in Builder mode can build from git — a plain (load-generator-only) Control Plane can only run pre-packaged artifacts. `locations.read_all` doesn't expose this: a private location's entry is just `{id, artifactFormats, description}`, with nothing indicating whether it can build. Don't assume a private location supports `build_from_sources` just because its `artifactFormats` matches — confirm with the user or point them at [Build from Git on private locations](https://docs.gatling.io/reference/deploy/private-locations/build-from-git/) before wiring one up. Managed (public) locations aren't affected as packages are already built.
