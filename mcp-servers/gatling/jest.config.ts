@@ -9,7 +9,7 @@ const tsJestTransformCfg = createJsWithBabelEsmPreset({
 
 export default {
   moduleNameMapper: {
-    "@src/(.*)\\.js$": "<rootDir>/$1"
+    "^@src/(.*)\\.js$": "<rootDir>/$1"
   },
   modulePathIgnorePatterns: ["src/__tests__", "src/index.test.ts"],
   testEnvironment: "node",
