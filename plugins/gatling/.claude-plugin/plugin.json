@@ -2,7 +2,8 @@
   "name": "Gatling",
   "description": "Gatling projects helper to deploy and run tests on Gatling Enterprise",
   "author": {
-    "name": "Gatling Corp"
+    "name": "Gatling Corp",
+    "url": "https://gatling.io"
   },
   "version": "0.1.18",
   "license": "Apache-2.0"
