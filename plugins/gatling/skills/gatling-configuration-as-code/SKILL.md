@@ -47,7 +47,7 @@ This skill provides guidance on how to generate or update the `.gatling/package.
 - The `default` block avoids repeating shared config; simulation-specific values override it.
 - Maps (`systemProperties`, `environmentVariables`) are merged, with simulation values taking priority.
 - `ignoreDefaults` refers to Gatling Enterprise's Default Load Generator Parameters, not the `default {}` block.
-- After first deploy, IDs are logged — add them to `id` fields for consistent updates (allows renaming without creating duplicates).
+- After first deploy, IDs are logged. Add them to `id` fields for consistent updates (allows renaming without creating duplicates).
 
 ## Locations
 
@@ -78,11 +78,4 @@ stopCriteria = [
 
 ## Troubleshooting
 
-### MCP tool call fails
-
-If any MCP tool call fails, check authentication first:
-
-1. Verify `GATLING_ENTERPRISE_API_TOKEN` is set in the environment.
-2. If missing, warn the user, suggest using `direnv`, and offer to create a `.envrc` file.
-3. Never print the actual token value in the terminal or logs.
-4. The token needs at least the **Configure** role on Gatling Enterprise.
+If any MCP tool call fails, see the /Gatling:gatling-mcp skill's Troubleshooting section for authentication checks.

@@ -17,7 +17,7 @@ user-invocable: true
   - A single combined `.c` file containing all sections
 - If multiple scripts or directories are found, ask the user to specify which one to convert
 - Read all relevant `.c` and `.h` files before proceeding
-- Read all relevant `.dat` files as plain text fil es
+- Read all relevant `.dat` files as plain text files
 - Search for a `default.cfg` file in the same directory and read it if present
 - Search for a `.prm` file in the same directory and read it if present
 
@@ -99,11 +99,11 @@ Check the `[WEB]` section:
 - `web_submit_data(name, ...)`: `http(name).post(url).formParam(...)`
 - `web_submit_form(name, ...)`: `http(name).post(url).formParam(...)`
 - `web_custom_request(name, method, url, ...)`: `http(name).httpRequest(method, url)`
-- `web_add_header(name, value)`: `.header(name, value)` on the **next** request only, never on `httpProtocol`
-- `web_add_auto_header(name, value)`: `httpProtocol.header(name, value)` if called before any request; otherwise add `.header(name, value)` to every subsequent request manually
+- `web_add_header(name, value)`: `.header(name, value)`
+- `web_add_auto_header(name, value)`: `httpProtocol.header(name, value)` or per-request `.header(name, value)`
 
-`web_add_header` is one-shot: it applies only to the immediately following request, then is cleared; never hoist it into `httpProtocol`
-`web_add_auto_header` persists from the point of the call onward. If it appears before any request in the script, map it to `httpProtocol.header(...)`; if it appears mid-script, add `.header(...)` to each request that follows it
+`web_add_header` is one-shot: it applies only to the immediately following request, then is cleared; never hoist it into `httpProtocol`.
+`web_add_auto_header` persists from the point of the call onward. If it appears before any request in the script, map it to `httpProtocol.header(...)`; if it appears mid-script, add `.header(...)` to each request that follows it.
 
 For `web_submit_data`, extract each `ITEMDATA` name/value pair as a `.formParam(name, value)`.
 

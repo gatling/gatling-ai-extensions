@@ -1,6 +1,6 @@
 ---
 name: gatling-convert-from-jmeter
-description: Guide for converting Apache JMeter tests to Gatling.
+description: Guide for converting Apache JMeter tests to Gatling. Use this skill whenever the user mentions JMeter, .jmx files, JMeter test plans, or asks to convert or migrate a JMeter test to Gatling.
 license: Apache-2.0
 user-invocable: true
 ---
@@ -65,7 +65,7 @@ IF there are several instances of `CSVDataSet` referencing the same file name:
 
 The `jmesPath` Gatling check extracts Strings, meaning that non String values get serialized back into JSON.
 Using `findAll` with `jmesPath` is a mistake, but you can tell Gatling the expected type with an extra step.
-Note that the check will then fail is the actual value doesn’t match the expected type.
+Note that the check will then fail if the actual value doesn't match the expected type.
 
 ```
 jmesPath("foo").ofString(),
@@ -97,7 +97,7 @@ IF `matchNumber` > 1:
 
 #### Functions
 
-Some functions have variants that saves the result to a variable (e.g.: `__Random(0,10,myVar)`) but Gatling
+Some functions have variants that save the result to a variable (e.g.: `__Random(0,10,myVar)`) but Gatling
 Expression Language cannot save variables as a side effect.
 
 IF a variable needs to be saved inside the function AND the function is used within an Expression Language

@@ -1,4 +1,4 @@
-import teams from "@src/__tests__/fixtures/teams.js"; // FIXME jest can't resolve relative imports?
+import teams from "@src/__tests__/fixtures/teams.js";
 
 export default {
   js: {
