@@ -1,3 +1,4 @@
+import { config } from "@src/config.js";
 import { mcpToolCall } from "@src/index.test.js";
 
 import runs from "@src/__tests__/fixtures/runs.js";
@@ -96,7 +97,7 @@ describe("tests.start_one", () => {
           metadata: {
             urls: {
               run: expect.stringMatching(
-                `^https://cloud.dev.gatling.io/o/testing-hour-rd/simulations/${startOneArgs.testId}/runs/run_[a-z0-9]+$`
+                `^${config.webApp.baseUrl}/o/testing-hour-rd/simulations/${startOneArgs.testId}/runs/run_[a-z0-9]+$`
               )
             }
           }
