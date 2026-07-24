@@ -9,14 +9,20 @@ export interface ApiConfig {
   pluginFlavor: string;
 }
 
+export interface WebappConfig {
+  baseUrl: string;
+}
+
 export interface Config {
   version: string;
   api: ApiConfig;
   analytics: AnalyticsConfig;
+  webApp: WebappConfig;
 }
 
 const apiTokenEnvVarKey = "GATLING_ENTERPRISE_API_TOKEN";
 const apiUrlEnvVarKey = "GATLING_ENTERPRISE_API_URL";
+const webAppUrlEnvVarKey = "GATLING_ENTERPRISE_WEB_APP_URL";
 
 const enableAnalyticsEnvVarKey = "GATLING_ENABLE_ANALYTICS";
 const useDevEnvAnalyticsEnvVarKey = "GATLING_USE_DEV_ENV_ANALYTICS";
@@ -32,14 +38,16 @@ const getEnvBoolean = (name: string, defaultValue: boolean): boolean => {
 
 const version = packageConfig.version;
 const apiToken = env[apiTokenEnvVarKey]; // can be undefined at that point
-const baseUrl = env[apiUrlEnvVarKey] ?? "https://api.gatling.io";
+const apiBaseUrl = env[apiUrlEnvVarKey] ?? "https://api.gatling.io";
+const webAppBaseUrl = env[webAppUrlEnvVarKey] ?? "https://cloud.gatling.io";
+
 const enableAnalytics = getEnvBoolean(enableAnalyticsEnvVarKey, true);
 const useDevEnvironment = getEnvBoolean(useDevEnvAnalyticsEnvVarKey, version.endsWith("-SNAPSHOT"));
 
 export const config: Config = {
   version,
   api: {
-    baseUrl,
+    baseUrl: apiBaseUrl,
     apiToken: () => {
       if (!apiToken) {
         throw Error(
@@ -53,5 +61,8 @@ export const config: Config = {
   analytics: {
     enableAnalytics,
     useDevEnvironment
+  },
+  webApp: {
+    baseUrl: webAppBaseUrl
   }
 };
