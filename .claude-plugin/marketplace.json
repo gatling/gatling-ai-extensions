@@ -8,7 +8,7 @@
   },
   "plugins": [
     {
-      "name": "gatling",
+      "name": "Gatling",
       "license": "Apache-2.0",
       "source": "./plugins/gatling",
       "description": "Gatling projects helper to deploy and run tests on Gatling Enterprise"
