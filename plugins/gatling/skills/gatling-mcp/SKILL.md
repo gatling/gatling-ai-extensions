@@ -9,6 +9,8 @@ mcp-server: gatling
 
 The tool schemas define valid request shapes. Check each tool's own description directly rather than assuming from a sibling (e.g. read vs. write variants of the same resource aren't guaranteed to share a role floor, and a location's listing doesn't expose all of its capabilities).
 
+Never call the Gatling Enterprise API directly (v1 or v2, via `curl`, a raw HTTP request, or any tool other than these MCP tools), even as a fallback when an MCP tool call fails. Always go through these MCP tools, and report failures to the user instead of working around them.
+
 ## Tools
 
 There is no `packages.create_one` / `packages.delete_one`: packages can only be produced by actually building and uploading an artifact, never through this MCP.
