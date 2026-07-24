@@ -44,6 +44,7 @@ Skills are instruction files for AI coding assistants (Claude, Cursor, and compa
 | [`gatling-convert-from-jmeter`](plugins/gatling/skills/gatling-convert-from-jmeter) | Convert JMeter test plans (.jmx) to Gatling simulations |
 | [`gatling-convert-from-loadrunner`](plugins/gatling/skills/gatling-convert-from-loadrunner) | Convert LoadRunner scripts to Gatling simulations |
 | [`gatling-detect-existing-project`](plugins/gatling/skills/gatling-detect-existing-project) | Detect and work with an existing Gatling project in the current directory |
+| [`gatling-mcp`](plugins/gatling/skills/gatling-mcp) | Guidance for using the Gatling MCP server's tools to inspect and drive Gatling Enterprise |
 
 ### MCP Server
 

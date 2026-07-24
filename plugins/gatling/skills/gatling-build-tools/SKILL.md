@@ -55,11 +55,4 @@ If so, follow the instructions from the file loaded in Step 2 for running the st
 
 ## Troubleshooting
 
-### Build tool deploy/start or MCP tool call fails
-
-If the build tool deploy/start or any MCP tool call fails, check authentication first:
-
-1. Verify `GATLING_ENTERPRISE_API_TOKEN` is set in the environment.
-2. If missing, warn the user, suggest using `direnv`, and offer to create a `.envrc` file.
-3. Never print the actual token value in the terminal or logs.
-4. The token needs at least the **Configure** role on Gatling Enterprise.
+If the build tool deploy/start fails, see the /Gatling:gatling-mcp skill's Troubleshooting section for authentication checks.
