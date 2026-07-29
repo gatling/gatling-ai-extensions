@@ -55,4 +55,4 @@ If so, follow the instructions from the file loaded in Step 2 for running the st
 
 ## Troubleshooting
 
-If the build tool deploy/start fails, see the /Gatling:gatling-mcp skill's Troubleshooting section for authentication checks.
+If the build tool deploy/start fails, see the /gatling:gatling-mcp skill's Troubleshooting section for authentication checks.

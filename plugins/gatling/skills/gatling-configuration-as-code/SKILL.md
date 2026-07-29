@@ -78,4 +78,4 @@ stopCriteria = [
 
 ## Troubleshooting
 
-If any MCP tool call fails, see the /Gatling:gatling-mcp skill's Troubleshooting section for authentication checks.
+If any MCP tool call fails, see the /gatling:gatling-mcp skill's Troubleshooting section for authentication checks.
