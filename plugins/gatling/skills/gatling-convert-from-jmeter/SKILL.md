@@ -21,10 +21,23 @@ Either find an existing Gatling project or initialize a new Gatling project:
 - Try to find an existing project with the /gatling:gatling-detect-existing-project skill
 - If no existing project is found, offer to create a new one with the /gatling:gatling-bootstrap-project skill
 
-### Step 3: Conversion
+### Step 3: Build the test spec
+
+Use the /gatling:gatling-craft-test skill to define the test spec, in sub-step mode (skip its entry-point routing check, since the source file is already known).
+
+Pass along what's already derivable from the JMeter test plan so it isn't re-asked:
+
+- Scenario: each ThreadGroup and its requests
+- Test data: CSVDataSet and HTTPFileArgs entries
+- Injection profile: ThreadGroup thread count and `ramp_time`
+
+SLOs have no JMeter equivalent, so these always need to be asked fresh.
+
+### Step 4: Conversion
 
 - Convert the JMeter test to a Gatling test written in the specified language.
 - Write the output to the appropriate source directory of the Gatling project.
+- Follow the language- and DSL-specific gotchas in /gatling:gatling-dsl while writing the converted code.
 
 #### ThreadGroup
 
@@ -110,26 +123,26 @@ overhead.
 
 Convert these functions to what JMeter uses under the hood:
 
-- `changeCase`: `toUpperCase` or `toLowerCase` with `Locale.ROOT` or `capitalize`
-- `digest`: `java.security.MessageDigest`
-- `urldecode`: `java.net.URLDecoder.decode`
-- `urlencode`: `java.net.URLEncoder.encode`
-- `UUID`: `java.util.UUID.randomUUID`
+- `changeCase` → `toUpperCase` or `toLowerCase` with `Locale.ROOT` or `capitalize`
+- `digest` → `java.security.MessageDigest`
+- `urldecode` → `java.net.URLDecoder.decode`
+- `urlencode` → `java.net.URLEncoder.encode`
+- `UUID` → `java.util.UUID.randomUUID`
 
 Import `org.unbescape:unbescape` for the following escaping functions:
 
-- `escapeHtml`: `HtmlEscape.escapeHtml5`
-- `escapeXml`: `XmlEscape.escapeXml10`
-- `unescape`: `JavaEscape.unescapeJava`
-- `unescapeHtml`: `HtmlEscape.unescapeHtml`
+- `escapeHtml` → `HtmlEscape.escapeHtml5`
+- `escapeXml` → `XmlEscape.escapeXml10`
+- `unescape` → `JavaEscape.unescapeJava`
+- `unescapeHtml` → `HtmlEscape.unescapeHtml`
 
-### Step 4: Verify the code compiles
+### Step 5: Verify the code compiles
 
-Use the build-tool skill if available.
+Follow /gatling:gatling-craft-test Step 5.
 
-### Step 5: Post conversion
+### Step 6: Post conversion
 
-After the conversion in Step 3, prompt the user for possible enhancements that are more idiomatic to Gatling.
+After the conversion in Step 4, prompt the user for enhancements specific to artifacts of the JMeter conversion. General Gatling best practices are already covered by /gatling:gatling-craft-test in Step 4.
 
 IF `ThreadGroup.ramp_time` is 0 or 1:
 - Suggest converting `rampUsers` to `atOnceUsers`
