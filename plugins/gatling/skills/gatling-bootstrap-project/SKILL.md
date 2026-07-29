@@ -43,4 +43,4 @@ Once build tool and language are identified, read the corresponding file and fol
 
 - Explore the included sample simulation and check out the Gatling documentation linked in the README file.
 - Run your first simulation locally.
-- When ready to deploy to Gatling Enterprise, use the /Gatling:gatling-build-tools skill for guidance.   
+- When ready to deploy to Gatling Enterprise, use the /gatling:gatling-build-tools skill for guidance.

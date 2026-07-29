@@ -18,8 +18,8 @@ user-invocable: true
 
 Either find an existing Gatling project or initialize a new Gatling project:
 
-- Try to find an existing project with the /Gatling:gatling-detect-existing-project skill
-- If no existing project is found, offer to create a new one with the /Gatling:gatling-bootstrap-project skill
+- Try to find an existing project with the /gatling:gatling-detect-existing-project skill
+- If no existing project is found, offer to create a new one with the /gatling:gatling-bootstrap-project skill
 
 ### Step 3: Conversion
 
