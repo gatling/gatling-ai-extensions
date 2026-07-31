@@ -37,7 +37,7 @@ const getEnvBoolean = (name: string, defaultValue: boolean): boolean => {
 };
 
 const version = packageConfig.version;
-const apiToken = env[apiTokenEnvVarKey]; // can be undefined at that point
+export const apiToken: string | undefined = env[apiTokenEnvVarKey]?.trim(); // can be undefined at that point
 const apiBaseUrl = env[apiUrlEnvVarKey] ?? "https://api.gatling.io";
 const webAppBaseUrl = env[webAppUrlEnvVarKey] ?? "https://cloud.gatling.io";
 
