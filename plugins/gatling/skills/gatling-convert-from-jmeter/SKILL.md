@@ -68,18 +68,17 @@ Using `findAll` with `jmesPath` is a mistake, but you can tell Gatling the expec
 Note that the check will then fail if the actual value doesn't match the expected type.
 
 ```
-jmesPath("foo").ofString(),
-jmesPath("foo").ofBoolean(),
-jmesPath("foo").ofInt(),
-jmesPath("foo").ofLong(),
-jmesPath("foo").ofDouble(),
+jmesPath("foo").ofString()
+jmesPath("foo").ofBoolean()
+jmesPath("foo").ofInt()
+jmesPath("foo").ofLong()
+jmesPath("foo").ofDouble()
 // JSON array
-jmesPath("foo").ofList(),
+jmesPath("foo").ofList()
 // JSON object
-jmesPath("foo").ofMap(),
+jmesPath("foo").ofMap()
 // anything
 jmesPath("foo").ofObject()
-)
 ```
 
 ##### matchNumber
