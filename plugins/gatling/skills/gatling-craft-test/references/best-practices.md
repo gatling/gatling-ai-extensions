@@ -15,6 +15,10 @@ Apply these while writing or reviewing simulation code, regardless of whether it
 
 - Every request whose response is used later (correlation, assertions) should have an explicit `.check(...)` rather than relying on default status checks alone.
 
+### JSON and JSONP checks
+
+- Prefer `jmesPath` over `jsonPath`, `jsonpJmesPath` over `jsonpJsonPath`. JMESPath has a full grammar and TCK so the Gatling implementation will give the same results as any online evaluator used for testing expressions.
+
 ## Naming
 
 - Name requests (`http("name")`) descriptively and consistently. These names are what `details(...)` assertions and reports key off, so vague or duplicate names undermine both.
