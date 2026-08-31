@@ -44,7 +44,7 @@
   "dependencies": {
     "@actions/http-client": "4.0.1",
     "@modelcontextprotocol/sdk": "1.30.0",
-    "uuid": "14.0.1",
+    "uuid": "14.0.2",
     "zod": "4.4.3"
   },
   "devDependencies": {
