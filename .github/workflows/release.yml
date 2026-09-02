@@ -68,7 +68,7 @@ jobs:
       - name: Login to DockerHub
         uses: docker/login-action@371161bbe7024a29a25c5e19bfcbc0804fe9ad2c # v4.5.2
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          username: ${{ vars.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Docker build and push
@@ -86,7 +86,7 @@ jobs:
       - name: Docker Hub Description
         uses: peter-evans/dockerhub-description@1b9a80c056b620d92cedb9d9b5a223409c68ddfa # v5.0.0
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          username: ${{ vars.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
           repository: gatlingcorp/gatling-mcp-server
           short-description: MCP server to bridge AI applications with Gatling Enterprise
@@ -96,8 +96,8 @@ jobs:
 
       - name: Edit marketplace plugin version
         env:
-          GIT_USER_NAME: ${{ secrets.GATLING_CI_NAME }}
-          GIT_USER_EMAIL: ${{ secrets.GATLING_CI_EMAIL }}
+          GIT_USER_NAME: ${{ vars.GATLING_CI_NAME }}
+          GIT_USER_EMAIL: ${{ vars.GATLING_CI_EMAIL }}
         run: |
           contents=$(jq ".version = \"$VERSION\"" plugins/gatling/.claude-plugin/plugin.json) && \
           echo -E "$contents" > plugins/gatling/.claude-plugin/plugin.json
