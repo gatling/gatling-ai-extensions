@@ -14,13 +14,15 @@ describe("runs.read_status", () => {
       }
     });
 
-    expect(result).toEqual({
-      content: [
-        {
-          text: run.status,
-          type: "text"
-        }
-      ]
-    });
+    expect(result).toEqual(
+      expect.objectContaining({
+        content: [
+          {
+            text: run.status,
+            type: "text"
+          }
+        ]
+      })
+    );
   });
 });

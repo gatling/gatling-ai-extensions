@@ -3,49 +3,42 @@ import process from "node:process";
 
 const debug = process.env.DEBUG !== undefined;
 
-interface JsonRpcMessageArgs {
-  method: string;
-  id?: number;
-  params?: Record<string, any>;
-}
-
 interface JsonRpcMessageFunction {
-  (args: JsonRpcMessageArgs): string;
+  (method: string, id: number | string, params?: Record<string, any>): string;
 }
 
-const jsonRpcMessage: JsonRpcMessageFunction = (messageArgs) => {
+const jsonRpcMessage: JsonRpcMessageFunction = (method, id, params) => {
   const message = {
     jsonrpc: "2.0",
-    ...messageArgs
+    method,
+    id,
+    params: {
+      ...params,
+      _meta: {
+        "io.modelcontextprotocol/protocolVersion": "2026-07-28",
+        "io.modelcontextprotocol/clientInfo": {
+          name: "jest",
+          title: "Jest",
+          description: "",
+          version: "0.0.0",
+          websiteUrl: "https://github.com/gatling/gatling-ai-extensions"
+        },
+        "io.modelcontextprotocol/clientCapabilities": {}
+      }
+    }
   };
 
   return JSON.stringify(message);
 };
 
 const messages = {
-  initialize: jsonRpcMessage({
-    method: "initialize",
-    id: 0,
-    params: {
-      protocolVersion: "2025-11-25",
-      capabilities: {},
-      clientInfo: {
-        name: "jest",
-        version: "0.0.0"
-      }
-    }
-  }),
-  notificationsInitialized: jsonRpcMessage({ method: "notifications/initialized" }),
-  toolsList: jsonRpcMessage({ method: "tools/list", id: 1, params: {} }),
-  toolCall: (name: string, args?: Record<string, any>) => {
-    return jsonRpcMessage({
-      method: "tools/call",
-      id: 2,
-      params: {
+  tools: {
+    call: (name: string, args?: Record<string, any>) => {
+      return jsonRpcMessage("tools/call", 0, {
         name,
         arguments: args ? args : {}
-      }
-    });
+      });
+    }
   }
 };
 
@@ -64,17 +57,8 @@ export interface McpToolCallFunction {
   (args: McpToolCallArgs): Promise<McpToolCallResult>;
 }
 
-enum McpClientState {
-  Uninitialized = 0,
-  Initialized = 1,
-  ToolsListed = 2,
-  ToolCalled = 3
-}
-
 export const mcpToolCall: McpToolCallFunction = ({ tool, apiToken, args }) => {
   return new Promise((resolve, reject) => {
-    let state = McpClientState.Uninitialized;
-
     const effectiveApiToken =
       apiToken === "none"
         ? undefined
@@ -114,30 +98,19 @@ export const mcpToolCall: McpToolCallFunction = ({ tool, apiToken, args }) => {
 
     child.stdout.on("data", (data: any) => {
       if (debug) {
-        console.log("state", state);
         console.log("stdout.data", data.toString());
       }
 
-      if (state === McpClientState.Initialized) {
-        send(messages.notificationsInitialized);
-        send(messages.toolsList);
-      } else if (state === McpClientState.ToolsListed) {
-        send(messages.toolCall(tool, args));
-      } else if (state === McpClientState.ToolCalled) {
-        const json = JSON.parse(data.toString());
-        if (debug) {
-          console.log("tool called result", json.result);
-        }
-        resolve(json.result);
-
-        child.stdin.end();
-        child.kill();
+      const json = JSON.parse(data.toString());
+      if (debug) {
+        console.log("tool called result", json.result);
       }
+      resolve(json.result);
 
-      state++;
+      child.stdin.end();
+      child.kill();
     });
 
-    send(messages.initialize);
-    state = McpClientState.Initialized;
+    send(messages.tools.call(tool, args));
   });
 };
