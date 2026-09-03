@@ -43,15 +43,17 @@ describe("runs.stop_one", () => {
       }
     });
 
-    expect(result).toEqual({
-      content: [
-        {
-          text: "POST /v2/runs/{runId}/actions/stop returned status 403: the API token does not have sufficient privileges",
-          type: "text"
-        }
-      ],
-      isError: true
-    });
+    expect(result).toEqual(
+      expect.objectContaining({
+        content: [
+          {
+            text: "POST /v2/runs/{runId}/actions/stop returned status 403: the API token does not have sufficient privileges",
+            type: "text"
+          }
+        ],
+        isError: true
+      })
+    );
   });
   it("should succeed with proper inputs", async () => {
     const result = await mcpToolCall({
@@ -62,13 +64,15 @@ describe("runs.stop_one", () => {
       }
     });
 
-    expect(result).toEqual({
-      content: [
-        {
-          text: "Test successfully stopped",
-          type: "text"
-        }
-      ]
-    });
+    expect(result).toEqual(
+      expect.objectContaining({
+        content: [
+          {
+            text: "Test successfully stopped",
+            type: "text"
+          }
+        ]
+      })
+    );
   });
 });

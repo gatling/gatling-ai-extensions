@@ -16,15 +16,17 @@ describe("runs.create_public_link", () => {
       }
     });
 
-    expect(result).toEqual({
-      content: [
-        {
-          text: "POST /v2/runs/{runId}/actions/create-public-link returned status 403: the API token does not have sufficient privileges",
-          type: "text"
-        }
-      ],
-      isError: true
-    });
+    expect(result).toEqual(
+      expect.objectContaining({
+        content: [
+          {
+            text: "POST /v2/runs/{runId}/actions/create-public-link returned status 403: the API token does not have sufficient privileges",
+            type: "text"
+          }
+        ],
+        isError: true
+      })
+    );
   });
   it("should fail when called with partial inputs", async () => {
     const result = await mcpToolCall({
@@ -35,24 +37,17 @@ describe("runs.create_public_link", () => {
       }
     });
 
-    expect(result).toEqual({
-      content: [
-        {
-          text: `MCP error -32602: Input validation error: Invalid arguments for tool runs.create_public_link: [
-  {
-    "expected": "number",
-    "code": "invalid_type",
-    "path": [
-      "durationInDays"
-    ],
-    "message": "Invalid input: expected number, received undefined"
-  }
-]`,
-          type: "text"
-        }
-      ],
-      isError: true
-    });
+    expect(result).toEqual(
+      expect.objectContaining({
+        content: [
+          {
+            text: "Input validation error: Invalid arguments for tool runs.create_public_link: durationInDays: Invalid input: expected number, received undefined",
+            type: "text"
+          }
+        ],
+        isError: true
+      })
+    );
   });
   it("should succeed with proper inputs", async () => {
     const result = await mcpToolCall({

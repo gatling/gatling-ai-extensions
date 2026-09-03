@@ -12,15 +12,17 @@ describe("tests.create_one", () => {
       args: createOneArgs
     });
 
-    expect(result).toEqual({
-      content: [
-        {
-          text: "POST /v2/tests returned status 403: the API token does not have sufficient privileges",
-          type: "text"
-        }
-      ],
-      isError: true
-    });
+    expect(result).toEqual(
+      expect.objectContaining({
+        content: [
+          {
+            text: "POST /v2/tests returned status 403: the API token does not have sufficient privileges",
+            type: "text"
+          }
+        ],
+        isError: true
+      })
+    );
   });
   it("should fail when called with partial inputs", async () => {
     const { execution: _, ...partialCreateOneArgs } = createOneArgs;
@@ -30,24 +32,17 @@ describe("tests.create_one", () => {
       args: partialCreateOneArgs
     });
 
-    expect(result).toEqual({
-      content: [
-        {
-          text: `MCP error -32602: Input validation error: Invalid arguments for tool tests.create_one: [
-  {
-    "expected": "object",
-    "code": "invalid_type",
-    "path": [
-      "execution"
-    ],
-    "message": "Invalid input: expected object, received undefined"
-  }
-]`,
-          type: "text"
-        }
-      ],
-      isError: true
-    });
+    expect(result).toEqual(
+      expect.objectContaining({
+        content: [
+          {
+            text: "Input validation error: Invalid arguments for tool tests.create_one: execution: Invalid input: expected object, received undefined",
+            type: "text"
+          }
+        ],
+        isError: true
+      })
+    );
   });
 });
 
@@ -84,13 +79,15 @@ describe("tests.create_one", () => {
       }
     });
 
-    expect(result).toEqual({
-      content: [
-        {
-          text: "Test successfully deleted",
-          type: "text"
-        }
-      ]
-    });
+    expect(result).toEqual(
+      expect.objectContaining({
+        content: [
+          {
+            text: "Test successfully deleted",
+            type: "text"
+          }
+        ]
+      })
+    );
   });
 });

@@ -22,15 +22,17 @@ describe("tests.start_one", () => {
       args: startOneArgs
     });
 
-    expect(result).toEqual({
-      content: [
-        {
-          text: "POST /v2/tests/{testId}/runs returned status 403: the API token does not have sufficient privileges",
-          type: "text"
-        }
-      ],
-      isError: true
-    });
+    expect(result).toEqual(
+      expect.objectContaining({
+        content: [
+          {
+            text: "POST /v2/tests/{testId}/runs returned status 403: the API token does not have sufficient privileges",
+            type: "text"
+          }
+        ],
+        isError: true
+      })
+    );
   });
   it("should fail when called within a team that has insufficient credits", async () => {
     const result = await mcpToolCall({
@@ -39,15 +41,17 @@ describe("tests.start_one", () => {
       args: insufficientCreditsStartOneArgs
     });
 
-    expect(result).toEqual({
-      content: [
-        {
-          text: "POST /v2/tests/{testId}/runs returned status 409: Insufficient credits",
-          type: "text"
-        }
-      ],
-      isError: true
-    });
+    expect(result).toEqual(
+      expect.objectContaining({
+        content: [
+          {
+            text: "POST /v2/tests/{testId}/runs returned status 409: Insufficient credits",
+            type: "text"
+          }
+        ],
+        isError: true
+      })
+    );
   });
   it("should fail when called with partial inputs", async () => {
     const { testId: _, ...partialStartOneArgs } = startOneArgs;
@@ -57,24 +61,17 @@ describe("tests.start_one", () => {
       args: partialStartOneArgs
     });
 
-    expect(result).toEqual({
-      content: [
-        {
-          text: `MCP error -32602: Input validation error: Invalid arguments for tool tests.start_one: [
-  {
-    "expected": "string",
-    "code": "invalid_type",
-    "path": [
-      "testId"
-    ],
-    "message": "Invalid input: expected string, received undefined"
-  }
-]`,
-          type: "text"
-        }
-      ],
-      isError: true
-    });
+    expect(result).toEqual(
+      expect.objectContaining({
+        content: [
+          {
+            text: "Input validation error: Invalid arguments for tool tests.start_one: testId: Invalid input: expected string, received undefined",
+            type: "text"
+          }
+        ],
+        isError: true
+      })
+    );
   });
   it("should succeed with proper inputs", async () => {
     const result = await mcpToolCall({

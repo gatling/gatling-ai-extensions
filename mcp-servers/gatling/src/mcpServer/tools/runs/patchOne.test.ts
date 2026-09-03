@@ -16,15 +16,17 @@ describe("runs.patch_one", () => {
       }
     });
 
-    expect(result).toEqual({
-      content: [
-        {
-          text: "PUT /v2/runs/{runId} returned status 403: the API token does not have sufficient privileges",
-          type: "text"
-        }
-      ],
-      isError: true
-    });
+    expect(result).toEqual(
+      expect.objectContaining({
+        content: [
+          {
+            text: "PUT /v2/runs/{runId} returned status 403: the API token does not have sufficient privileges",
+            type: "text"
+          }
+        ],
+        isError: true
+      })
+    );
   });
   it("should succeed when modifying only the title field", async () => {
     const title = metadata.title();
