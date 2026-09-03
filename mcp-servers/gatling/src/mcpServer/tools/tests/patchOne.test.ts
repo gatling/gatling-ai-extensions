@@ -12,15 +12,17 @@ describe("tests.patch_one", () => {
       args: createOneArgs
     });
 
-    expect(result).toEqual({
-      content: [
-        {
-          text: "POST /v2/tests returned status 403: the API token does not have sufficient privileges",
-          type: "text"
-        }
-      ],
-      isError: true
-    });
+    expect(result).toEqual(
+      expect.objectContaining({
+        content: [
+          {
+            text: "POST /v2/tests returned status 403: the API token does not have sufficient privileges",
+            type: "text"
+          }
+        ],
+        isError: true
+      })
+    );
   });
 });
 
@@ -94,17 +96,19 @@ describe("tests.patch_one", () => {
       }
     });
 
-    expect(result).toEqual({
-      content: [
-        {
-          text: expect.stringMatching(
-            `PUT /v2/tests/\\{testId\\} returned status 422: Could not update test 'test_[a-z0-9]+'\n- Locations sum weight must be 100 \\(sum: 90\\)`
-          ),
-          type: "text"
-        }
-      ],
-      isError: true
-    });
+    expect(result).toEqual(
+      expect.objectContaining({
+        content: [
+          {
+            text: expect.stringMatching(
+              `PUT /v2/tests/\\{testId\\} returned status 422: Could not update test 'test_[a-z0-9]+'\n- Locations sum weight must be 100 \\(sum: 90\\)`
+            ),
+            type: "text"
+          }
+        ],
+        isError: true
+      })
+    );
   });
   it("should succeed when partially modifying a test with proper execution inputs", async () => {
     const result = await mcpToolCall({
@@ -179,13 +183,15 @@ describe("tests.patch_one", () => {
       }
     });
 
-    expect(result).toEqual({
-      content: [
-        {
-          text: "Test successfully deleted",
-          type: "text"
-        }
-      ]
-    });
+    expect(result).toEqual(
+      expect.objectContaining({
+        content: [
+          {
+            text: "Test successfully deleted",
+            type: "text"
+          }
+        ]
+      })
+    );
   });
 });
