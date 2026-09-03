@@ -12,15 +12,17 @@ describe("source_repositories.create_one", () => {
       args: createOneArgs
     });
 
-    expect(result).toEqual({
-      content: [
-        {
-          text: "POST /v2/source-repositories returned status 403: the API token does not have sufficient privileges",
-          type: "text"
-        }
-      ],
-      isError: true
-    });
+    expect(result).toEqual(
+      expect.objectContaining({
+        content: [
+          {
+            text: "POST /v2/source-repositories returned status 403: the API token does not have sufficient privileges",
+            type: "text"
+          }
+        ],
+        isError: true
+      })
+    );
   });
   it("should fail when called with partial inputs", async () => {
     const { teamId: _, ...partialCreateOneArgs } = createOneArgs;
@@ -30,24 +32,17 @@ describe("source_repositories.create_one", () => {
       args: partialCreateOneArgs
     });
 
-    expect(result).toEqual({
-      content: [
-        {
-          text: `MCP error -32602: Input validation error: Invalid arguments for tool source_repositories.create_one: [
-  {
-    "expected": "string",
-    "code": "invalid_type",
-    "path": [
-      "teamId"
-    ],
-    "message": "Invalid input: expected string, received undefined"
-  }
-]`,
-          type: "text"
-        }
-      ],
-      isError: true
-    });
+    expect(result).toEqual(
+      expect.objectContaining({
+        content: [
+          {
+            text: "Input validation error: Invalid arguments for tool source_repositories.create_one: teamId: Invalid input: expected string, received undefined",
+            type: "text"
+          }
+        ],
+        isError: true
+      })
+    );
   });
 });
 
@@ -91,13 +86,15 @@ describe("source_repositories.create_one", () => {
       }
     });
 
-    expect(result).toEqual({
-      content: [
-        {
-          text: "Source repository successfully deleted",
-          type: "text"
-        }
-      ]
-    });
+    expect(result).toEqual(
+      expect.objectContaining({
+        content: [
+          {
+            text: "Source repository successfully deleted",
+            type: "text"
+          }
+        ]
+      })
+    );
   });
 });

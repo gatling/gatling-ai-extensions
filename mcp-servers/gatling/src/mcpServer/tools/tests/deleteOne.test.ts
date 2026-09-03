@@ -37,15 +37,17 @@ describe("tests.delete_one", () => {
       }
     });
 
-    expect(result).toEqual({
-      content: [
-        {
-          text: "DELETE /v2/tests/{testId} returned status 403: the API token does not have sufficient privileges",
-          type: "text"
-        }
-      ],
-      isError: true
-    });
+    expect(result).toEqual(
+      expect.objectContaining({
+        content: [
+          {
+            text: "DELETE /v2/tests/{testId} returned status 403: the API token does not have sufficient privileges",
+            type: "text"
+          }
+        ],
+        isError: true
+      })
+    );
   });
   it("should successfully delete one test", async () => {
     const result = await mcpToolCall({
@@ -56,13 +58,15 @@ describe("tests.delete_one", () => {
       }
     });
 
-    expect(result).toEqual({
-      content: [
-        {
-          text: "Test successfully deleted",
-          type: "text"
-        }
-      ]
-    });
+    expect(result).toEqual(
+      expect.objectContaining({
+        content: [
+          {
+            text: "Test successfully deleted",
+            type: "text"
+          }
+        ]
+      })
+    );
   });
 });

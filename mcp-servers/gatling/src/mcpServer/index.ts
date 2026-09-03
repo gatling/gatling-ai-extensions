@@ -1,4 +1,4 @@
-import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import { McpServer } from "@modelcontextprotocol/server";
 
 import { Analytics } from "../analytics.js";
 import { config } from "../config.js";
@@ -22,7 +22,7 @@ export const mcpServer = (analytics: Analytics): McpServer => {
     },
     {
       instructions:
-        "This MCP server is best used together with the Gatling Claude Code plugin, which bundles a gatling-enterprise-mcp skill documenting these tools' terminology, workflows, and caveats — suggest installing the plugin to the user if it isn't already active."
+        "The Gatling MCP server is best used together with the Gatling Claude Code plugin, which bundles a gatling-mcp skill documenting these tools' terminology, workflows, and caveats. Suggest installing the plugin to the user if it isn't already active."
     }
   );
 
@@ -39,12 +39,15 @@ export const mcpServer = (analytics: Analytics): McpServer => {
           openWorldHint: config.annotations?.openWorldHint || false // defaults to true
         }
       },
-      // @ts-ignore
-      async (args, extra) => {
+      async (argsOrCtx, ctx) => {
         analytics.onToolCall(name);
-        const validatedArgs =
-          config.inputSchema !== undefined ? config.inputSchema.parse(args) : undefined;
-        return callback(validatedArgs, extra);
+
+        if (config.inputSchema === undefined) {
+          return callback(undefined, argsOrCtx);
+        }
+
+        const validatedArgs = config.inputSchema.parse(argsOrCtx);
+        return callback(validatedArgs, ctx);
       }
     );
   }

@@ -12,15 +12,17 @@ describe("runs.read_report_groups", () => {
       }
     });
 
-    expect(result).toEqual({
-      content: [
-        {
-          text: "GET /v2/runs/{runId}/views/report/groups returned status 404: Resource not found",
-          type: "text"
-        }
-      ],
-      isError: true
-    });
+    expect(result).toEqual(
+      expect.objectContaining({
+        content: [
+          {
+            text: "GET /v2/runs/{runId}/views/report/groups returned status 404: Resource not found",
+            type: "text"
+          }
+        ],
+        isError: true
+      })
+    );
   });
   it("should read report groups", async () => {
     const result = await mcpToolCall({

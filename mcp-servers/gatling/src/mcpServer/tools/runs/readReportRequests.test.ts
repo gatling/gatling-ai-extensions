@@ -12,15 +12,17 @@ describe("runs.read_report_requests", () => {
       }
     });
 
-    expect(result).toEqual({
-      content: [
-        {
-          text: "GET /v2/runs/{runId}/views/report/requests returned status 404: Resource not found",
-          type: "text"
-        }
-      ],
-      isError: true
-    });
+    expect(result).toEqual(
+      expect.objectContaining({
+        content: [
+          {
+            text: "GET /v2/runs/{runId}/views/report/requests returned status 404: Resource not found",
+            type: "text"
+          }
+        ],
+        isError: true
+      })
+    );
   });
   it("should read report requests", async () => {
     const result = await mcpToolCall({

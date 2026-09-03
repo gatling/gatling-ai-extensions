@@ -44,15 +44,17 @@ describe("source_repositories.delete_one", () => {
       }
     });
 
-    expect(result).toEqual({
-      content: [
-        {
-          text: "DELETE /v2/source-repositories/{sourceRepositoryId} returned status 403: the API token does not have sufficient privileges",
-          type: "text"
-        }
-      ],
-      isError: true
-    });
+    expect(result).toEqual(
+      expect.objectContaining({
+        content: [
+          {
+            text: "DELETE /v2/source-repositories/{sourceRepositoryId} returned status 403: the API token does not have sufficient privileges",
+            type: "text"
+          }
+        ],
+        isError: true
+      })
+    );
   });
   it("should successfully delete one source repository", async () => {
     const result = await mcpToolCall({
@@ -63,13 +65,15 @@ describe("source_repositories.delete_one", () => {
       }
     });
 
-    expect(result).toEqual({
-      content: [
-        {
-          text: "Source repository successfully deleted",
-          type: "text"
-        }
-      ]
-    });
+    expect(result).toEqual(
+      expect.objectContaining({
+        content: [
+          {
+            text: "Source repository successfully deleted",
+            type: "text"
+          }
+        ]
+      })
+    );
   });
 });

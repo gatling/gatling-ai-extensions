@@ -1,27 +1,23 @@
 #!/usr/bin/env node
 
-import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
+import { serveStdio } from "@modelcontextprotocol/server/stdio";
 
-import { analyticsInit } from "./analytics.js";
 import { mcpServer } from "./mcpServer/index.js";
+import { analyticsInit } from "./analytics.js";
 
-const main = async (): Promise<void> => {
+try {
   const analytics = analyticsInit();
-  const server = mcpServer(analytics);
+  const handle = serveStdio(() => mcpServer(analytics));
 
   process.on("SIGINT", () => {
-    server
+    handle
       .close()
       .then(() => process.exit(0))
       .catch(() => process.exit(1));
   });
-  const transport = new StdioServerTransport();
 
-  await server.connect(transport);
   analytics.onServerReady();
-};
-
-main().catch((error) => {
+} catch (error) {
   console.error("Gatling MCP Server fatal error:", error);
   process.exit(1);
-});
+}

@@ -1,11 +1,9 @@
-import { AnySchema, ZodRawShapeCompat } from "@modelcontextprotocol/sdk/server/zod-compat.js";
-import { RequestHandlerExtra } from "@modelcontextprotocol/sdk/shared/protocol.js";
 import {
-  ToolAnnotations,
   CallToolResult,
-  ServerRequest,
-  ServerNotification
-} from "@modelcontextprotocol/sdk/types.js";
+  ServerContext,
+  StandardSchemaWithJSON,
+  ToolAnnotations
+} from "@modelcontextprotocol/server";
 
 import * as locationsReadAll from "./locations/readAll.js";
 import * as packagesReadAll from "./packages/readAll.js";
@@ -372,12 +370,12 @@ It will return 404 if the run has no metrics.`,
 
 export type ToolCallback<InputArgs> = (
   args: InputArgs,
-  extra: RequestHandlerExtra<ServerRequest, ServerNotification>
+  ctx: ServerContext
 ) => Promise<CallToolResult>;
 
 export interface Tool<
-  OutputArgs extends ZodRawShapeCompat | AnySchema,
-  InputArgs extends undefined | ZodRawShapeCompat | AnySchema = undefined
+  OutputArgs extends StandardSchemaWithJSON,
+  InputArgs extends StandardSchemaWithJSON | undefined = undefined
 > {
   name: string;
   config: {
@@ -386,6 +384,7 @@ export interface Tool<
     inputSchema?: InputArgs;
     outputSchema?: OutputArgs;
     annotations?: ToolAnnotations;
+    // icons?: Icon[]; // unused
     _meta?: Record<string, unknown>;
   };
   callback: ToolCallback<InputArgs>;
