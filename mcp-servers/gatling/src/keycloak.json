@@ -1,0 +1,14 @@
+{
+  "realm": "gatling",
+  "auth-server-url": "https://auth.dev.gatling.io/auth/",
+  "ssl-required": "external",
+  "resource": "gatling-enterprise-cloud-private",
+  "verify-token-audience": true,
+  "credentials": {
+    "secret": "DXcNXQGt6gRjNeVQ4bmnkBuuKxdpfpQp"
+  },
+  "confidential-port": 0,
+  "policy-enforcer": {
+    "credentials": {}
+  }
+}
