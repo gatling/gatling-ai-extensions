@@ -35,7 +35,7 @@
   "main": "target/index.js",
   "scripts": {
     "clean": "rimraf target",
-    "build": "tsc --project tsconfig.build.json && tsc-alias --project tsconfig.build.json && chmod +x target/index.js",
+    "build": "tsc --project tsconfig.build.json && tsc-alias --project tsconfig.build.json && chmod +x target/index.js && cp src/keycloak.json target/keycloak.json && cp src/oauthMetadata.json target/oauthMetadata.json",
     "format": "prettier --write '**/*.ts'",
     "format-check": "prettier --check '**/*.ts'",
     "start": "npm run build && GATLING_USE_DEV_ENV_ANALYTICS=true ./target/index.js",
@@ -44,10 +44,14 @@
   "dependencies": {
     "@actions/http-client": "4.0.1",
     "@modelcontextprotocol/server": "2.0.0",
+    "@modelcontextprotocol/node": "2.0.0",
+    "@modelcontextprotocol/express": "2.0.0",
+    "express": "5.2.1",
     "uuid": "14.0.2",
     "zod": "4.5.4"
   },
   "devDependencies": {
+    "@types/express": "5.0.6",
     "@types/node": "24.13.3",
     "@types/jest": "30.0.0",
     "jest": "30.5.0",
