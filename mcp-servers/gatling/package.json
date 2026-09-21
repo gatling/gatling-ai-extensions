@@ -48,7 +48,7 @@
     "zod": "4.5.4"
   },
   "devDependencies": {
-    "@types/node": "24.13.3",
+    "@types/node": "24.13.4",
     "@types/jest": "30.0.0",
     "jest": "30.5.1",
     "prettier": "3.9.6",
