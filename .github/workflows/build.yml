@@ -1,4 +1,4 @@
-name: Build gatling-mcp-server
+name: Build
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
       - dev
     paths:
       - 'mcp-servers/gatling/**'
-      - '.github/workflows/gatling-mcp-server-build.yml'
+      - '.github/workflows/build.yml'
   pull_request:
 
 permissions:
@@ -37,7 +37,7 @@ jobs:
           filters: |
             gatling-mcp-server:
               - 'mcp-servers/gatling/**'
-              - '.github/workflows/gatling-mcp-server-build.yml'
+              - '.github/workflows/build.yml'
 
   build:
     needs: check-changes
