@@ -88,8 +88,12 @@ jmesPath("foo").ofObject()
 IF `matchNumber` = 1:
 - Use a JMESPath expression that selects the first element directly, e.g. `jmesPath("foo[0]")`
 
-IF `matchNumber` = -1 (random):
+IF `matchNumber` = 0 (random):
 - Extract the full array with `jmesPath("foo").ofList()`, then pick a random element in a subsequent `exec` block
+
+IF `matchNumber` = -1 (all matches):
+- JMeter saves every element as `foo_1`...`foo_N` and their count as `foo_matchNr`
+- Extract the full array with `jmesPath("foo").ofList().saveAs("foo")`, then read element N as `#{foo(N-1)}` and the count as `#{foo.size()}`
 
 IF `matchNumber` > 1:
 - Use a JMESPath expression that indexes into the array, e.g. `jmesPath("foo[N-1]")` (0-based index)

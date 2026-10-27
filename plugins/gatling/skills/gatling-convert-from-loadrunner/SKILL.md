@@ -78,7 +78,8 @@ Check the `[General]` section:
 
 - `AutomaticTransactions=1` and/or `AutomaticTransactionsPerFunc=1`: LoadRunner can auto-wrap actions or function calls into transactions. In Gatling, scenario and request names serve this purpose directly; no `group()` blocks are needed here
 - `DefaultRunLogic`: read the file, check `RunLogicActionOrder` in the `[RunLogicRunRoot]` section actions order, chain them with `exec`
-- `ContinueOnError=1`: add `exitHereIfFailed()` between requests, otherwise Gatling continues on error by default; mention this to the user
+- `ContinueOnError=0`, or no `ContinueOnError` key (VuGen's default): a Vuser leaves the iteration at its first error and starts the next one; wrap the body of each iteration in `exitBlockOnFail(...)` inside the loop (`exitHereIfFailed()` would end the virtual user instead); mention this to the user
+- `ContinueOnError=1`: the Vuser carries on after an error, which Gatling does by default; add nothing
 - `FailTransOnErrorMsg=1`: apply the logic of `lr_error_message` as Gatling checks if possible, wrap the transaction inside a `exitBlockOnFail()` block
 
 Check the `[ThinkTime]` section:
@@ -112,7 +113,7 @@ For `web_submit_data`, extract each `ITEMDATA` name/value pair as a `.formParam(
 - `web_reg_find(text=...)`: `.check(bodyString.contains(...))`
 - `web_reg_save_param(param, LB=, RB=)`: `.check(regex("LB(.*?)RB").saveAs("param"))`
 - `web_reg_save_param_ex(...)`: `.check(regex(...).saveAs(...))` or `.check(xpath(...))`
-- `web_reg_save_param_json(...)`: convert `QueryString` to `jmesPath` as `.check(jmesPath(...))`
+- `web_reg_save_param_json(...)`: `QueryString` is a JSONPath expression (`$.items[0].id`), keep it as `.check(jsonPath(...))`
 
 Place `.check(...)` calls on the request that triggers the response being checked.
 `web_reg_*` functions are registered before the request they apply to, find the next `web_url`/`web_submit_data` and attach the check there.
